@@ -30,11 +30,7 @@ protocol PriorityQueue {
     
     mutating func add(item: Item) throws
     
-//    func getMin() throws -> Item
-//    
-//    func getMax() throws -> Item
-//    
-//    mutating func deleteMin() throws -> Item
-//    
-//    mutating func deleteMax() throws -> Item
+    func getTop() -> Item?
+    
+    mutating func extractTop() -> Item?
 }
