@@ -173,8 +173,7 @@ class BinarySearchTreeTests: XCTestCase {
         
         
         // Delete node with two children
-        XCTAssert(self.root?.delete(element: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 90, value: 0))) == true)
-        self.root?.printTree()
+        XCTAssert(self.root?.delete(element: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 90, value: 0))) == true)        
         
         XCTAssertNil(self.root?.search(soughtElement: IntegerPair(key:90, value:0)))
         assertNodeisCorrect(node: s50!, parent: nil, leftChild: s12, rightChild: s99)

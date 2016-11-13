@@ -22,6 +22,9 @@ enum ChildType {
 }
 
 
+
+/// Generic implementation of a binary search tree. 
+/// It is a recursive implementation.
 class BinarySearchTree<Element : KeyValuePair> {
     
     var parent : BinarySearchTree?
@@ -33,24 +36,20 @@ class BinarySearchTree<Element : KeyValuePair> {
     /// The content of the node
     var node : Element
     
-    var printingQueue = Array<BinarySearchTree<Element>>()
     
     
-    
-    // MARK -  Initializers
+    // MARK: -  Initializers
     
     init(parent: BinarySearchTree?, leftChild: BinarySearchTree?, rightChild: BinarySearchTree?, value:Element) {
         self.parent = parent
         self.leftChild = leftChild
         self.rightChild = rightChild
         self.node = value
-//        weak var weakSelf = self
-//        self.printingQueue.append(weakSelf!)
     }
     
     
 
-    // MARK - Search
+    // MARK: - Search
     
     /// Searches a node in the tree.
     ///
@@ -64,7 +63,7 @@ class BinarySearchTree<Element : KeyValuePair> {
             return self
         }
         
-        if soughtElement.key < self.node.key {
+        if soughtElement < self.node {
             return self.leftChild?.search(soughtElement: soughtElement)
         } else {
             return self.rightChild?.search(soughtElement: soughtElement)
@@ -98,14 +97,14 @@ class BinarySearchTree<Element : KeyValuePair> {
     
     
     
-    // MARK - Insertion
+    // MARK: - Insertion
 
     /// Adds a new subtree to the tree, maintaining the order property of a binary search tree
     ///
     /// - Parameter element: Element to be inserted into the tree.
     func insert(newElement : BinarySearchTree) {
  
-        if newElement.node.key < self.node.key {
+        if newElement.node < self.node {
             if let leftC = self.leftChild {
                 leftC.insert(newElement: newElement)
             } else {
@@ -127,7 +126,7 @@ class BinarySearchTree<Element : KeyValuePair> {
     /// - Parameter element: Element to be inserted into the tree.
     func insertIterative(element : BinarySearchTree) {
         
-        guard self.node.key != element.node.key else {
+        guard self.node != element.node else {
             // If the element to insert is equal to the current tree's root we don't insert
             return
         }
@@ -138,7 +137,7 @@ class BinarySearchTree<Element : KeyValuePair> {
         
         while (currentNode != nil) {
             parentNode = currentNode!
-            if (element.node.key < (currentNode?.node.key)! ) {
+            if (element.node < (currentNode?.node)! ) {
                 currentNode = currentNode!.leftChild
                 cameFromLeft = true
             } else {
@@ -159,7 +158,7 @@ class BinarySearchTree<Element : KeyValuePair> {
     }
     
     
-    // MARK - Deletion
+    // MARK: - Deletion
     
     func delete(element : BinarySearchTree) -> Bool {
         
@@ -212,7 +211,7 @@ class BinarySearchTree<Element : KeyValuePair> {
         if element.parent == nil {
             // Root node
             return .root
-        } else if element.node.key < (element.parent?.node.key)! {
+        } else if element.node < (element.parent?.node)! {
             // Left node
             return .parentLeft
         } else {
@@ -294,34 +293,10 @@ class BinarySearchTree<Element : KeyValuePair> {
             break
         }
         
-        
         existingElement.leftChild?.parent = newElement
         existingElement.rightChild?.parent = newElement
         existingElement.parent = nil
         existingElement.leftChild = nil
         existingElement.rightChild = nil
-
-    }
-    
-    func printTree() {
-
-        assert(self.printingQueue.count == 0)
-        weak var weakSelf = self
-        self.printingQueue.append(weakSelf!)
-
-        while(self.printingQueue.count > 0) {
-            
-            let firstElement = self.printingQueue.removeFirst()
-                
-            print("Node: \(firstElement.node.key) has the following children: L:\(firstElement.leftChild?.node.key) R:\(firstElement.rightChild?.node.key)")
-                
-            if let lc = firstElement.leftChild {
-                self.printingQueue.append(lc)
-            }
-            
-            if let rc = firstElement.rightChild {
-                self.printingQueue.append(rc)
-            }
-        }
     }
 }
