@@ -8,7 +8,7 @@
 
 import XCTest
 
-class UnitTests: XCTestCase {
+class ArrayBasedHeapTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -33,6 +33,8 @@ class UnitTests: XCTestCase {
         let item10 = IntegerPair(key:1941, value: 1987)
         var heap = ArrayBasedHeap<IntegerPair>(type: PriorityQueueType.min)
         
+        XCTAssert(heap.capacity == 10000)
+        
         do {
             try heap.add(item: item1)
             try heap.add(item: item2)
@@ -45,10 +47,7 @@ class UnitTests: XCTestCase {
             try heap.add(item: item9)
             try heap.add(item: item10)
             
-            heap.printElements()
-            
             XCTAssert(heap.count == 10)
-            
             XCTAssert( heap.extractTop()?.key == 1492); XCTAssert(heap.count == 9)
             XCTAssert( heap.extractTop()?.key == 1776); XCTAssert(heap.count == 8)
             XCTAssert( heap.extractTop()?.key == 1783); XCTAssert(heap.count == 7)
@@ -70,14 +69,7 @@ class UnitTests: XCTestCase {
             XCTAssert( heap.extractTop()?.key == 1000); XCTAssert(heap.count == 1)
             XCTAssert( heap.extractTop()?.key == 2001); XCTAssert(heap.count == 0)
             XCTAssert( heap.extractTop() == nil); XCTAssert(heap.count == 0)
-            
-            
-           // XCTAssert(heap.capacity == 1000)
-            
-            
-            
         } catch {
-            print("ERROR \(error)")
             XCTFail()
         }
         

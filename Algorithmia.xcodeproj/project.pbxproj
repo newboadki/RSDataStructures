@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		003DB8871DCD30A600B51FCC /* UnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB8861DCD30A600B51FCC /* UnitTests.swift */; };
+		003DB8871DCD30A600B51FCC /* ArrayBasedHeapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB8861DCD30A600B51FCC /* ArrayBasedHeapTests.swift */; };
 		003DB8901DCD31CD00B51FCC /* ArrayBasedHeap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB88F1DCD31CD00B51FCC /* ArrayBasedHeap.swift */; };
 		003DB8921DCD330800B51FCC /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB8911DCD330800B51FCC /* PriorityQueue.swift */; };
 		003DB8941DCD3F4800B51FCC /* KeyValuePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB8931DCD3F4800B51FCC /* KeyValuePair.swift */; };
@@ -16,6 +16,9 @@
 		00546D7B1A37A06200A043A7 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D791A37A06200A043A7 /* utils.c */; };
 		00546D851A3A3DA300A043A7 /* exchange_sort.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D811A3A3DA300A043A7 /* exchange_sort.c */; };
 		00546D861A3A3DA300A043A7 /* insertion_sort.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D831A3A3DA300A043A7 /* insertion_sort.c */; };
+		0080E9001DD1082800C61751 /* BoundedHeightPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0080E8FF1DD1082800C61751 /* BoundedHeightPriorityQueue.swift */; };
+		00AC0F4E1DD3B8B8003A70FD /* BinaryTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F4D1DD3B8B8003A70FD /* BinaryTree.swift */; };
+		00AC0F501DD3BF97003A70FD /* BinarySearchTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F4F1DD3BF97003A70FD /* BinarySearchTreeTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,7 +35,7 @@
 
 /* Begin PBXFileReference section */
 		003DB8841DCD30A600B51FCC /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		003DB8861DCD30A600B51FCC /* UnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTests.swift; sourceTree = "<group>"; };
+		003DB8861DCD30A600B51FCC /* ArrayBasedHeapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayBasedHeapTests.swift; sourceTree = "<group>"; };
 		003DB8881DCD30A600B51FCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		003DB88F1DCD31CD00B51FCC /* ArrayBasedHeap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayBasedHeap.swift; sourceTree = "<group>"; };
 		003DB8911DCD330800B51FCC /* PriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
@@ -48,6 +51,9 @@
 		00546D821A3A3DA300A043A7 /* exchange_sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exchange_sort.h; sourceTree = "<group>"; };
 		00546D831A3A3DA300A043A7 /* insertion_sort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = insertion_sort.c; sourceTree = "<group>"; };
 		00546D841A3A3DA300A043A7 /* insertion_sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = insertion_sort.h; sourceTree = "<group>"; };
+		0080E8FF1DD1082800C61751 /* BoundedHeightPriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundedHeightPriorityQueue.swift; sourceTree = "<group>"; };
+		00AC0F4D1DD3B8B8003A70FD /* BinaryTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryTree.swift; sourceTree = "<group>"; };
+		00AC0F4F1DD3BF97003A70FD /* BinarySearchTreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySearchTreeTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +77,8 @@
 		003DB8851DCD30A600B51FCC /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				003DB8861DCD30A600B51FCC /* UnitTests.swift */,
+				00AC0F521DD764AA003A70FD /* Prioritiy Queues */,
+				00AC0F511DD764A4003A70FD /* Trees */,
 				003DB8881DCD30A600B51FCC /* Info.plist */,
 			);
 			path = UnitTests;
@@ -80,8 +87,8 @@
 		003DB88C1DCD30E400B51FCC /* Data Structures */ = {
 			isa = PBXGroup;
 			children = (
-				003DB88F1DCD31CD00B51FCC /* ArrayBasedHeap.swift */,
-				003DB8911DCD330800B51FCC /* PriorityQueue.swift */,
+				00AC0F4C1DD3B836003A70FD /* Trees */,
+				00AC0F4B1DD3B815003A70FD /* Priority Queues */,
 				003DB8931DCD3F4800B51FCC /* KeyValuePair.swift */,
 			);
 			path = "Data Structures";
@@ -145,6 +152,40 @@
 				00546D791A37A06200A043A7 /* utils.c */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		00AC0F4B1DD3B815003A70FD /* Priority Queues */ = {
+			isa = PBXGroup;
+			children = (
+				003DB88F1DCD31CD00B51FCC /* ArrayBasedHeap.swift */,
+				0080E8FF1DD1082800C61751 /* BoundedHeightPriorityQueue.swift */,
+				003DB8911DCD330800B51FCC /* PriorityQueue.swift */,
+			);
+			name = "Priority Queues";
+			sourceTree = "<group>";
+		};
+		00AC0F4C1DD3B836003A70FD /* Trees */ = {
+			isa = PBXGroup;
+			children = (
+				00AC0F4D1DD3B8B8003A70FD /* BinaryTree.swift */,
+			);
+			name = Trees;
+			sourceTree = "<group>";
+		};
+		00AC0F511DD764A4003A70FD /* Trees */ = {
+			isa = PBXGroup;
+			children = (
+				00AC0F4F1DD3BF97003A70FD /* BinarySearchTreeTests.swift */,
+			);
+			name = Trees;
+			sourceTree = "<group>";
+		};
+		00AC0F521DD764AA003A70FD /* Prioritiy Queues */ = {
+			isa = PBXGroup;
+			children = (
+				003DB8861DCD30A600B51FCC /* ArrayBasedHeapTests.swift */,
+			);
+			name = "Prioritiy Queues";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,10 +278,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				003DB8871DCD30A600B51FCC /* UnitTests.swift in Sources */,
+				003DB8871DCD30A600B51FCC /* ArrayBasedHeapTests.swift in Sources */,
+				00AC0F501DD3BF97003A70FD /* BinarySearchTreeTests.swift in Sources */,
 				003DB8901DCD31CD00B51FCC /* ArrayBasedHeap.swift in Sources */,
+				00AC0F4E1DD3B8B8003A70FD /* BinaryTree.swift in Sources */,
 				003DB8921DCD330800B51FCC /* PriorityQueue.swift in Sources */,
 				003DB8941DCD3F4800B51FCC /* KeyValuePair.swift in Sources */,
+				0080E9001DD1082800C61751 /* BoundedHeightPriorityQueue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +448,7 @@
 				003DB88A1DCD30A600B51FCC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		00546D601A33981000A043A7 /* Build configuration list for PBXProject "Algorithmia" */ = {
 			isa = XCConfigurationList;

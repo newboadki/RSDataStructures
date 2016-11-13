@@ -16,20 +16,16 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
     
     // MARK - Properties ------------------
     
-    /// Internal structure to represent the heap.
+    /// Internal structure to represent the heap
     private var array : [HeapElement]
     
     /// Maximum allowed capacity of the heap
-    public let kDefaultMaximumCapacity : UInt = 10000
+    public let defaultaximumCapacity : UInt = 10000
     
-    /// Maximum number of elements in the heap
-    public var capacity : UInt {
-        get {
-            return UInt(self.array.capacity)
-        }
-    }
+    /// Maximum number of elements the heap can contain
+    private(set) var capacity : UInt
     
-    /// The number of elements in the heap
+    /// The actual number of elements in the heap at any given time
     public var count : UInt {
         get {
             return UInt(self.array.count)
@@ -43,19 +39,17 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
     private (set) var type : PriorityQueueType
     
     public init(type: PriorityQueueType) {
-        //self.init(type: type, maximumSize: DEFAULT_MAXIMUM_SIZE)
-        self.init(type: type, maximumSize: 1000)
+        self.init(type: type, capacity: 10000)
     }
     
     mutating public func add(item : HeapElement) throws {
         
-//        guard self.count < self.capacity else {
-//            throw PriorityQueueError.capacityExceeded
-//        }
+        guard self.count < self.capacity else {
+            throw PriorityQueueError.capacityExceeded
+        }
         
         self.array.append(item)        
         self.bubbleUp(startingAtIndex: self.count-1)
-        self.printElements()
     }
     
     public func getTop() -> HeapElement? {
@@ -83,25 +77,26 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
             self.array[0]  = lastElement!
         }
         
-        
         // Preserve the heap order
         self.bubbleDown(startingAtIndex: 0)
         
         return topElement
-
     }
+    
     
     
     // MARK: Initializers ------------------
 
     public init(type: PriorityQueueType, elements: [HeapElement]) {
         self.type = type
-        self.array = [HeapElement]()        
+        self.array = [HeapElement]()
+        self.capacity = self.defaultaximumCapacity
         self.makeHeap(from: elements)
     }
 
-    public init(type: PriorityQueueType, maximumSize: UInt) {
+    public init(type: PriorityQueueType, capacity: UInt) {
         self.type = type
+        self.capacity = capacity
         self.array = [HeapElement]()
     }
 
@@ -185,7 +180,6 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
             bubbleDown(startingAtIndex: UInt(min_index))
         }
     }
-
     
     private mutating func makeHeap(from elements: [HeapElement] ) {
         for element in elements {
@@ -196,11 +190,4 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
             }
         }
     }
-    
-    func printElements() {
-        for element in self.array {
-            element.printPair()
-        }
-    }
-    
 }
