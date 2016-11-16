@@ -237,21 +237,27 @@ class BinarySearchTree<Element : KeyValuePair> {
     }
     
     private func deleteNodeWithOneChild(elementToDelete: BinarySearchTree, childType: ChildType, hasLeftChild: Bool) {
-        let replacementChild = hasLeftChild ? elementToDelete.leftChild : elementToDelete.rightChild
-        
-        switch childType {
-            case .root:
-                // There's a new root
-                elementToDelete.parent = nil
-                break
-            case .parentLeft:
-                elementToDelete.parent?.leftChild = replacementChild
-                replacementChild?.parent = elementToDelete.parent
-                break
-            case .parentRight:
-                elementToDelete.parent?.rightChild = replacementChild
-                replacementChild?.parent = elementToDelete.parent
-                break
+        if let replacementChild = hasLeftChild ? elementToDelete.leftChild : elementToDelete.rightChild {
+            switch childType {
+                case .root:
+                    // There's a new root
+                    //elementToDelete.parent = nil
+                    elementToDelete.node.key = replacementChild.node.key
+                    elementToDelete.node.value = replacementChild.node.value
+                    elementToDelete.leftChild = replacementChild.leftChild
+                    elementToDelete.rightChild = replacementChild.leftChild
+                    break
+                case .parentLeft:
+                    elementToDelete.parent?.leftChild = replacementChild
+                    replacementChild.parent = elementToDelete.parent
+                    break
+                case .parentRight:
+                    elementToDelete.parent?.rightChild = replacementChild
+                    replacementChild.parent = elementToDelete.parent
+                    break
+                }
+        } else {
+            // Do nothing
         }
     }
     
