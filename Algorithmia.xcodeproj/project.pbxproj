@@ -19,6 +19,9 @@
 		0080E9001DD1082800C61751 /* BoundedHeightPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0080E8FF1DD1082800C61751 /* BoundedHeightPriorityQueue.swift */; };
 		00AC0F4E1DD3B8B8003A70FD /* BinaryTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F4D1DD3B8B8003A70FD /* BinaryTree.swift */; };
 		00AC0F501DD3BF97003A70FD /* BinarySearchTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F4F1DD3BF97003A70FD /* BinarySearchTreeTests.swift */; };
+		00AECD8C1E9CB745007E8458 /* FindAllPermutations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AECD8B1E9CB745007E8458 /* FindAllPermutations.swift */; };
+		00AECD901E9E7D7D007E8458 /* FindAllPermutationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AECD8F1E9E7D7D007E8458 /* FindAllPermutationTests.swift */; };
+		00C876891E0899F200FA49DB /* BoundedHeightPriorityQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F531DD8FA8C003A70FD /* BoundedHeightPriorityQueueTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,6 +58,8 @@
 		00AC0F4D1DD3B8B8003A70FD /* BinaryTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryTree.swift; sourceTree = "<group>"; };
 		00AC0F4F1DD3BF97003A70FD /* BinarySearchTreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySearchTreeTests.swift; sourceTree = "<group>"; };
 		00AC0F531DD8FA8C003A70FD /* BoundedHeightPriorityQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundedHeightPriorityQueueTests.swift; sourceTree = "<group>"; };
+		00AECD8B1E9CB745007E8458 /* FindAllPermutations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindAllPermutations.swift; sourceTree = "<group>"; };
+		00AECD8F1E9E7D7D007E8458 /* FindAllPermutationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindAllPermutationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +83,8 @@
 		003DB8851DCD30A600B51FCC /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				00AC0F521DD764AA003A70FD /* Prioritiy Queues */,
-				00AC0F511DD764A4003A70FD /* Trees */,
+				00AECD8E1E9E7C89007E8458 /* String-matching */,
+				00AECD8D1E9CB760007E8458 /* Data Structures */,
 				003DB8881DCD30A600B51FCC /* Info.plist */,
 			);
 			path = UnitTests;
@@ -121,6 +126,7 @@
 				00546D731A33B48C00A043A7 /* Sorting */,
 				00546D721A33B48100A043A7 /* Measurement */,
 				00546D681A33981000A043A7 /* main.c */,
+				00AECD8A1E9CB705007E8458 /* String-matching */,
 			);
 			path = Algorithmia;
 			sourceTree = "<group>";
@@ -149,6 +155,7 @@
 		00546D781A37A04600A043A7 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				00AECD891E9CB6DE007E8458 /* String-matching */,
 				00546D7A1A37A06200A043A7 /* utils.h */,
 				00546D791A37A06200A043A7 /* utils.c */,
 			);
@@ -188,6 +195,38 @@
 				00AC0F531DD8FA8C003A70FD /* BoundedHeightPriorityQueueTests.swift */,
 			);
 			name = "Prioritiy Queues";
+			sourceTree = "<group>";
+		};
+		00AECD891E9CB6DE007E8458 /* String-matching */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "String-matching";
+			sourceTree = "<group>";
+		};
+		00AECD8A1E9CB705007E8458 /* String-matching */ = {
+			isa = PBXGroup;
+			children = (
+				00AECD8B1E9CB745007E8458 /* FindAllPermutations.swift */,
+			);
+			path = "String-matching";
+			sourceTree = "<group>";
+		};
+		00AECD8D1E9CB760007E8458 /* Data Structures */ = {
+			isa = PBXGroup;
+			children = (
+				00AC0F521DD764AA003A70FD /* Prioritiy Queues */,
+				00AC0F511DD764A4003A70FD /* Trees */,
+			);
+			name = "Data Structures";
+			sourceTree = "<group>";
+		};
+		00AECD8E1E9E7C89007E8458 /* String-matching */ = {
+			isa = PBXGroup;
+			children = (
+				00AECD8F1E9E7D7D007E8458 /* FindAllPermutationTests.swift */,
+			);
+			path = "String-matching";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,7 +322,10 @@
 				003DB8871DCD30A600B51FCC /* ArrayBasedHeapTests.swift in Sources */,
 				00AC0F501DD3BF97003A70FD /* BinarySearchTreeTests.swift in Sources */,
 				003DB8901DCD31CD00B51FCC /* ArrayBasedHeap.swift in Sources */,
+				00AECD901E9E7D7D007E8458 /* FindAllPermutationTests.swift in Sources */,
+				00AECD8C1E9CB745007E8458 /* FindAllPermutations.swift in Sources */,
 				00AC0F4E1DD3B8B8003A70FD /* BinaryTree.swift in Sources */,
+				00C876891E0899F200FA49DB /* BoundedHeightPriorityQueueTests.swift in Sources */,
 				003DB8921DCD330800B51FCC /* PriorityQueue.swift in Sources */,
 				003DB8941DCD3F4800B51FCC /* KeyValuePair.swift in Sources */,
 				0080E9001DD1082800C61751 /* BoundedHeightPriorityQueue.swift in Sources */,

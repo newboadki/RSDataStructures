@@ -17,6 +17,9 @@ protocol KeyValuePair : Comparable {
     
     var key : K {get set}
     var value : V {get set}
+    
+    mutating func resetToDefaultValues()
+    func containsDefaultValues() -> Bool
 }
 
 
@@ -57,7 +60,35 @@ extension KeyValuePair {
 struct IntegerPair : KeyValuePair {
     
     // MARK - KeyValuePair protocol
+    //typealias K = Int (Implicit, the compiler can figure out that if this class conforms to the protocol, then the associated types are Int and Int in this case)
+    //typealias V = Int (Implicit)
     
     var key : Int
     var value : Int
+    
+    mutating func resetToDefaultValues() {
+        self.key = -1
+        self.value = -1
+    }
+    
+    func containsDefaultValues() -> Bool {
+        return self.key == -1 && self.value == -1
+    }
 }
+
+
+
+
+// An alternative design would have been to use a genric type
+struct GenericKeyValuePair<K:Comparable, V:Comparable>  {
+    var key : K
+    var value : V
+}
+
+// If we wanted this to force key and value to have the same type then:
+struct GenericKeyValuePairWithSameType<T:Comparable>  {
+    var key : T
+    var value : T
+}
+
+

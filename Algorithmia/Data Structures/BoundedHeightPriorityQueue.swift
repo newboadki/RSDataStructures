@@ -87,11 +87,7 @@ struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
                 self.array[key] = nil
                 
                 // we need to find a new top
-                let treeNode = BinarySearchTree<IntegerPair>(parent: nil,
-                                                             leftChild: nil,
-                                                             rightChild: nil,
-                                                             value: IntegerPair(key: result.key as! Int, value: 0))
-                _ = self.removeElementToTopQueue(element: treeNode.node.key)
+                _ = self.removeElementToTopQueue(element: key)
                 if let min = self.minimumElementFromTopQueue() {
                     self.topIndex = min
                 } else {
@@ -134,12 +130,7 @@ struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
     }
 
     private func removeElementToTopQueue(element : Int) {
-        let treeNode = BinarySearchTree<IntegerPair>(parent: nil,
-                                                     leftChild: nil,
-                                                     rightChild: nil,
-                                                     value: IntegerPair(key: element, value: 0))
-        
-        _ = self.topPriorityQueue?.delete(element: treeNode)
+        _ = self.topPriorityQueue?.delete(elementWithKey: element)
     }
 
     private func minimumElementFromTopQueue() -> Int? {

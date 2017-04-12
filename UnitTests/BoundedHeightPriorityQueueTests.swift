@@ -27,21 +27,19 @@ class BoundedHeightPriorityQueueTests: XCTestCase {
             try pq.add(item: IntegerPair(key: 3, value: 0))
             try pq.add(item: IntegerPair(key: 3, value: 0))
             try pq.add(item: IntegerPair(key: 800, value: 0))
-            try pq.add(item: IntegerPair(key: 0, value: 0))
+            try pq.add(item: IntegerPair(key: 2, value: 0))
             try pq.add(item: IntegerPair(key: 278, value: 0))
-            
-            XCTAssert(pq.getTop()!.key == 0)            
         } catch {
             XCTFail()
         }
     }
     
     func test_minimum() {
-        XCTAssert(pq.getTop()!.key == 0)
+        XCTAssert(pq.getTop()!.key == 2)
     }
     
     func test_extract_top() {
-        XCTAssert(pq.extractTop()!.key == 0)
+        XCTAssert(pq.extractTop()!.key == 2)
         XCTAssert(pq.extractTop()!.key == 3)
         XCTAssert(pq.extractTop()!.key == 3)
         XCTAssert(pq.extractTop()!.key == 5)

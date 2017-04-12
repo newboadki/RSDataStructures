@@ -25,7 +25,7 @@ enum ChildType {
 
 /// Generic implementation of a binary search tree. 
 /// It is a recursive implementation.
-class BinarySearchTree<Element : KeyValuePair> {
+class BinarySearchTree<Element : KeyValuePair> /*Just a test, if wanted to force K and V to be equal. where Element.K == Element.V*/ {
     
     var parent : BinarySearchTree?
     
@@ -53,20 +53,20 @@ class BinarySearchTree<Element : KeyValuePair> {
     
     /// Searches a node in the tree.
     ///
-    /// - Parameter element: A keyValuePair to look for in the tree
-    /// - Returns: A tree where the root is the sought value or nil if the element was not found.
+    /// - Parameter key: The key to look for in the tree.
+    /// - Returns: A tree where the root is a node with the sought key or nil if the key was not found.
     /// - Complexity: O(ln n)
-    func search(soughtElement: Element) -> BinarySearchTree? {
+    func search(key: Element.K) -> BinarySearchTree? {
         
-        if self.node.key == soughtElement.key && self.node.value == soughtElement.value {
+        if self.node.key == key {
             // The shought element is the root of the current tree
             return self
         }
         
-        if soughtElement < self.node {
-            return self.leftChild?.search(soughtElement: soughtElement)
+        if key < self.node.key {
+            return self.leftChild?.search(key: key)
         } else {
-            return self.rightChild?.search(soughtElement: soughtElement)
+            return self.rightChild?.search(key: key)
         }
     }
     
@@ -104,6 +104,11 @@ class BinarySearchTree<Element : KeyValuePair> {
     /// - Parameter element: Element to be inserted into the tree.
     func insert(newElement : BinarySearchTree) {
  
+        if self.node.containsDefaultValues() == true {
+            self.replace(element: self, with: newElement)
+            return
+        }
+        
         if newElement.node < self.node {
             if let leftC = self.leftChild {
                 leftC.insert(newElement: newElement)
@@ -160,29 +165,32 @@ class BinarySearchTree<Element : KeyValuePair> {
     
     // MARK: - Deletion
     
-    func delete(element : BinarySearchTree) -> Bool {
+    // I think we should be passing just the key we want to delete: deleteElement(withKey: Int)
+    func delete(elementWithKey key : Element.K) -> Bool {
         
-        if let elementToDeleteInTree = self.search(soughtElement: element.node) {
-            // Is parent's left? or right?
-            
-            let elementToDeleteChildType = self.childType(of: elementToDeleteInTree)
-            
-            // How many children does the node to delete have?
-            switch elementToDeleteInTree.numberOfChildrenType() {
-            case .hasNoChildren:
-                self.deleteNodeWithoutChildren(elementToDelete: elementToDeleteInTree, childType: elementToDeleteChildType)
-                break
-            case .hasLeftChild:
-                self.deleteNodeWithOneChild(elementToDelete: elementToDeleteInTree, childType: elementToDeleteChildType, hasLeftChild: true)
-                break
-            case .hasRightChild:
-                self.deleteNodeWithOneChild(elementToDelete: elementToDeleteInTree, childType: elementToDeleteChildType, hasLeftChild: false)
-                break
-            case .hasTwoChildren:
-                self.deleteNodeWithTwoChildren(elementToDelete: elementToDeleteInTree, childTypeOfElementToDelete: elementToDeleteChildType)
-                break
-            }
+        if let elementToDelete = self.search(key: key) {
 
+            if ((elementToDelete.leftChild != nil) && (elementToDelete.rightChild != nil)) {
+                // Two children
+                let minimumFromRightBranch : BinarySearchTree! = elementToDelete.rightChild?.minimum()
+                elementToDelete.node.key = minimumFromRightBranch.node.key
+                elementToDelete.node.value = minimumFromRightBranch.node.value
+                _ = minimumFromRightBranch.delete(elementWithKey: minimumFromRightBranch.node.key)
+                
+            }
+            else if (elementToDelete.leftChild != nil) {
+                // One left child
+                self.replace(element: elementToDelete, with: elementToDelete.leftChild)
+            }
+            else if (elementToDelete.rightChild != nil) {
+                // One right child
+                self.replace(element: elementToDelete, with: elementToDelete.rightChild)
+            }
+            else {
+                // No children
+                self.replace(element: elementToDelete, with: nil)
+            }
+            
             return true
         }
         else {
@@ -190,119 +198,38 @@ class BinarySearchTree<Element : KeyValuePair> {
         }
     }
     
-    private func numberOfChildrenType() -> NodeType {
+    func replace(element existingElement: BinarySearchTree<Element>, with newElement: BinarySearchTree<Element>?) {
         
-        if ((self.leftChild != nil) && (self.rightChild != nil)) {
-            return NodeType.hasTwoChildren
+        if let parentNode = existingElement.parent {
             
-        } else if (self.leftChild != nil) {
-            return NodeType.hasLeftChild
-            
-        } else if (self.rightChild != nil) {
-            return NodeType.hasRightChild
-            
+            if existingElement === parentNode.leftChild {
+                parentNode.leftChild = newElement
+            } else {
+                parentNode.rightChild = newElement
+            }
+
+            if let new = newElement {
+                new.parent = parentNode
+            }
+
+            existingElement.parent = nil
+            existingElement.leftChild = nil
+            existingElement.rightChild = nil
         } else {
-            return NodeType.hasNoChildren
+            // You are replacing the root, just override node values
+            if let new = newElement {
+                existingElement.node.key = new.node.key
+                existingElement.node.value = new.node.value
+                existingElement.leftChild = new.leftChild
+                existingElement.rightChild = new.rightChild
+                
+                new.leftChild?.parent = existingElement
+                new.rightChild?.parent = existingElement
+            } else {
+                existingElement.node.resetToDefaultValues()
+                existingElement.leftChild = nil
+                existingElement.rightChild = nil
+            }
         }
-    }
-    
-    private func childType(of element : BinarySearchTree) -> ChildType {
-        
-        if element.parent == nil {
-            // Root node
-            return .root
-        } else if element.node < (element.parent?.node)! {
-            // Left node
-            return .parentLeft
-        } else {
-            // Right node
-            return .parentRight
-        }
-    }
-    
-    private func deleteNodeWithoutChildren(elementToDelete: BinarySearchTree, childType: ChildType) {
-        switch childType {
-            case .root:
-                // self.node = nil // make this possible by making node an optional
-                break
-            case .parentLeft:
-                elementToDelete.parent?.leftChild = nil
-                elementToDelete.parent = nil
-                break
-            case .parentRight:
-                elementToDelete.parent?.rightChild = nil
-                elementToDelete.parent = nil
-                break
-        }
-    }
-    
-    private func deleteNodeWithOneChild(elementToDelete: BinarySearchTree, childType: ChildType, hasLeftChild: Bool) {
-        if let replacementChild = hasLeftChild ? elementToDelete.leftChild : elementToDelete.rightChild {
-            switch childType {
-                case .root:
-                    // There's a new root
-                    //elementToDelete.parent = nil
-                    elementToDelete.node.key = replacementChild.node.key
-                    elementToDelete.node.value = replacementChild.node.value
-                    elementToDelete.leftChild = replacementChild.leftChild
-                    elementToDelete.rightChild = replacementChild.leftChild
-                    break
-                case .parentLeft:
-                    elementToDelete.parent?.leftChild = replacementChild
-                    replacementChild.parent = elementToDelete.parent
-                    break
-                case .parentRight:
-                    elementToDelete.parent?.rightChild = replacementChild
-                    replacementChild.parent = elementToDelete.parent
-                    break
-                }
-        } else {
-            // Do nothing
-        }
-    }
-    
-    private func deleteNodeWithTwoChildren(elementToDelete: BinarySearchTree, childTypeOfElementToDelete: ChildType) {
-        
-        // First find the minnimum element of the element-to-delete's right's subtree
-        let minimumFromRightBranch : BinarySearchTree! = elementToDelete.rightChild?.minimum()
-        let childTypeOfMinimumFromRightBranch = self.childType(of: minimumFromRightBranch)
-        
-        // Delete the minimum (1)
-        self.deleteNodeWithoutChildren(elementToDelete: minimumFromRightBranch, childType: childTypeOfMinimumFromRightBranch)
-        
-        switch childTypeOfElementToDelete {
-        case .root:
-            // There's a 'new' root, copy the values from the minimum
-            self.node.key = minimumFromRightBranch!.node.key
-            self.node.value = minimumFromRightBranch!.node.value
-            break
-        case .parentLeft, .parentRight:
-            self.replace(element: elementToDelete, whichHasChildType: childTypeOfElementToDelete, with: minimumFromRightBranch)
-            break
-        }
-    }
-    
-    func replace(element existingElement: BinarySearchTree, whichHasChildType existingElementChildType : ChildType, with newElement: BinarySearchTree ) {
-        newElement.parent = existingElement.parent
-        newElement.leftChild = existingElement.leftChild
-        newElement.rightChild = existingElement.rightChild
-        
-        switch existingElementChildType {
-        case .root:
-            // Don't need to do anything as the existingElement does not have a parent
-            break
-        case .parentLeft:
-            existingElement.parent?.leftChild = newElement
-            break
-        case .parentRight:
-            existingElement.parent?.rightChild = newElement
-            break
-        }
-        
-        existingElement.leftChild?.parent = newElement
-        existingElement.rightChild?.parent = newElement
-        existingElement.parent = nil
-        existingElement.leftChild = nil
-        existingElement.rightChild = nil
     }
 }
