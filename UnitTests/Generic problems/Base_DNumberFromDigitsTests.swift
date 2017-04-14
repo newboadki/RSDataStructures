@@ -10,26 +10,16 @@ import XCTest
 
 class Base_DNumberFromDigitsTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testNumberIsCorrectlyFormed() {
+        XCTAssert(number(from: [4, 6, 7, 2, 2], base: 10) == Int(46722))
     }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+
+    func testEmptyDigits() {
+        XCTAssert(number(from: [], base: 10) == Int(0))
     }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+
+    func testNumberWithZeros() {
+        XCTAssert(number(from: [0,0,0,0,9], base: 10) == Int(9))
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+
 }

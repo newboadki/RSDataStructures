@@ -10,26 +10,23 @@ import XCTest
 
 class FindNumberThatHaveGivenSumTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testExampleWithSolutions() {
+        let result = numbersThatSum(to: 8, from: [3, 6, 1, 7, 5 ,-2, 33, 22, 10])
+        let expected = [(3,5), (1,7), (-2,10)]
+        
+        for (index, value) in result.enumerated() {
+            XCTAssert(value == expected[index])
         }
     }
     
+    func testExampleWithoutSolutions() {
+        let result = numbersThatSum(to: 100, from: [3, 6, 1, 7, 5 ,-2, 33, 22, 10])
+        XCTAssertTrue(result.isEmpty)
+    }
+
+    func testExampleWithEmptyInput() {
+        let result = numbersThatSum(to: 100, from: [0])
+        XCTAssertTrue(result.isEmpty)
+    }
+
 }
