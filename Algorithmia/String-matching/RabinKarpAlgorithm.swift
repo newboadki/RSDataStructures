@@ -117,7 +117,7 @@ extension String {
  
  - Another version with reduced amount of module operations R.Segewick. plus q is done to guarantee the substraction is positive. But if incorporating that into the calculation of the module then not needed here.
   t_i = (t_i + q - (text.unicodeScalarValue(at: i-1) * h) % q)) % q
-  t_i = (t_i * base + text.unicodeScalarValue(at: (i + m - 1))) % qi
+  t_i = (t_i * base + text.unicodeScalarValue(at: (i + m - 1))) % q
 
  
  */
