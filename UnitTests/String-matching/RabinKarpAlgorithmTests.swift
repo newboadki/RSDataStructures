@@ -34,5 +34,21 @@ class RabinKarpAlgorithmTests: XCTestCase {
         let result = findOccurrences(of: "bidsankadoutiwyq", in: "abcdxccdoiadshfakndkcnlkdmsafhaiuwekopoqwekmnbbvavcdsiahqoweioqimkjdszhgvabidsankadoutiwyqieofpmklsdzciouqiueuwyrquwehfijbcdfghi", base: 256, primeNumber: 997)
         XCTAssert(result  == [74], "Found \(result)")
     }
+    
+    func testPatternAlmostNotFound() {
+        let result = findOccurrences(of: "bcd", in: "ccd", base: 256, primeNumber: 997)
+        XCTAssert(result  == [], "Found \(result)")
+    }
+    
+    func testPatternAlmostNotFound2() {
+        let result = findOccurrences(of: "bcd", in: "ccdpkadfnc", base: 256, primeNumber: 997)
+        XCTAssert(result  == [], "Found \(result)")
+    }
+    
+    func testPatternAlmostNotFound3() {
+        let result = findOccurrences(of: "bcdddpieeeeiueijdkdh", in: "ccdpkadfnc", base: 256, primeNumber: 997)
+        XCTAssert(result  == [], "Found \(result)")
+    }
+
 
 }
