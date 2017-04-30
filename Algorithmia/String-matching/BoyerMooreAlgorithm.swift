@@ -28,26 +28,23 @@ struct BoyerMooreAlgorithm {
         var occurrences = [Int]()
         var i: Int = 0
         while (i <= (n - m)) {
-            var skip = 0
-            for j in (0..<m).reversed() {
-                if (pattern.unicodeScalarValue(at: j) != text.unicodeScalarValue(at: i+j)) {
-                    skip = max(1, j - right[text.unicodeScalarValue(at: i+j)])
-                    break
-                }
+            
+            var j = (m - 1)
+            while ((j > -1) && (pattern.unicodeScalarValue(at: j) == text.unicodeScalarValue(at: i+j))) {
+                j = j - 1
             }
             
-            if (skip == 0) {
+            if (j == -1) {
                 // Found
                 occurrences.append(i)
-                i += m                
+                i += m
             } else {
-                i += skip
+                i += max (1, j - right[text.unicodeScalarValue(at: i+j)])
             }
         }
         
         return occurrences
     }
-    
     
     static func skipTable(of pattern: String, in text: String, vocabularyRadix: Int) -> [Int] {
         var skipTable = Array<Int>(repeating: -1, count: vocabularyRadix)
@@ -60,4 +57,46 @@ struct BoyerMooreAlgorithm {
         
         return skipTable
     }
+    
+    
+    
+    
+    // Another version, a bit more convoluted by Sedgewick
+    static func findOccurrencesSedgewick(of pattern: String, in text: String, vocabularyRadix: Int) -> [Int] {
+        
+        // 1. Calculate skip table
+        var right = BoyerMooreAlgorithm.skipTable(of: pattern, in: text, vocabularyRadix: vocabularyRadix)
+        let n = text.characters.count
+        let m = pattern.characters.count
+        
+        // 2. Check for easy negatives
+        guard (n >= m) else {
+            return [Int]()
+        }
+        
+        // 3. Search
+        var occurrences = [Int]()
+        var i: Int = 0
+        while (i <= (n - m)) {
+            var skip = 0
+            for j in (0..<m).reversed() {
+                if (pattern.unicodeScalarValue(at: j) != text.unicodeScalarValue(at: i+j)) {
+                    skip = max(1, j - right[text.unicodeScalarValue(at: i+j)])
+                    break
+                }
+            }
+            
+            if (skip == 0) {
+                // Found
+                occurrences.append(i)
+                i += m
+            } else {
+                i += skip
+            }
+        }
+        
+        return occurrences
+    }
+    
+
 }

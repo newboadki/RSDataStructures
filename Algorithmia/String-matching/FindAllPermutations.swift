@@ -70,7 +70,7 @@ fileprivate func calculateFrequenciesOfCharacters(in string: String, startIndex:
     let endStringIndex = characters.index(string.startIndex, offsetBy: endIndex)
     
     for c in characters[startStringIndex...endStringIndex] {
-        updateFrequency(of: c, in: &frequencies, operationType: .increase)
+        updateFrequency(of: c, in: &frequencies, operationType: .increment)
     }
     
     return frequencies
@@ -82,16 +82,16 @@ fileprivate func updateCharacterFrequencies(dictionary: inout Dictionary<Charact
     let characters = string.characters
     let previousIndex = characters.index(string.startIndex, offsetBy: (startIndex - 1))
     let previousCharacter = string.characters[previousIndex]
-    updateFrequency(of: previousCharacter, in: &dictionary, operationType: .decrease)
+    updateFrequency(of: previousCharacter, in: &dictionary, operationType: .decrement)
     
     let nextIndex = characters.index(string.startIndex, offsetBy: (startIndex + windowLength - 1))
     let nextCharacter = string.characters[nextIndex]
-    updateFrequency(of: nextCharacter, in: &dictionary, operationType: .increase)
+    updateFrequency(of: nextCharacter, in: &dictionary, operationType: .increment)
 }
 
 fileprivate enum FrequencyOperationType {
-    case increase
-    case decrease
+    case increment
+    case decrement
 }
 
 fileprivate func updateFrequency(of key: Character, in dictionary: inout Dictionary<Character, Int>, operationType: FrequencyOperationType) {
@@ -99,9 +99,9 @@ fileprivate func updateFrequency(of key: Character, in dictionary: inout Diction
     if let frequency = dictionary[key] {
         
         switch operationType {
-        case .increase:
+        case .increment:
             dictionary[key] = frequency + 1
-        case .decrease:
+        case .decrement:
             let value = frequency - 1
             if (value == 0) {
                 dictionary[key] = nil

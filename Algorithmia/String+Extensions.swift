@@ -35,4 +35,10 @@ extension String {
         let stringIndex = self.characters.index(self.startIndex, offsetBy: index)
         return self.characters[stringIndex]
     }
+    
+    mutating func insert(at index: Int, value: Character) {
+        let stringIndex = self.index(self.startIndex, offsetBy: index)
+        self.insert(value, at: stringIndex)
+    }
+
 }

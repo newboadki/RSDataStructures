@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00140EE91EB49BE300992C1B /* SmallDifferenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EE81EB49BE300992C1B /* SmallDifferenceTests.swift */; };
+		00140EEB1EB5D8C800992C1B /* MatrixRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EEA1EB5D8C800992C1B /* MatrixRotation.swift */; };
+		00140EF11EB5E18A00992C1B /* MatrixRotationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EF01EB5E18A00992C1B /* MatrixRotationTests.swift */; };
+		00140EF31EB617FD00992C1B /* StringRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EF21EB617FD00992C1B /* StringRotation.swift */; };
+		00140EF51EB61D3D00992C1B /* StringRotationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EF41EB61D3D00992C1B /* StringRotationTests.swift */; };
+		0017C9CC1EACF84C00E5E749 /* AreCharactersUniqueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C9CB1EACF84C00E5E749 /* AreCharactersUniqueTests.swift */; };
+		0017C9CE1EAF04F500E5E749 /* ReplaceSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C9CD1EAF04F500E5E749 /* ReplaceSpaces.swift */; };
+		0017C9D01EAF08E900E5E749 /* ReplaceSpacesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C9CF1EAF08E900E5E749 /* ReplaceSpacesTests.swift */; };
+		0017C9D21EB065C300E5E749 /* IsPermutationOfPalindrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C9D11EB065C300E5E749 /* IsPermutationOfPalindrome.swift */; };
+		0017C9D41EB068AB00E5E749 /* IsPermutationOfPalindromeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C9D31EB068AB00E5E749 /* IsPermutationOfPalindromeTests.swift */; };
+		0017C9D61EB31B9C00E5E749 /* SmallDifference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C9D51EB31B9C00E5E749 /* SmallDifference.swift */; };
 		003DB8871DCD30A600B51FCC /* ArrayBasedHeapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB8861DCD30A600B51FCC /* ArrayBasedHeapTests.swift */; };
 		003DB8901DCD31CD00B51FCC /* ArrayBasedHeap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB88F1DCD31CD00B51FCC /* ArrayBasedHeap.swift */; };
 		003DB8921DCD330800B51FCC /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB8911DCD330800B51FCC /* PriorityQueue.swift */; };
@@ -31,6 +42,7 @@
 		00BBA4E01EA639DA00E26C3A /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4DF1EA639DA00E26C3A /* Int+Extensions.swift */; };
 		00BBA4E11EA63A1200E26C3A /* BoyerMooreAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4DB1EA4049200E26C3A /* BoyerMooreAlgorithm.swift */; };
 		00BBA4E31EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */; };
+		00BBA4E51EACF10800E26C3A /* AreCharactersUnique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */; };
 		00C876891E0899F200FA49DB /* BoundedHeightPriorityQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F531DD8FA8C003A70FD /* BoundedHeightPriorityQueueTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +59,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00140EE81EB49BE300992C1B /* SmallDifferenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallDifferenceTests.swift; sourceTree = "<group>"; };
+		00140EEA1EB5D8C800992C1B /* MatrixRotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixRotation.swift; sourceTree = "<group>"; };
+		00140EF01EB5E18A00992C1B /* MatrixRotationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixRotationTests.swift; sourceTree = "<group>"; };
+		00140EF21EB617FD00992C1B /* StringRotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringRotation.swift; sourceTree = "<group>"; };
+		00140EF41EB61D3D00992C1B /* StringRotationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringRotationTests.swift; sourceTree = "<group>"; };
+		0017C9CB1EACF84C00E5E749 /* AreCharactersUniqueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AreCharactersUniqueTests.swift; path = "../String-matching/AreCharactersUniqueTests.swift"; sourceTree = "<group>"; };
+		0017C9CD1EAF04F500E5E749 /* ReplaceSpaces.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplaceSpaces.swift; sourceTree = "<group>"; };
+		0017C9CF1EAF08E900E5E749 /* ReplaceSpacesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReplaceSpacesTests.swift; path = "../String-matching/ReplaceSpacesTests.swift"; sourceTree = "<group>"; };
+		0017C9D11EB065C300E5E749 /* IsPermutationOfPalindrome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IsPermutationOfPalindrome.swift; sourceTree = "<group>"; };
+		0017C9D31EB068AB00E5E749 /* IsPermutationOfPalindromeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IsPermutationOfPalindromeTests.swift; path = "../String-matching/IsPermutationOfPalindromeTests.swift"; sourceTree = "<group>"; };
+		0017C9D51EB31B9C00E5E749 /* SmallDifference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallDifference.swift; sourceTree = "<group>"; };
 		003DB8841DCD30A600B51FCC /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		003DB8861DCD30A600B51FCC /* ArrayBasedHeapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayBasedHeapTests.swift; sourceTree = "<group>"; };
 		003DB8881DCD30A600B51FCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -80,6 +103,7 @@
 		00BBA4DD1EA638F600E26C3A /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		00BBA4DF1EA639DA00E26C3A /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoyerMooreAlgorithmTests.swift; sourceTree = "<group>"; };
+		00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreCharactersUnique.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +214,12 @@
 			children = (
 				00AC08561E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift */,
 				00AC085B1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift */,
+				00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */,
+				0017C9CD1EAF04F500E5E749 /* ReplaceSpaces.swift */,
+				0017C9D11EB065C300E5E749 /* IsPermutationOfPalindrome.swift */,
+				0017C9D51EB31B9C00E5E749 /* SmallDifference.swift */,
+				00140EEA1EB5D8C800992C1B /* MatrixRotation.swift */,
+				00140EF21EB617FD00992C1B /* StringRotation.swift */,
 			);
 			path = "Generic problems";
 			sourceTree = "<group>";
@@ -198,7 +228,13 @@
 			isa = PBXGroup;
 			children = (
 				00AC08591E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift */,
+				0017C9CB1EACF84C00E5E749 /* AreCharactersUniqueTests.swift */,
+				0017C9CF1EAF08E900E5E749 /* ReplaceSpacesTests.swift */,
+				0017C9D31EB068AB00E5E749 /* IsPermutationOfPalindromeTests.swift */,
 				00AC085D1E9F5F9C007B0414 /* Base_DNumberFromDigitsTests.swift */,
+				00140EE81EB49BE300992C1B /* SmallDifferenceTests.swift */,
+				00140EF01EB5E18A00992C1B /* MatrixRotationTests.swift */,
+				00140EF41EB61D3D00992C1B /* StringRotationTests.swift */,
 			);
 			path = "Generic problems";
 			sourceTree = "<group>";
@@ -358,22 +394,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				00AC085A1E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift in Sources */,
+				0017C9D01EAF08E900E5E749 /* ReplaceSpacesTests.swift in Sources */,
 				00BBA4E01EA639DA00E26C3A /* Int+Extensions.swift in Sources */,
 				003DB8871DCD30A600B51FCC /* ArrayBasedHeapTests.swift in Sources */,
 				00AC085C1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift in Sources */,
+				0017C9CE1EAF04F500E5E749 /* ReplaceSpaces.swift in Sources */,
+				0017C9D21EB065C300E5E749 /* IsPermutationOfPalindrome.swift in Sources */,
+				00140EF31EB617FD00992C1B /* StringRotation.swift in Sources */,
+				00140EEB1EB5D8C800992C1B /* MatrixRotation.swift in Sources */,
 				00BBA4DE1EA638F600E26C3A /* String+Extensions.swift in Sources */,
 				00AC0F501DD3BF97003A70FD /* BinarySearchTreeTests.swift in Sources */,
+				00BBA4E51EACF10800E26C3A /* AreCharactersUnique.swift in Sources */,
+				0017C9D61EB31B9C00E5E749 /* SmallDifference.swift in Sources */,
 				003DB8901DCD31CD00B51FCC /* ArrayBasedHeap.swift in Sources */,
+				00140EF51EB61D3D00992C1B /* StringRotationTests.swift in Sources */,
 				00AECD901E9E7D7D007E8458 /* FindAllPermutationTests.swift in Sources */,
+				0017C9D41EB068AB00E5E749 /* IsPermutationOfPalindromeTests.swift in Sources */,
 				00AECD8C1E9CB745007E8458 /* FindAllPermutations.swift in Sources */,
 				00AC08571E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift in Sources */,
 				00BBA4E31EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift in Sources */,
 				00AC0F4E1DD3B8B8003A70FD /* BinaryTree.swift in Sources */,
 				00BBA4E11EA63A1200E26C3A /* BoyerMooreAlgorithm.swift in Sources */,
 				00C876891E0899F200FA49DB /* BoundedHeightPriorityQueueTests.swift in Sources */,
+				00140EE91EB49BE300992C1B /* SmallDifferenceTests.swift in Sources */,
+				0017C9CC1EACF84C00E5E749 /* AreCharactersUniqueTests.swift in Sources */,
 				00AC08601EA0CC3A007B0414 /* RabinKarpAlgorithm.swift in Sources */,
 				003DB8921DCD330800B51FCC /* PriorityQueue.swift in Sources */,
 				00AC08621EA135C0007B0414 /* RabinKarpAlgorithmTests.swift in Sources */,
+				00140EF11EB5E18A00992C1B /* MatrixRotationTests.swift in Sources */,
 				003DB8941DCD3F4800B51FCC /* KeyValuePair.swift in Sources */,
 				00AC085E1E9F5F9C007B0414 /* Base_DNumberFromDigitsTests.swift in Sources */,
 				0080E9001DD1082800C61751 /* BoundedHeightPriorityQueue.swift in Sources */,
