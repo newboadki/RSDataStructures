@@ -19,7 +19,20 @@ enum PriorityQueueError : Error {
 }
 
 
-protocol PriorityQueue {
+protocol Queue {
+    
+    associatedtype Item
+    
+    mutating func enqueue(item: Item) throws
+    
+    func getFirst() -> Item?
+    
+    mutating func dequeue() -> Item?
+
+}
+
+
+protocol PriorityQueue : Queue {
     
     associatedtype Item
 
@@ -27,10 +40,4 @@ protocol PriorityQueue {
     var type : PriorityQueueType { get }
     
     init(type: PriorityQueueType)
-    
-    mutating func add(item: Item) throws
-    
-    func getTop() -> Item?
-    
-    mutating func extractTop() -> Item?
 }

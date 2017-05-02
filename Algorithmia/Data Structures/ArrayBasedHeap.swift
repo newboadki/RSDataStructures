@@ -42,7 +42,7 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
         self.init(type: type, capacity: 10000)
     }
     
-    mutating public func add(item : HeapElement) throws {
+    mutating public func enqueue(item : HeapElement) throws {
         
         guard self.count < self.capacity else {
             throw PriorityQueueError.capacityExceeded
@@ -52,7 +52,7 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
         self.bubbleUp(startingAtIndex: self.count-1)
     }
     
-    public func getTop() -> HeapElement? {
+    public func getFirst() -> HeapElement? {
         
         guard self.count > 0 else {
             return nil
@@ -61,7 +61,7 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
         return self.array.first
     }
     
-    mutating public func extractTop() -> HeapElement? {
+    mutating public func dequeue() -> HeapElement? {
         
         guard self.count > 0 else {
             return nil
@@ -184,7 +184,7 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
     private mutating func makeHeap(from elements: [HeapElement] ) {
         for element in elements {
             do {
-                try self.add(item: element)
+                try self.enqueue(item: element)
             } catch {
                 print("Couldn't add item to the heap.")                
             }

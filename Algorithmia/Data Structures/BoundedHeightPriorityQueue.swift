@@ -32,7 +32,7 @@ struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
         self.init(type : type, maximumKey: 1000)
     }
     
-    mutating func add(item: Item) throws {
+    mutating func enqueue(item: Item) throws {
         
         let key = item.key as! Int
         
@@ -60,7 +60,7 @@ struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
         }
     }
     
-    func getTop() -> Item? {
+    func getFirst() -> Item? {
         if let top = self.topIndex {
             return self.array[Int(top)]?.first
         } else {
@@ -68,7 +68,7 @@ struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
         }
     }
     
-    mutating func extractTop() -> Item? {
+    mutating func dequeue() -> Item? {
         var result : Item
         
         guard self.topIndex != nil else {
