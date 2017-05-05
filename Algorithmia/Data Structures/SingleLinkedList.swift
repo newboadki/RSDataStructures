@@ -1,5 +1,5 @@
 //
-//  SingleLinkedList.swift
+//  SinglyLinkedList.swift
 //  Algorithmia
 //
 //  Created by Borja Arias Drake on 30/04/2017.
@@ -9,30 +9,48 @@
 import Foundation
 
 
-class SingleLinkedListNode<T: Hashable> {
+class SinglyLinkedListNode<T: Hashable> {
     
     var value: T
-    var next: SingleLinkedListNode<T>?
+    var next: SinglyLinkedListNode<T>?
     
     init(value: T) {
         self.value = value
     }
 }
 
-struct SingleLinkedList <T: Hashable>
+struct SinglyLinkedList <T: Hashable>
 {
-    var head: SingleLinkedListNode<T>?
-    var tail: SingleLinkedListNode<T>?
+    // MARK: - PROPERTIES -
+    
+    /// First node
+    var head: SinglyLinkedListNode<T>?
+    
+    
+    /// Last node
+    var tail: SinglyLinkedListNode<T>?
+    
+    
+    /// Number of nodes in the list
     private(set) var count: UInt = 0
     
-    init(head: SingleLinkedListNode<T>)
+    
+    
+    // MARK: - INITIALIZERS -
+    
+    /// Creates a list with the given node
+    ///
+    /// - Parameter head: First node
+    public init(head: SinglyLinkedListNode<T>)
     {
         self.head = head
         self.tail = findTail(in: head)
         self.count = 1
     }
 
-    init()
+    
+    /// Creates an empty list
+    public init()
     {
         self.head = nil
         self.tail = nil
@@ -40,12 +58,19 @@ struct SingleLinkedList <T: Hashable>
     }
 
     
-    mutating func append(node: SingleLinkedListNode<T>)
+    /// Appends a new node to the list.
+    /// - Discussion: If the node to be inserted contains a loop, the node is appended but tail is set to nil.
+    /// - Parameter node: node to be appended. (It can be a list, even contain loops).
+    public mutating func append(node: SinglyLinkedListNode<T>)
     {
         if let tailNode = self.tail
         {
             tailNode.next = node
-            self.tail = findTail(in: node)
+            if !self.containsLoop() {
+                self.tail = findTail(in: node)
+            } else {
+                self.tail = nil
+            }
         }
         else
         {
@@ -60,13 +85,16 @@ struct SingleLinkedList <T: Hashable>
     }
     
     
+    /// Deletes node containing a given value
+    ///
+    /// - Parameter v: value of the node to be deleted.
     mutating func deleteNode(withValue v: T) {
         
         guard self.head != nil else {
             return
         }
         
-        var previous: SingleLinkedListNode<T>? = nil
+        var previous: SinglyLinkedListNode<T>? = nil
         var current = self.head
         
         while (current != nil) && (current?.value != v) {
@@ -93,11 +121,11 @@ struct SingleLinkedList <T: Hashable>
     
     /// Takes O(N)
     /// Uses Additional space to keep track of already seen elements
-    mutating func deleteDuplicates()
+    public mutating func deleteDuplicates()
     {
         var visited = Set<T>()
         var current = self.head
-        var previous: SingleLinkedListNode<T>? = nil
+        var previous: SinglyLinkedListNode<T>? = nil
         
         while (current != nil)
         {
@@ -128,14 +156,13 @@ struct SingleLinkedList <T: Hashable>
     
     /// Deletes duplicates without using additional structures like a set to keep the visited nodes
     /// It takes time O(N^2)
-    mutating func deleteDuplicatesInPlace()
+    public mutating func deleteDuplicatesInPlace()
     {
         var current = self.head
         
-        
         while (current != nil)
         {
-            var previous: SingleLinkedListNode<T>? = current
+            var previous: SinglyLinkedListNode<T>? = current
             var next = current?.next
             
             while (next != nil)
@@ -149,7 +176,6 @@ struct SingleLinkedList <T: Hashable>
                     if (self.tail === next) {
                         self.tail = previous
                     }
-                    
                     
                     // Delete next
                     previous?.next = next?.next
@@ -166,8 +192,8 @@ struct SingleLinkedList <T: Hashable>
     /// Returns the node located at the k-th to last position
     ///
     /// - Parameter kthToLast: 1 <= k <= N
-    private func find(kthToLast: UInt, startingAt node: SingleLinkedListNode<T>?, count: UInt) -> SingleLinkedListNode<T>? {
-        
+    private func find(kthToLast: UInt, startingAt node: SinglyLinkedListNode<T>?, count: UInt) -> SinglyLinkedListNode<T>?
+    {
         guard kthToLast <= count else {
             return nil
         }
@@ -185,18 +211,48 @@ struct SingleLinkedList <T: Hashable>
         return find(kthToLast: kthToLast, startingAt: node?.next, count: (count - 1))
     }
     
-    func find(kthToLast: UInt) -> SingleLinkedListNode<T>? {
+    
+    /// Finds the kth-to-last element in the list
+    ///
+    /// - Parameter kthToLast: Reversed ordinal number of the node to fetch.
+    /// - Returns: <#return value description#>
+    public func find(kthToLast: UInt) -> SinglyLinkedListNode<T>?
+    {
         return self.find(kthToLast: kthToLast, startingAt: self.head, count: self.count)
     }
 
+
+    /// A singly linked list contains a loop if one node references back to a previous node.
+    ///
+    /// - Returns: Whether the linked list contains a loop
+    public func containsLoop() -> Bool
+    {
+        /// Advances a node at a time
+        var current = self.head
+        
+        /// Advances twice as fast
+        var runner = self.head
+        
+        while (runner != nil) && (runner?.next != nil) {
+        
+            current = current?.next
+            runner = runner?.next?.next
+            
+            if runner === current {
+                return true
+            }
+        }
+        
+        return false
+    }
 }
 
-func findTail<T>(in node: SingleLinkedListNode<T>) -> SingleLinkedListNode<T>
+func findTail<T>(in node: SinglyLinkedListNode<T>) -> SinglyLinkedListNode<T>
 {
     // Assign the tail
     // Note that the passed node can already be linking to other nodes,
     // so the tail needs to be calculated.
-    var current: SingleLinkedListNode<T>? = node.next
+    var current: SinglyLinkedListNode<T>? = node.next
     while (current?.next != nil) {
         current = current?.next
     }
@@ -209,79 +265,7 @@ func findTail<T>(in node: SingleLinkedListNode<T>) -> SingleLinkedListNode<T>
 }
 
 
-// Assuming they both have the same number of digits (zeros on the shortest's right have been added).
-func sumLeftToRight(l1: SingleLinkedList<Int>, l2: SingleLinkedList<Int>) -> SingleLinkedList<Int>
-{
-    var carriage = false
-    var n1 = l1.head
-    var n2 = l2.head
-    var sumList = SingleLinkedList<Int>()
-    
-    while(n1 != nil) {
-        var sum = (n1?.value)! + (n2?.value)!
-        if (carriage == true) {
-            sum += 1
-        }
-        
-        if (sum >= 10) {
-            carriage = true
-            sum = sum - 10
-        } else {
-            carriage = false
-        }
-        
-        sumList.append(node: SingleLinkedListNode(value: sum))
-        
-        n1 = n1?.next
-        n2 = n2?.next
-    }
-    
-    return sumList
-}
 
 
-struct PartialSum {
-    var node : SingleLinkedListNode<Int>?
-    var carriage : Int
-    
-}
 
-func sumRightToLeft(l1: SingleLinkedList<Int>, l2: SingleLinkedList<Int>) -> SingleLinkedList<Int> {
-    
-    // TODO. Pad with zeros
-    
-    let result = sumHelper(n1: l1.head, n2: l2.head)
-    
-    if result.carriage == 1 {
-        let newNode = SingleLinkedListNode(value: 1)
-        newNode.next = result.node
-        return SingleLinkedList<Int>(head: newNode)
-    } else {
-        return SingleLinkedList<Int>(head: result.node!)
-    }
-}
 
-func sumHelper(n1: SingleLinkedListNode<Int>?, n2: SingleLinkedListNode<Int>?) -> PartialSum {
-    
-    // BASE CASE
-    if (n1==nil && n2==nil) {
-        return PartialSum(node: nil, carriage: 0)
-    }
-
-    
-    var result = sumHelper(n1: n1?.next, n2: n2?.next)
-    var sum = n1!.value + n2!.value + result.carriage
-    
-    if (sum >= 10) {
-        result.carriage = 1
-        sum = sum - 10
-    } else {
-        result.carriage = 0
-    }
-    
-    let newNode = SingleLinkedListNode(value: sum)
-    newNode.next = result.node
-    result.node = newNode
-    
-    return result
-}

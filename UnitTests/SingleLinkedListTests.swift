@@ -1,5 +1,5 @@
 //
-//  SingleLinkedListTests.swift
+//  SinglyLinkedListTests.swift
 //  Algorithmia
 //
 //  Created by Borja Arias Drake on 30/04/2017.
@@ -11,10 +11,10 @@ import XCTest
 class FindTailInNodeTests: XCTestCase {
     
     func testExample() {
-        let n1 = SingleLinkedListNode<Int>(value: 34)
-        let n2 = SingleLinkedListNode<Int>(value: 35)
-        let n3 = SingleLinkedListNode<Int>(value: 36)
-        let n4 = SingleLinkedListNode<Int>(value: 37)
+        let n1 = SinglyLinkedListNode<Int>(value: 34)
+        let n2 = SinglyLinkedListNode<Int>(value: 35)
+        let n3 = SinglyLinkedListNode<Int>(value: 36)
+        let n4 = SinglyLinkedListNode<Int>(value: 37)
         
         n1.next = n2
         n2.next = n3
@@ -28,16 +28,16 @@ class FindTailInNodeTests: XCTestCase {
     
 }
 
-class SingleLinkedListTests: XCTestCase {
+class SinglyLinkedListTests: XCTestCase {
     
     func testAppendingNodes() {
-        let n1 = SingleLinkedListNode<Int>(value: 34)
-        let n2 = SingleLinkedListNode<Int>(value: 35)
-        let n3 = SingleLinkedListNode<Int>(value: 36)
-        let n4 = SingleLinkedListNode<Int>(value: 37)
+        let n1 = SinglyLinkedListNode<Int>(value: 34)
+        let n2 = SinglyLinkedListNode<Int>(value: 35)
+        let n3 = SinglyLinkedListNode<Int>(value: 36)
+        let n4 = SinglyLinkedListNode<Int>(value: 37)
         
         
-        var list = SingleLinkedList<Int>(head: n1)
+        var list = SinglyLinkedList<Int>(head: n1)
         XCTAssertTrue(list.head === n1)
         XCTAssertTrue(list.tail === n1)
         XCTAssertTrue(list.count == 1, "Found \(list.count)")
@@ -65,14 +65,14 @@ class SingleLinkedListTests: XCTestCase {
     }
 
     func testDelete() {
-        let n1 = SingleLinkedListNode<Int>(value: 1)
-        let n2 = SingleLinkedListNode<Int>(value: 2)
-        let n3 = SingleLinkedListNode<Int>(value: 3)
-        let n4 = SingleLinkedListNode<Int>(value: 4)
-        let n5 = SingleLinkedListNode<Int>(value: 5)
+        let n1 = SinglyLinkedListNode<Int>(value: 1)
+        let n2 = SinglyLinkedListNode<Int>(value: 2)
+        let n3 = SinglyLinkedListNode<Int>(value: 3)
+        let n4 = SinglyLinkedListNode<Int>(value: 4)
+        let n5 = SinglyLinkedListNode<Int>(value: 5)
         
         
-        var list = SingleLinkedList<Int>(head: n1)
+        var list = SinglyLinkedList<Int>(head: n1)
         list.append(node: n2)
         list.append(node: n3)
         list.append(node: n4)
@@ -116,16 +116,16 @@ class SingleLinkedListTests: XCTestCase {
     
     
     func testDeleteDuplicates() {
-        let n1 = SingleLinkedListNode<Int>(value: 2)
-        let n2 = SingleLinkedListNode<Int>(value: 2)
-        let n3 = SingleLinkedListNode<Int>(value: 3)
-        let n4 = SingleLinkedListNode<Int>(value: 5)
-        let n5 = SingleLinkedListNode<Int>(value: 2)
-        let n6 = SingleLinkedListNode<Int>(value: 4)
-        let n7 = SingleLinkedListNode<Int>(value: 2)
-        let n8 = SingleLinkedListNode<Int>(value: 5)
+        let n1 = SinglyLinkedListNode<Int>(value: 2)
+        let n2 = SinglyLinkedListNode<Int>(value: 2)
+        let n3 = SinglyLinkedListNode<Int>(value: 3)
+        let n4 = SinglyLinkedListNode<Int>(value: 5)
+        let n5 = SinglyLinkedListNode<Int>(value: 2)
+        let n6 = SinglyLinkedListNode<Int>(value: 4)
+        let n7 = SinglyLinkedListNode<Int>(value: 2)
+        let n8 = SinglyLinkedListNode<Int>(value: 5)
         
-        var list = SingleLinkedList<Int>(head: n1)
+        var list = SinglyLinkedList<Int>(head: n1)
         list.append(node: n2)
         list.append(node: n3)
         list.append(node: n4)
@@ -145,16 +145,16 @@ class SingleLinkedListTests: XCTestCase {
     }
     
     func testDeleteDuplicatesInPlace() {
-        let n1 = SingleLinkedListNode<Int>(value: 2)
-        let n2 = SingleLinkedListNode<Int>(value: 2)
-        let n3 = SingleLinkedListNode<Int>(value: 3)
-        let n4 = SingleLinkedListNode<Int>(value: 5)
-        let n5 = SingleLinkedListNode<Int>(value: 2)
-        let n6 = SingleLinkedListNode<Int>(value: 4)
-        let n7 = SingleLinkedListNode<Int>(value: 2)
-        let n8 = SingleLinkedListNode<Int>(value: 5)
+        let n1 = SinglyLinkedListNode<Int>(value: 2)
+        let n2 = SinglyLinkedListNode<Int>(value: 2)
+        let n3 = SinglyLinkedListNode<Int>(value: 3)
+        let n4 = SinglyLinkedListNode<Int>(value: 5)
+        let n5 = SinglyLinkedListNode<Int>(value: 2)
+        let n6 = SinglyLinkedListNode<Int>(value: 4)
+        let n7 = SinglyLinkedListNode<Int>(value: 2)
+        let n8 = SinglyLinkedListNode<Int>(value: 5)
         
-        var list = SingleLinkedList<Int>(head: n1)
+        var list = SinglyLinkedList<Int>(head: n1)
         list.append(node: n2)
         list.append(node: n3)
         list.append(node: n4)
@@ -174,16 +174,16 @@ class SingleLinkedListTests: XCTestCase {
     }
     
     func testFindKthToLast() {
-        let n1 = SingleLinkedListNode<Int>(value: 2)
-        let n2 = SingleLinkedListNode<Int>(value: 2)
-        let n3 = SingleLinkedListNode<Int>(value: 3)
-        let n4 = SingleLinkedListNode<Int>(value: 5)
-        let n5 = SingleLinkedListNode<Int>(value: 2)
-        let n6 = SingleLinkedListNode<Int>(value: 4)
-        let n7 = SingleLinkedListNode<Int>(value: 2)
-        let n8 = SingleLinkedListNode<Int>(value: 5)
+        let n1 = SinglyLinkedListNode<Int>(value: 2)
+        let n2 = SinglyLinkedListNode<Int>(value: 2)
+        let n3 = SinglyLinkedListNode<Int>(value: 3)
+        let n4 = SinglyLinkedListNode<Int>(value: 5)
+        let n5 = SinglyLinkedListNode<Int>(value: 2)
+        let n6 = SinglyLinkedListNode<Int>(value: 4)
+        let n7 = SinglyLinkedListNode<Int>(value: 2)
+        let n8 = SinglyLinkedListNode<Int>(value: 5)
         
-        var list = SingleLinkedList<Int>(head: n1)
+        var list = SinglyLinkedList<Int>(head: n1)
         list.append(node: n2)
         list.append(node: n3)
         list.append(node: n4)
@@ -205,17 +205,17 @@ class SingleLinkedListTests: XCTestCase {
     
     
     func testSumOfNumbers() {
-        let a1 = SingleLinkedListNode<Int>(value: 7)
-        let a2 = SingleLinkedListNode<Int>(value: 1)
-        let a3 = SingleLinkedListNode<Int>(value: 6)
-        var l1 = SingleLinkedList<Int>(head: a1)
+        let a1 = SinglyLinkedListNode<Int>(value: 7)
+        let a2 = SinglyLinkedListNode<Int>(value: 1)
+        let a3 = SinglyLinkedListNode<Int>(value: 6)
+        var l1 = SinglyLinkedList<Int>(head: a1)
         l1.append(node: a2)
         l1.append(node: a3)
         
-        let b1 = SingleLinkedListNode<Int>(value: 5)
-        let b2 = SingleLinkedListNode<Int>(value: 9)
-        let b3 = SingleLinkedListNode<Int>(value: 2)
-        var l2 = SingleLinkedList<Int>(head: b1)
+        let b1 = SinglyLinkedListNode<Int>(value: 5)
+        let b2 = SinglyLinkedListNode<Int>(value: 9)
+        let b3 = SinglyLinkedListNode<Int>(value: 2)
+        var l2 = SinglyLinkedList<Int>(head: b1)
         l2.append(node: b2)
         l2.append(node: b3)
 
@@ -224,17 +224,17 @@ class SingleLinkedListTests: XCTestCase {
     }
 
     func testSumOfNumbersRightToLeft() {
-        let a1 = SingleLinkedListNode<Int>(value: 7)
-        let a2 = SingleLinkedListNode<Int>(value: 1)
-        let a3 = SingleLinkedListNode<Int>(value: 6)
-        var l1 = SingleLinkedList<Int>(head: a1)
+        let a1 = SinglyLinkedListNode<Int>(value: 7)
+        let a2 = SinglyLinkedListNode<Int>(value: 1)
+        let a3 = SinglyLinkedListNode<Int>(value: 6)
+        var l1 = SinglyLinkedList<Int>(head: a1)
         l1.append(node: a2)
         l1.append(node: a3)
         
-        let b1 = SingleLinkedListNode<Int>(value: 5)
-        let b2 = SingleLinkedListNode<Int>(value: 9)
-        let b3 = SingleLinkedListNode<Int>(value: 2)
-        var l2 = SingleLinkedList<Int>(head: b1)
+        let b1 = SinglyLinkedListNode<Int>(value: 5)
+        let b2 = SinglyLinkedListNode<Int>(value: 9)
+        let b3 = SinglyLinkedListNode<Int>(value: 2)
+        var l2 = SinglyLinkedList<Int>(head: b1)
         l2.append(node: b2)
         l2.append(node: b3)
         
@@ -242,12 +242,62 @@ class SingleLinkedListTests: XCTestCase {
         printList(list: sum)
     }
 
-    
-    func printList(list: SingleLinkedList<Int>) {
+    func testContainsLoop() {
+        let n1 = SinglyLinkedListNode<Int>(value: 1)
+        let n2 = SinglyLinkedListNode<Int>(value: 2)
+        let n3 = SinglyLinkedListNode<Int>(value: 3)
+        let n4 = SinglyLinkedListNode<Int>(value: 4)
+        let n5 = SinglyLinkedListNode<Int>(value: 5)
+        let n6 = SinglyLinkedListNode<Int>(value: 6)
+        let n7 = SinglyLinkedListNode<Int>(value: 7)
+        let n8 = SinglyLinkedListNode<Int>(value: 8)
+        n8.next = n2
+        
+        var list = SinglyLinkedList<Int>(head: n1)
+        list.append(node: n2)
+        list.append(node: n3)
+        list.append(node: n4)
+        list.append(node: n5)
+        list.append(node: n6)
+        list.append(node: n7)
+        list.append(node: n8)
+
+        XCTAssertNil(list.tail)
+        XCTAssertTrue(list.containsLoop())
+        
+    }
+
+    func testContainsLoopFalse() {
+        let n1 = SinglyLinkedListNode<Int>(value: 1)
+        let n2 = SinglyLinkedListNode<Int>(value: 2)
+        let n3 = SinglyLinkedListNode<Int>(value: 3)
+        let n4 = SinglyLinkedListNode<Int>(value: 4)
+        let n5 = SinglyLinkedListNode<Int>(value: 5)
+        let n6 = SinglyLinkedListNode<Int>(value: 6)
+        let n7 = SinglyLinkedListNode<Int>(value: 7)
+        let n8 = SinglyLinkedListNode<Int>(value: 8)
+        
+        var list = SinglyLinkedList<Int>(head: n1)
+        list.append(node: n2)
+        list.append(node: n3)
+        list.append(node: n4)
+        list.append(node: n5)
+        list.append(node: n6)
+        list.append(node: n7)
+        list.append(node: n8)
+        
+        XCTAssertTrue(list.tail === n8)
+        XCTAssertFalse(list.containsLoop())
+        
+    }
+
+    func printList(list: SinglyLinkedList<Int>) {
         var current = list.head
         while current != nil {
             print("\(String(describing: current?.value))")
             current = current?.next
         }
     }
+    
+    
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-func isPalindrome<T>(list: SingleLinkedList<T>) -> Bool
+func isPalindrome<T>(list: SinglyLinkedList<T>) -> Bool
 {
     guard list.head != nil else {
         return false
@@ -21,7 +21,7 @@ func isPalindrome<T>(list: SingleLinkedList<T>) -> Bool
 
 
 
-func isPalindromeRecursive<T>(node: SingleLinkedListNode<T>?, length: UInt) -> (node: SingleLinkedListNode<T>?, isPalindrome: Bool)
+func isPalindromeRecursive<T>(node: SinglyLinkedListNode<T>?, length: UInt) -> (node: SinglyLinkedListNode<T>?, isPalindrome: Bool)
 {
     // BASE CASE
     if (length == 0) {
