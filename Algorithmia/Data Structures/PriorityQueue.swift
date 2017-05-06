@@ -19,19 +19,8 @@ enum PriorityQueueError : Error {
 }
 
 
-protocol Queue {
-    
-    associatedtype Item
-    
-    mutating func enqueue(item: Item) throws
-    
-    func getFirst() -> Item?
-    
-    mutating func dequeue() -> Item?
 
-}
-
-
+/// They mainly add semantics to a queue. Elements are returned in order according to some rule.
 protocol PriorityQueue : Queue {
     
     associatedtype Item

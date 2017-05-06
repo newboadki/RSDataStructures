@@ -33,6 +33,7 @@
 		00546D851A3A3DA300A043A7 /* exchange_sort.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D811A3A3DA300A043A7 /* exchange_sort.c */; };
 		00546D861A3A3DA300A043A7 /* insertion_sort.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D831A3A3DA300A043A7 /* insertion_sort.c */; };
 		0080E9001DD1082800C61751 /* BoundedHeightPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0080E8FF1DD1082800C61751 /* BoundedHeightPriorityQueue.swift */; };
+		0099EB6E1EBC54BD006497B1 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0099EB6D1EBC54BD006497B1 /* Queue.swift */; };
 		00AC08571E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC08561E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift */; };
 		00AC085A1E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC08591E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift */; };
 		00AC085C1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC085B1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift */; };
@@ -98,6 +99,7 @@
 		00546D831A3A3DA300A043A7 /* insertion_sort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = insertion_sort.c; sourceTree = "<group>"; };
 		00546D841A3A3DA300A043A7 /* insertion_sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = insertion_sort.h; sourceTree = "<group>"; };
 		0080E8FF1DD1082800C61751 /* BoundedHeightPriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundedHeightPriorityQueue.swift; sourceTree = "<group>"; };
+		0099EB6D1EBC54BD006497B1 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		00AC08561E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNumberThatHaveGivenSumOrDiff.swift; sourceTree = "<group>"; };
 		00AC08591E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNumberThatHaveGivenSumTests.swift; sourceTree = "<group>"; };
 		00AC085B1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base_DNumberFromDigits.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				003DB88F1DCD31CD00B51FCC /* ArrayBasedHeap.swift */,
 				0080E8FF1DD1082800C61751 /* BoundedHeightPriorityQueue.swift */,
 				003DB8911DCD330800B51FCC /* PriorityQueue.swift */,
+				0099EB6D1EBC54BD006497B1 /* Queue.swift */,
 			);
 			name = "Priority Queues";
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				00AC085A1E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift in Sources */,
 				00140EFD1EB8A53E00992C1B /* IsLinkedListPalindrome.swift in Sources */,
 				0017C9D01EAF08E900E5E749 /* ReplaceSpacesTests.swift in Sources */,
+				0099EB6E1EBC54BD006497B1 /* Queue.swift in Sources */,
 				00BBA4E01EA639DA00E26C3A /* Int+Extensions.swift in Sources */,
 				003DB8871DCD30A600B51FCC /* ArrayBasedHeapTests.swift in Sources */,
 				00AC085C1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift in Sources */,

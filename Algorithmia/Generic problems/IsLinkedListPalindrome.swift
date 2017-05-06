@@ -15,7 +15,7 @@ func isPalindrome<T>(list: SinglyLinkedList<T>) -> Bool
     }
     
 
-    let result = isPalindromeRecursive(node: list.head, length: list.count)
+    let result = isPalindromeRecursive(node: list.head, length: UInt(list.count))
     return result.isPalindrome
 }
 

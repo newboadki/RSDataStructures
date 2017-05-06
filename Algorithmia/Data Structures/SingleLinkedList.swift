@@ -9,7 +9,7 @@
 import Foundation
 
 
-class SinglyLinkedListNode<T: Hashable> {
+public class SinglyLinkedListNode<T: Comparable> {
     
     var value: T
     var next: SinglyLinkedListNode<T>?
@@ -19,7 +19,7 @@ class SinglyLinkedListNode<T: Hashable> {
     }
 }
 
-struct SinglyLinkedList <T: Hashable>
+public struct SinglyLinkedList<T: Comparable> : Collection
 {
     // MARK: - PROPERTIES -
     
@@ -31,10 +31,21 @@ struct SinglyLinkedList <T: Hashable>
     var tail: SinglyLinkedListNode<T>?
     
     
-    /// Number of nodes in the list
-    private(set) var count: UInt = 0
+    public typealias Index = SinglyLinkedListIndex<T>
     
+    public let startIndex: Index
+
+    public var endIndex: Index
+
+    public subscript(position: Index) -> SinglyLinkedListNode<T>
+    {
+        return position.node!
+    }
     
+    public func index(after idx: Index) -> Index {
+        return SinglyLinkedListIndex<T>(node: idx.node?.next, tag: idx.tag+1)
+    }
+
     
     // MARK: - INITIALIZERS -
     
@@ -44,17 +55,19 @@ struct SinglyLinkedList <T: Hashable>
     public init(head: SinglyLinkedListNode<T>)
     {
         self.head = head
-        self.tail = findTail(in: head)
-        self.count = 1
+        let (tail, count) = findTail(in: head)
+        self.tail = tail
+        self.startIndex = SinglyLinkedListIndex<T>(node: self.head, tag: 0)
+        self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: count)
     }
 
-    
     /// Creates an empty list
     public init()
     {
         self.head = nil
         self.tail = nil
-        self.count = 0
+        self.startIndex = SinglyLinkedListIndex<T>(node: self.head, tag: 0)
+        self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: 0)
     }
 
     
@@ -67,7 +80,9 @@ struct SinglyLinkedList <T: Hashable>
         {
             tailNode.next = node
             if !self.containsLoop() {
-                self.tail = findTail(in: node)
+                let (tail, addedCount) = findTail(in: node)
+                self.tail = tail
+                self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag + addedCount))
             } else {
                 self.tail = nil
             }
@@ -77,11 +92,11 @@ struct SinglyLinkedList <T: Hashable>
             // This also means that there's no head.
             // Otherwise the state would be inconsistent.
             // This will be checked when adding and deleting nodes.
+            let (tail, addedCount) = findTail(in: node)
             self.head = node
-            self.tail = node
+            self.tail = tail
+            self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag + addedCount))
         }
-        
-        self.count += 1
     }
     
     
@@ -114,13 +129,16 @@ struct SinglyLinkedList <T: Hashable>
             
             previous?.next = foundNode.next
             foundNode.next = nil
-            count -= 1
+            self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag - 1))
         }
     }
     
     
+    /// This is commented out becuase this solution for finding duplicates uses a set, which would
+    /// contrain type T to be hashable, preventing easy types of Linked lists like List<Int> or List<Float>
     /// Takes O(N)
     /// Uses Additional space to keep track of already seen elements
+    /*
     public mutating func deleteDuplicates()
     {
         var visited = Set<T>()
@@ -143,7 +161,7 @@ struct SinglyLinkedList <T: Hashable>
                 // delete current node
                 previous?.next = current?.next
                 // we don't update the previous
-                count -= 1
+                self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag - 1))
             }
             else
             {
@@ -153,9 +171,10 @@ struct SinglyLinkedList <T: Hashable>
             current = current?.next
         }
     }
+     */
     
-    /// Deletes duplicates without using additional structures like a set to keep the visited nodes
-    /// It takes time O(N^2)
+    /// Deletes duplicates without using additional structures like a set to keep track the visited nodes.
+    /// - Complexity: O(N^2)
     public mutating func deleteDuplicatesInPlace()
     {
         var current = self.head
@@ -179,7 +198,7 @@ struct SinglyLinkedList <T: Hashable>
                     
                     // Delete next
                     previous?.next = next?.next
-                    self.count -= 1
+                    self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag - 1))
                 }
                 previous = next
                 next = next?.next
@@ -218,7 +237,7 @@ struct SinglyLinkedList <T: Hashable>
     /// - Returns: <#return value description#>
     public func find(kthToLast: UInt) -> SinglyLinkedListNode<T>?
     {
-        return self.find(kthToLast: kthToLast, startingAt: self.head, count: self.count)
+        return self.find(kthToLast: kthToLast, startingAt: self.head, count: UInt(self.count))
     }
 
 
@@ -247,20 +266,94 @@ struct SinglyLinkedList <T: Hashable>
     }
 }
 
-func findTail<T>(in node: SinglyLinkedListNode<T>) -> SinglyLinkedListNode<T>
+
+public struct SinglyLinkedListForwardIterator<T: Comparable> : IteratorProtocol {
+
+    public typealias Element = SinglyLinkedListNode<T>
+    
+    private(set) var head: SinglyLinkedListNode<T>?
+    
+    mutating public func next() -> SinglyLinkedListNode<T>?
+    {
+        let result = self.head
+        self.head = self.head?.next
+        return result
+    }
+}
+
+
+extension SinglyLinkedList : Sequence
+{
+    public func makeIterator() -> SinglyLinkedListForwardIterator<T>
+    {
+        return SinglyLinkedListForwardIterator(head: self.head)
+    }
+}
+
+extension SinglyLinkedList : ExpressibleByArrayLiteral
+{
+    public typealias Element = T
+
+    public init(arrayLiteral elements: Element...)
+    {
+        var headSet = false
+        var current : SinglyLinkedListNode<T>?
+        var numberOfElements = 0
+        
+        for element in elements {
+            
+            numberOfElements += 1
+            
+            if headSet == false {
+                self.head = SinglyLinkedListNode<T>(value: element)
+                current = self.head
+                headSet = true
+            } else {
+                let newNode = SinglyLinkedListNode<T>(value: element)
+                current?.next = newNode
+                current = newNode
+            }
+        }
+        self.tail = current
+        self.startIndex = SinglyLinkedListIndex<T>(node: self.head, tag: 0)
+        self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: numberOfElements)
+    }
+}
+
+
+
+public struct SinglyLinkedListIndex<T: Comparable> : Comparable
+{
+    fileprivate let node: SinglyLinkedListNode<T>?
+    fileprivate let tag: Int
+    
+    public static func==<T>(lhs: SinglyLinkedListIndex<T>, rhs: SinglyLinkedListIndex<T>) -> Bool {
+        return (lhs.tag == rhs.tag)
+    }
+    
+    public static func< <T>(lhs: SinglyLinkedListIndex<T>, rhs: SinglyLinkedListIndex<T>) -> Bool {
+        return (lhs.tag < rhs.tag)
+    }
+}
+
+
+func findTail<T>(in node: SinglyLinkedListNode<T>) -> (tail: SinglyLinkedListNode<T>, count: Int)
 {
     // Assign the tail
     // Note that the passed node can already be linking to other nodes,
     // so the tail needs to be calculated.
-    var current: SinglyLinkedListNode<T>? = node.next
+    var current: SinglyLinkedListNode<T>? = node
+    var count = 1
+    
     while (current?.next != nil) {
         current = current?.next
+        count += 1
     }
     
     if current != nil {
-        return current!
+        return (tail: current!, count: count)
     } else {
-        return node
+        return (tail: node, count: 1)
     }
 }
 

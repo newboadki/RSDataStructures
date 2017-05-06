@@ -20,22 +20,43 @@ class FindTailInNodeTests: XCTestCase {
         n2.next = n3
         n3.next = n4
         
-        XCTAssertTrue(findTail(in: n1) === n4)
-        XCTAssertTrue(findTail(in: n2) === n4)
-        XCTAssertTrue(findTail(in: n4) === n4)
-        XCTAssertTrue(findTail(in: n4) === n4)
+        XCTAssertTrue(findTail(in: n1).tail === n4)
+        XCTAssertTrue(findTail(in: n2).tail === n4)
+        XCTAssertTrue(findTail(in: n4).tail === n4)
+        XCTAssertTrue(findTail(in: n4).tail === n4)
     }
     
 }
 
 class SinglyLinkedListTests: XCTestCase {
     
-    func testAppendingNodes() {
+    func testAppendOneNodeFromEmptyList() {
+        var list = SinglyLinkedList<Int>()
+        let n1 = SinglyLinkedListNode<Int>(value: 34)
+        list.append(node: n1)
+        XCTAssertTrue(list.head === n1)
+        XCTAssertTrue(list.tail === n1)
+        XCTAssertTrue(list.count == 1, "Found \(list.count)")
+    }
+
+    func testAppendMultipleNodesFromEmptyList() {
+        var list = SinglyLinkedList<Int>()
+        let n1 = SinglyLinkedListNode<Int>(value: 34)
+        let n2 = SinglyLinkedListNode<Int>(value: 35)
+        let n3 = SinglyLinkedListNode<Int>(value: 36)
+        n1.next = n2
+        n2.next = n3
+        list.append(node: n1)
+        XCTAssertTrue(list.head === n1)
+        XCTAssertTrue(list.tail === n3)
+        XCTAssertTrue(list.count == 3, "Found \(list.count)")
+    }
+
+    func testAppendFromNode() {
         let n1 = SinglyLinkedListNode<Int>(value: 34)
         let n2 = SinglyLinkedListNode<Int>(value: 35)
         let n3 = SinglyLinkedListNode<Int>(value: 36)
         let n4 = SinglyLinkedListNode<Int>(value: 37)
-        
         
         var list = SinglyLinkedList<Int>(head: n1)
         XCTAssertTrue(list.head === n1)
@@ -70,7 +91,6 @@ class SinglyLinkedListTests: XCTestCase {
         let n3 = SinglyLinkedListNode<Int>(value: 3)
         let n4 = SinglyLinkedListNode<Int>(value: 4)
         let n5 = SinglyLinkedListNode<Int>(value: 5)
-        
         
         var list = SinglyLinkedList<Int>(head: n1)
         list.append(node: n2)
@@ -113,8 +133,7 @@ class SinglyLinkedListTests: XCTestCase {
         XCTAssertTrue(list.count == 0)
     }
     
-    
-    
+    /*
     func testDeleteDuplicates() {
         let n1 = SinglyLinkedListNode<Int>(value: 2)
         let n2 = SinglyLinkedListNode<Int>(value: 2)
@@ -143,6 +162,7 @@ class SinglyLinkedListTests: XCTestCase {
         XCTAssertTrue(list.tail === n6)
         XCTAssertTrue(list.count == 4)
     }
+    */
     
     func testDeleteDuplicatesInPlace() {
         let n1 = SinglyLinkedListNode<Int>(value: 2)
@@ -173,73 +193,56 @@ class SinglyLinkedListTests: XCTestCase {
         XCTAssertTrue(list.count == 4)
     }
     
-    func testFindKthToLast() {
-        let n1 = SinglyLinkedListNode<Int>(value: 2)
-        let n2 = SinglyLinkedListNode<Int>(value: 2)
-        let n3 = SinglyLinkedListNode<Int>(value: 3)
-        let n4 = SinglyLinkedListNode<Int>(value: 5)
-        let n5 = SinglyLinkedListNode<Int>(value: 2)
-        let n6 = SinglyLinkedListNode<Int>(value: 4)
-        let n7 = SinglyLinkedListNode<Int>(value: 2)
-        let n8 = SinglyLinkedListNode<Int>(value: 5)
-        
-        var list = SinglyLinkedList<Int>(head: n1)
-        list.append(node: n2)
-        list.append(node: n3)
-        list.append(node: n4)
-        list.append(node: n5)
-        list.append(node: n6)
-        list.append(node: n7)
-        list.append(node: n8)
-
-        XCTAssertTrue(list.find(kthToLast: 1) === n8)
-        XCTAssertTrue(list.find(kthToLast: 2) === n7)
-        XCTAssertTrue(list.find(kthToLast: 3) === n6)
-        XCTAssertTrue(list.find(kthToLast: 4) === n5)
-        XCTAssertTrue(list.find(kthToLast: 5) === n4)
-        XCTAssertTrue(list.find(kthToLast: 6) === n3)
-        XCTAssertTrue(list.find(kthToLast: 7) === n2)
-        XCTAssertTrue(list.find(kthToLast: 8) === n1)
-        XCTAssertTrue(list.find(kthToLast: 9) == nil)
+    func testFindKthToLast() {        
+        let list: SinglyLinkedList<Int> = [2,2,3,5,2,4,2,5]
+        XCTAssertTrue(list.find(kthToLast: 1)?.value == 5)
+        XCTAssertTrue(list.find(kthToLast: 2)?.value == 2)
+        XCTAssertTrue(list.find(kthToLast: 3)?.value == 4)
+        XCTAssertTrue(list.find(kthToLast: 4)?.value == 2)
+        XCTAssertTrue(list.find(kthToLast: 5)?.value == 5)
+        XCTAssertTrue(list.find(kthToLast: 6)?.value == 3)
+        XCTAssertTrue(list.find(kthToLast: 7)?.value == 2)
+        XCTAssertTrue(list.find(kthToLast: 8)?.value == 2)
+        XCTAssertTrue(list.find(kthToLast: 9)?.value == nil)
+        XCTAssertFalse(list.containsLoop())
     }
     
     
-    func testSumOfNumbers() {
-        let a1 = SinglyLinkedListNode<Int>(value: 7)
-        let a2 = SinglyLinkedListNode<Int>(value: 1)
-        let a3 = SinglyLinkedListNode<Int>(value: 6)
-        var l1 = SinglyLinkedList<Int>(head: a1)
-        l1.append(node: a2)
-        l1.append(node: a3)
-        
-        let b1 = SinglyLinkedListNode<Int>(value: 5)
-        let b2 = SinglyLinkedListNode<Int>(value: 9)
-        let b3 = SinglyLinkedListNode<Int>(value: 2)
-        var l2 = SinglyLinkedList<Int>(head: b1)
-        l2.append(node: b2)
-        l2.append(node: b3)
-
+    func testSumOfNumbersLeftToRight() {
+        /*
+         This assumes that the numbers we are summing up are 617 + 295 = 912
+         However, the lists represent the digits in reverse order to make the summing process easier,
+         since we always start with the units (rightmost digits) followed by d*10, d*100, etc.
+         */
+        let l1: SinglyLinkedList<Int> = [7,1,6]
+        let l2: SinglyLinkedList<Int> = [5,9,2]
         let sum = sumLeftToRight(l1: l1, l2: l2)
-        printList(list: sum)
+        let result = string(from: sum)
+        XCTAssertTrue(result == "219", "Found \(result)")
     }
 
-    func testSumOfNumbersRightToLeft() {
-        let a1 = SinglyLinkedListNode<Int>(value: 7)
-        let a2 = SinglyLinkedListNode<Int>(value: 1)
-        let a3 = SinglyLinkedListNode<Int>(value: 6)
-        var l1 = SinglyLinkedList<Int>(head: a1)
-        l1.append(node: a2)
-        l1.append(node: a3)
-        
-        let b1 = SinglyLinkedListNode<Int>(value: 5)
-        let b2 = SinglyLinkedListNode<Int>(value: 9)
-        let b3 = SinglyLinkedListNode<Int>(value: 2)
-        var l2 = SinglyLinkedList<Int>(head: b1)
-        l2.append(node: b2)
-        l2.append(node: b3)
-        
+    func testSumOfNumbersRightToLeft1() {
+        /*
+         This assumes that the numbers we are summing up are 716 + 592 = 1308
+         Therefore, the summing process iterates from rightmost digit to leftmost digit.
+         */
+        let l1: SinglyLinkedList<Int> = [7,1,6]
+        let l2: SinglyLinkedList<Int> = [5,9,2]
         let sum = sumRightToLeft(l1: l1, l2: l2)
-        printList(list: sum)
+        let result = string(from: sum)
+        XCTAssertTrue(result == "1308", "Found \(result)")
+    }
+    
+    func testSumOfNumbersRightToLeft2() {
+        /*
+         This assumes that the numbers we are summing up are 716 + 592 = 1308
+         Therefore, the summing process iterates from rightmost digit to leftmost digit.
+         */
+        let l1: SinglyLinkedList<Int> = [6,1,7]
+        let l2: SinglyLinkedList<Int> = [2,9,5]
+        let sum = sumRightToLeft(l1: l1, l2: l2)
+        let result = string(from: sum)
+        XCTAssertTrue(result == "912", "Found \(result)")
     }
 
     func testContainsLoop() {
@@ -264,39 +267,23 @@ class SinglyLinkedListTests: XCTestCase {
 
         XCTAssertNil(list.tail)
         XCTAssertTrue(list.containsLoop())
-        
     }
 
     func testContainsLoopFalse() {
-        let n1 = SinglyLinkedListNode<Int>(value: 1)
-        let n2 = SinglyLinkedListNode<Int>(value: 2)
-        let n3 = SinglyLinkedListNode<Int>(value: 3)
-        let n4 = SinglyLinkedListNode<Int>(value: 4)
-        let n5 = SinglyLinkedListNode<Int>(value: 5)
-        let n6 = SinglyLinkedListNode<Int>(value: 6)
-        let n7 = SinglyLinkedListNode<Int>(value: 7)
-        let n8 = SinglyLinkedListNode<Int>(value: 8)
-        
-        var list = SinglyLinkedList<Int>(head: n1)
-        list.append(node: n2)
-        list.append(node: n3)
-        list.append(node: n4)
-        list.append(node: n5)
-        list.append(node: n6)
-        list.append(node: n7)
-        list.append(node: n8)
-        
-        XCTAssertTrue(list.tail === n8)
+        let list: SinglyLinkedList<Int> = [1,2,3,4,5,6,7,8]
+        XCTAssertTrue(list.tail?.value == 8, "Found \(String(describing: list.tail?.value))")
         XCTAssertFalse(list.containsLoop())
-        
     }
-
-    func printList(list: SinglyLinkedList<Int>) {
+    
+    func string(from list: SinglyLinkedList<Int>) -> String {
+        var result = ""
         var current = list.head
         while current != nil {
-            print("\(String(describing: current?.value))")
+            result += String(describing: (current?.value)!)
             current = current?.next
         }
+        
+        return result
     }
     
     
