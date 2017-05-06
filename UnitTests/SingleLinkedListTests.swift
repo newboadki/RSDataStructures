@@ -274,7 +274,21 @@ class SinglyLinkedListTests: XCTestCase {
         XCTAssertTrue(list.tail?.value == 8, "Found \(String(describing: list.tail?.value))")
         XCTAssertFalse(list.containsLoop())
     }
-    
+
+    func testConstructorFromArrayLiteralWhenEmpty() {
+        let list: SinglyLinkedList<Int> = []
+        XCTAssertTrue(list.head == nil)
+        XCTAssertTrue(list.tail == nil)
+        XCTAssertTrue(list.count == 0, "Found \(list.count)")
+    }
+
+    func testConstructorFromArrayLiteralWithSingleElement() {
+        let list: SinglyLinkedList<Int> = [5]
+        XCTAssertTrue(list.head?.value == 5)
+        XCTAssertTrue(list.tail?.value == 5)
+        XCTAssertTrue(list.count == 1, "Found \(list.count)")
+    }
+
     func string(from list: SinglyLinkedList<Int>) -> String {
         var result = ""
         var current = list.head

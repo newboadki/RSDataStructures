@@ -19,33 +19,16 @@ public class SinglyLinkedListNode<T: Comparable> {
     }
 }
 
-public struct SinglyLinkedList<T: Comparable> : Collection
+public struct SinglyLinkedList<T: Comparable>
 {
     // MARK: - PROPERTIES -
     
     /// First node
     var head: SinglyLinkedListNode<T>?
     
-    
     /// Last node
     var tail: SinglyLinkedListNode<T>?
     
-    
-    public typealias Index = SinglyLinkedListIndex<T>
-    
-    public let startIndex: Index
-
-    public var endIndex: Index
-
-    public subscript(position: Index) -> SinglyLinkedListNode<T>
-    {
-        return position.node!
-    }
-    
-    public func index(after idx: Index) -> Index {
-        return SinglyLinkedListIndex<T>(node: idx.node?.next, tag: idx.tag+1)
-    }
-
     
     // MARK: - INITIALIZERS -
     
@@ -55,10 +38,8 @@ public struct SinglyLinkedList<T: Comparable> : Collection
     public init(head: SinglyLinkedListNode<T>)
     {
         self.head = head
-        let (tail, count) = findTail(in: head)
+        let (tail, _) = findTail(in: head)
         self.tail = tail
-        self.startIndex = SinglyLinkedListIndex<T>(node: self.head, tag: 0)
-        self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: count)
     }
 
     /// Creates an empty list
@@ -66,8 +47,6 @@ public struct SinglyLinkedList<T: Comparable> : Collection
     {
         self.head = nil
         self.tail = nil
-        self.startIndex = SinglyLinkedListIndex<T>(node: self.head, tag: 0)
-        self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: 0)
     }
 
     
@@ -80,9 +59,8 @@ public struct SinglyLinkedList<T: Comparable> : Collection
         {
             tailNode.next = node
             if !self.containsLoop() {
-                let (tail, addedCount) = findTail(in: node)
+                let (tail, _) = findTail(in: node)
                 self.tail = tail
-                self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag + addedCount))
             } else {
                 self.tail = nil
             }
@@ -92,10 +70,9 @@ public struct SinglyLinkedList<T: Comparable> : Collection
             // This also means that there's no head.
             // Otherwise the state would be inconsistent.
             // This will be checked when adding and deleting nodes.
-            let (tail, addedCount) = findTail(in: node)
+            let (tail, _) = findTail(in: node)
             self.head = node
             self.tail = tail
-            self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag + addedCount))
         }
     }
     
@@ -129,7 +106,6 @@ public struct SinglyLinkedList<T: Comparable> : Collection
             
             previous?.next = foundNode.next
             foundNode.next = nil
-            self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag - 1))
         }
     }
     
@@ -198,7 +174,6 @@ public struct SinglyLinkedList<T: Comparable> : Collection
                     
                     // Delete next
                     previous?.next = next?.next
-                    self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag - 1))
                 }
                 previous = next
                 next = next?.next
@@ -290,6 +265,37 @@ extension SinglyLinkedList : Sequence
     }
 }
 
+extension SinglyLinkedList : Collection {
+    
+    public typealias Index = SinglyLinkedListIndex<T>
+    
+    public var startIndex: Index {
+        get {
+            return SinglyLinkedListIndex<T>(node: self.head, tag: 0)
+        }
+    }
+    
+    public var endIndex: Index {
+        get {
+            if let h = self.head {
+                let (_, numberOfElements) = findTail(in: h)
+                return SinglyLinkedListIndex<T>(node: h, tag: numberOfElements)
+            } else {
+                return SinglyLinkedListIndex<T>(node: nil, tag: self.startIndex.tag)
+            }
+        }
+    }
+    
+    public subscript(position: Index) -> SinglyLinkedListNode<T>
+    {
+        return position.node!
+    }
+    
+    public func index(after idx: Index) -> Index {
+        return SinglyLinkedListIndex<T>(node: idx.node?.next, tag: idx.tag+1)
+    }
+}
+
 extension SinglyLinkedList : ExpressibleByArrayLiteral
 {
     public typealias Element = T
@@ -315,8 +321,6 @@ extension SinglyLinkedList : ExpressibleByArrayLiteral
             }
         }
         self.tail = current
-        self.startIndex = SinglyLinkedListIndex<T>(node: self.head, tag: 0)
-        self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: numberOfElements)
     }
 }
 
