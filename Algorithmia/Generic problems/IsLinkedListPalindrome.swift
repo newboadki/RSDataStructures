@@ -8,20 +8,19 @@
 
 import Foundation
 
-func isPalindrome<T>(list: SinglyLinkedList<T>) -> Bool
+func isPalindrome<T: Comparable>(list: SinglyLinkedList<T>) -> Bool
 {
     guard list.head != nil else {
         return false
     }
     
-
     let result = isPalindromeRecursive(node: list.head, length: UInt(list.count))
     return result.isPalindrome
 }
 
 
 
-func isPalindromeRecursive<T>(node: SinglyLinkedListNode<T>?, length: UInt) -> (node: SinglyLinkedListNode<T>?, isPalindrome: Bool)
+func isPalindromeRecursive<T: Comparable>(node: SinglyLinkedListNode<T>?, length: UInt) -> (node: SinglyLinkedListNode<T>?, isPalindrome: Bool)
 {
     // BASE CASE
     if (length == 0) {

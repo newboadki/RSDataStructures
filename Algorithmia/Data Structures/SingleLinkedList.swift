@@ -9,7 +9,8 @@
 import Foundation
 
 
-public class SinglyLinkedListNode<T: Comparable> {
+// MARK: - NODE -
+public class SinglyLinkedListNode<T> {
     
     var value: T
     var next: SinglyLinkedListNode<T>?
@@ -19,18 +20,24 @@ public class SinglyLinkedListNode<T: Comparable> {
     }
 }
 
-public struct SinglyLinkedList<T: Comparable>
+
+// MARK: - LINKED LIST -
+
+/// Data structure to hold a collection of nodes.
+/// Each nodes contains a reference to the next node.
+/// The last node does not reference any other node.
+public struct SinglyLinkedList<T>
 {
-    // MARK: - PROPERTIES -
+    // MARK: - PROPERTIES
     
     /// First node
-    var head: SinglyLinkedListNode<T>?
+    fileprivate(set) var head: SinglyLinkedListNode<T>?
     
     /// Last node
-    var tail: SinglyLinkedListNode<T>?
+    fileprivate(set) var tail: SinglyLinkedListNode<T>?
     
     
-    // MARK: - INITIALIZERS -
+    // MARK: - INITIALIZERS
     
     /// Creates a list with the given node
     ///
@@ -77,39 +84,6 @@ public struct SinglyLinkedList<T: Comparable>
     }
     
     
-    /// Deletes node containing a given value
-    ///
-    /// - Parameter v: value of the node to be deleted.
-    mutating func deleteNode(withValue v: T) {
-        
-        guard self.head != nil else {
-            return
-        }
-        
-        var previous: SinglyLinkedListNode<T>? = nil
-        var current = self.head
-        
-        while (current != nil) && (current?.value != v) {
-            previous = current
-            current = current?.next
-        }
-        
-        if let foundNode = current {
-            
-            if (self.head === foundNode) {
-                self.head = foundNode.next
-            }
-
-            if (self.tail === foundNode) {
-                self.tail = previous
-            }
-            
-            previous?.next = foundNode.next
-            foundNode.next = nil
-        }
-    }
-    
-    
     /// This is commented out becuase this solution for finding duplicates uses a set, which would
     /// contrain type T to be hashable, preventing easy types of Linked lists like List<Int> or List<Float>
     /// Takes O(N)
@@ -149,6 +123,99 @@ public struct SinglyLinkedList<T: Comparable>
     }
      */
     
+    
+    /// Returns the node located at the k-th to last position
+    ///
+    /// - Parameter kthToLast: 1 <= k <= N
+    private func find(kthToLast: UInt, startingAt node: SinglyLinkedListNode<T>?, count: UInt) -> SinglyLinkedListNode<T>?
+    {
+        guard kthToLast <= count else {
+            return nil
+        }
+        
+        guard (node != nil) else {
+            return nil
+        }
+        
+        let i = (count - kthToLast)
+        
+        if (i == 0) {
+            return node
+        }
+        
+        return find(kthToLast: kthToLast, startingAt: node?.next, count: (count - 1))
+    }
+    
+    
+    /// Returns the kth-to-last element in the list
+    ///
+    /// - Parameter kthToLast: Reversed ordinal number of the node to fetch.
+    public func find(kthToLast: UInt) -> SinglyLinkedListNode<T>?
+    {
+        return self.find(kthToLast: kthToLast, startingAt: self.head, count: UInt(self.count))
+    }
+
+
+    /// A singly linked list contains a loop if one node references back to a previous node.
+    ///
+    /// - Returns: Whether the linked list contains a loop
+    public func containsLoop() -> Bool
+    {
+        /// Advances a node at a time
+        var current = self.head
+        
+        /// Advances twice as fast
+        var runner = self.head
+        
+        while (runner != nil) && (runner?.next != nil) {
+        
+            current = current?.next
+            runner = runner?.next?.next
+            
+            if runner === current {
+                return true
+            }
+        }
+        
+        return false
+    }
+}
+
+extension SinglyLinkedList where T: Comparable
+{
+    /// Deletes node containing a given value
+    ///
+    /// - Parameter v: value of the node to be deleted.
+    mutating func deleteNode(withValue v: T) {
+        
+        guard self.head != nil else {
+            return
+        }
+        
+        var previous: SinglyLinkedListNode<T>? = nil
+        var current = self.head
+        
+        while (current != nil) && (current?.value != v) {
+            previous = current
+            current = current?.next
+        }
+        
+        if let foundNode = current {
+            
+            if (self.head === foundNode) {
+                self.head = foundNode.next
+            }
+            
+            if (self.tail === foundNode) {
+                self.tail = previous
+            }
+            
+            previous?.next = foundNode.next
+            foundNode.next = nil
+        }
+    }
+    
+    
     /// Deletes duplicates without using additional structures like a set to keep track the visited nodes.
     /// - Complexity: O(N^2)
     public mutating func deleteDuplicatesInPlace()
@@ -181,68 +248,10 @@ public struct SinglyLinkedList<T: Comparable>
             current = current?.next
         }
     }
-    
-    
-    /// Returns the node located at the k-th to last position
-    ///
-    /// - Parameter kthToLast: 1 <= k <= N
-    private func find(kthToLast: UInt, startingAt node: SinglyLinkedListNode<T>?, count: UInt) -> SinglyLinkedListNode<T>?
-    {
-        guard kthToLast <= count else {
-            return nil
-        }
-        
-        guard (node != nil) else {
-            return nil
-        }
-        
-        let i = (count - kthToLast)
-        
-        if (i == 0) {
-            return node
-        }
-        
-        return find(kthToLast: kthToLast, startingAt: node?.next, count: (count - 1))
-    }
-    
-    
-    /// Finds the kth-to-last element in the list
-    ///
-    /// - Parameter kthToLast: Reversed ordinal number of the node to fetch.
-    /// - Returns: <#return value description#>
-    public func find(kthToLast: UInt) -> SinglyLinkedListNode<T>?
-    {
-        return self.find(kthToLast: kthToLast, startingAt: self.head, count: UInt(self.count))
-    }
-
-
-    /// A singly linked list contains a loop if one node references back to a previous node.
-    ///
-    /// - Returns: Whether the linked list contains a loop
-    public func containsLoop() -> Bool
-    {
-        /// Advances a node at a time
-        var current = self.head
-        
-        /// Advances twice as fast
-        var runner = self.head
-        
-        while (runner != nil) && (runner?.next != nil) {
-        
-            current = current?.next
-            runner = runner?.next?.next
-            
-            if runner === current {
-                return true
-            }
-        }
-        
-        return false
-    }
 }
 
 
-public struct SinglyLinkedListForwardIterator<T: Comparable> : IteratorProtocol {
+public struct SinglyLinkedListForwardIterator<T> : IteratorProtocol {
 
     public typealias Element = SinglyLinkedListNode<T>
     
@@ -257,6 +266,10 @@ public struct SinglyLinkedListForwardIterator<T: Comparable> : IteratorProtocol 
 }
 
 
+
+
+// MARK: - SEQUENCE -
+
 extension SinglyLinkedList : Sequence
 {
     public func makeIterator() -> SinglyLinkedListForwardIterator<T>
@@ -264,6 +277,9 @@ extension SinglyLinkedList : Sequence
         return SinglyLinkedListForwardIterator(head: self.head)
     }
 }
+
+
+// MARK: - COLLECTION -
 
 extension SinglyLinkedList : Collection {
     
@@ -296,6 +312,46 @@ extension SinglyLinkedList : Collection {
     }
 }
 
+
+// MARK: - QUEUE -
+
+extension SinglyLinkedList : Queue
+{
+    typealias Item = T
+    
+    /// Returns the oldest element in the queue.
+    ///
+    /// - Returns: The oldest element in the queue. It does not dequeue it.
+    func getFirst() -> T? {
+        return self.head?.value
+    }
+
+    /// Adds an element to the queue
+    ///
+    /// - Parameter item: Item to be added
+    /// - Throws: There are cases where the operation might fail. For example if there is not enough space.
+    mutating func enqueue(item: T) throws {
+        let node = SinglyLinkedListNode<T>(value: item)
+        self.append(node: node)
+    }
+    
+    /// Dequeues the oldest element in the queue.
+    ///
+    /// - Returns: The oldest element in the queue, which gets removed from it.
+    mutating func dequeue() -> T?
+    {
+        let current = self.head
+        self.head = current?.next
+        if self.head == nil {
+            self.tail = nil
+        }
+        
+        return current?.value
+    }
+}
+
+// MARK: - EXPRESSIBLE-BY-ARRAY-LITERAL -
+
 extension SinglyLinkedList : ExpressibleByArrayLiteral
 {
     public typealias Element = T
@@ -326,7 +382,9 @@ extension SinglyLinkedList : ExpressibleByArrayLiteral
 
 
 
-public struct SinglyLinkedListIndex<T: Comparable> : Comparable
+// MARK: - FORWARD-INDEX -
+
+public struct SinglyLinkedListIndex<T> : Comparable
 {
     fileprivate let node: SinglyLinkedListNode<T>?
     fileprivate let tag: Int
@@ -360,9 +418,3 @@ func findTail<T>(in node: SinglyLinkedListNode<T>) -> (tail: SinglyLinkedListNod
         return (tail: node, count: 1)
     }
 }
-
-
-
-
-
-
