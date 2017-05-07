@@ -50,6 +50,7 @@
 		00BBA4E31EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */; };
 		00BBA4E51EACF10800E26C3A /* AreCharactersUnique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */; };
 		00C876891E0899F200FA49DB /* BoundedHeightPriorityQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F531DD8FA8C003A70FD /* BoundedHeightPriorityQueueTests.swift */; };
+		00E466131EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466121EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -116,6 +117,7 @@
 		00BBA4DF1EA639DA00E26C3A /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoyerMooreAlgorithmTests.swift; sourceTree = "<group>"; };
 		00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreCharactersUnique.swift; sourceTree = "<group>"; };
+		00E466121EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleProtocolsWithAssociatedTypes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +254,7 @@
 				0017C9D51EB31B9C00E5E749 /* SmallDifference.swift */,
 				00140EEA1EB5D8C800992C1B /* MatrixRotation.swift */,
 				00140EF21EB617FD00992C1B /* StringRotation.swift */,
+				00E466121EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift */,
 			);
 			path = "Generic problems";
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				0017C9CE1EAF04F500E5E749 /* ReplaceSpaces.swift in Sources */,
 				00140EFF1EB8A98200992C1B /* IsLinkedListPalindromeTests.swift in Sources */,
 				0017C9D21EB065C300E5E749 /* IsPermutationOfPalindrome.swift in Sources */,
+				00E466131EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift in Sources */,
 				00140EF31EB617FD00992C1B /* StringRotation.swift in Sources */,
 				00140EEB1EB5D8C800992C1B /* MatrixRotation.swift in Sources */,
 				00BBA4DE1EA638F600E26C3A /* String+Extensions.swift in Sources */,
