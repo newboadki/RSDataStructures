@@ -13,7 +13,6 @@
 		00140EF31EB617FD00992C1B /* StringRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EF21EB617FD00992C1B /* StringRotation.swift */; };
 		00140EF51EB61D3D00992C1B /* StringRotationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EF41EB61D3D00992C1B /* StringRotationTests.swift */; };
 		00140EF81EB62CB700992C1B /* SingleLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EF71EB62CB700992C1B /* SingleLinkedList.swift */; };
-		00140EFB1EB6452F00992C1B /* SingleLinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EFA1EB6452F00992C1B /* SingleLinkedListTests.swift */; };
 		00140EFD1EB8A53E00992C1B /* IsLinkedListPalindrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EFC1EB8A53E00992C1B /* IsLinkedListPalindrome.swift */; };
 		00140EFF1EB8A98200992C1B /* IsLinkedListPalindromeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EFE1EB8A98200992C1B /* IsLinkedListPalindromeTests.swift */; };
 		00140F011EBB4D3B00992C1B /* SumNumbersRepresentedByLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140F001EBB4D3B00992C1B /* SumNumbersRepresentedByLinkedList.swift */; };
@@ -51,6 +50,12 @@
 		00BBA4E51EACF10800E26C3A /* AreCharactersUnique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */; };
 		00C876891E0899F200FA49DB /* BoundedHeightPriorityQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F531DD8FA8C003A70FD /* BoundedHeightPriorityQueueTests.swift */; };
 		00E466131EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466121EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift */; };
+		00E466181EBF4FD5009BFD2C /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466171EBF4FD5009BFD2C /* Stack.swift */; };
+		00E4661C1EBF67BA009BFD2C /* StackBasedOnLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E4661A1EBF5760009BFD2C /* StackBasedOnLinkedList.swift */; };
+		00E4661D1EBF6962009BFD2C /* SingleLinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EFA1EB6452F00992C1B /* SingleLinkedListTests.swift */; };
+		00E466211EBF8A9F009BFD2C /* StackBasedOnLinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466201EBF8A9F009BFD2C /* StackBasedOnLinkedListTests.swift */; };
+		00E466221EBF8F1B009BFD2C /* MinMaxStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466151EBF4F94009BFD2C /* MinMaxStack.swift */; };
+		00E466241EBF9ED3009BFD2C /* MinMaxStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466231EBF9ED3009BFD2C /* MinMaxStackTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -118,6 +123,11 @@
 		00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoyerMooreAlgorithmTests.swift; sourceTree = "<group>"; };
 		00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreCharactersUnique.swift; sourceTree = "<group>"; };
 		00E466121EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleProtocolsWithAssociatedTypes.swift; sourceTree = "<group>"; };
+		00E466151EBF4F94009BFD2C /* MinMaxStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinMaxStack.swift; sourceTree = "<group>"; };
+		00E466171EBF4FD5009BFD2C /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
+		00E4661A1EBF5760009BFD2C /* StackBasedOnLinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackBasedOnLinkedList.swift; sourceTree = "<group>"; };
+		00E466201EBF8A9F009BFD2C /* StackBasedOnLinkedListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackBasedOnLinkedListTests.swift; sourceTree = "<group>"; };
+		00E466231EBF9ED3009BFD2C /* MinMaxStackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinMaxStackTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +181,7 @@
 		003DB88C1DCD30E400B51FCC /* Data Structures */ = {
 			isa = PBXGroup;
 			children = (
+				00E466141EBF4F69009BFD2C /* Stacks */,
 				00140EF61EB62C8C00992C1B /* Lists */,
 				00AC0F4C1DD3B836003A70FD /* Trees */,
 				00AC0F4B1DD3B815003A70FD /* Priority Queues */,
@@ -323,6 +334,7 @@
 		00AECD8D1E9CB760007E8458 /* Data Structures */ = {
 			isa = PBXGroup;
 			children = (
+				00E4661F1EBF8A7F009BFD2C /* Stacks */,
 				00140EF91EB6451100992C1B /* Lists */,
 				00AC0F521DD764AA003A70FD /* Prioritiy Queues */,
 				00AC0F511DD764A4003A70FD /* Trees */,
@@ -338,6 +350,25 @@
 				00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */,
 			);
 			path = "String-matching";
+			sourceTree = "<group>";
+		};
+		00E466141EBF4F69009BFD2C /* Stacks */ = {
+			isa = PBXGroup;
+			children = (
+				00E466151EBF4F94009BFD2C /* MinMaxStack.swift */,
+				00E4661A1EBF5760009BFD2C /* StackBasedOnLinkedList.swift */,
+				00E466171EBF4FD5009BFD2C /* Stack.swift */,
+			);
+			name = Stacks;
+			sourceTree = "<group>";
+		};
+		00E4661F1EBF8A7F009BFD2C /* Stacks */ = {
+			isa = PBXGroup;
+			children = (
+				00E466201EBF8A9F009BFD2C /* StackBasedOnLinkedListTests.swift */,
+				00E466231EBF9ED3009BFD2C /* MinMaxStackTests.swift */,
+			);
+			name = Stacks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -432,9 +463,13 @@
 			files = (
 				00AC085A1E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift in Sources */,
 				00140EFD1EB8A53E00992C1B /* IsLinkedListPalindrome.swift in Sources */,
+				00E466221EBF8F1B009BFD2C /* MinMaxStack.swift in Sources */,
 				0017C9D01EAF08E900E5E749 /* ReplaceSpacesTests.swift in Sources */,
 				0099EB6E1EBC54BD006497B1 /* Queue.swift in Sources */,
+				00E4661C1EBF67BA009BFD2C /* StackBasedOnLinkedList.swift in Sources */,
 				00BBA4E01EA639DA00E26C3A /* Int+Extensions.swift in Sources */,
+				00E466211EBF8A9F009BFD2C /* StackBasedOnLinkedListTests.swift in Sources */,
+				00E466181EBF4FD5009BFD2C /* Stack.swift in Sources */,
 				003DB8871DCD30A600B51FCC /* ArrayBasedHeapTests.swift in Sources */,
 				00AC085C1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift in Sources */,
 				0017C9CE1EAF04F500E5E749 /* ReplaceSpaces.swift in Sources */,
@@ -446,6 +481,7 @@
 				00BBA4DE1EA638F600E26C3A /* String+Extensions.swift in Sources */,
 				00AC0F501DD3BF97003A70FD /* BinarySearchTreeTests.swift in Sources */,
 				00BBA4E51EACF10800E26C3A /* AreCharactersUnique.swift in Sources */,
+				00E466241EBF9ED3009BFD2C /* MinMaxStackTests.swift in Sources */,
 				0017C9D61EB31B9C00E5E749 /* SmallDifference.swift in Sources */,
 				003DB8901DCD31CD00B51FCC /* ArrayBasedHeap.swift in Sources */,
 				00140EF51EB61D3D00992C1B /* StringRotationTests.swift in Sources */,
@@ -459,7 +495,6 @@
 				00AC0F4E1DD3B8B8003A70FD /* BinaryTree.swift in Sources */,
 				00BBA4E11EA63A1200E26C3A /* BoyerMooreAlgorithm.swift in Sources */,
 				00C876891E0899F200FA49DB /* BoundedHeightPriorityQueueTests.swift in Sources */,
-				00140EFB1EB6452F00992C1B /* SingleLinkedListTests.swift in Sources */,
 				00140EE91EB49BE300992C1B /* SmallDifferenceTests.swift in Sources */,
 				0017C9CC1EACF84C00E5E749 /* AreCharactersUniqueTests.swift in Sources */,
 				00AC08601EA0CC3A007B0414 /* RabinKarpAlgorithm.swift in Sources */,
@@ -469,6 +504,7 @@
 				003DB8941DCD3F4800B51FCC /* KeyValuePair.swift in Sources */,
 				00AC085E1E9F5F9C007B0414 /* Base_DNumberFromDigitsTests.swift in Sources */,
 				0080E9001DD1082800C61751 /* BoundedHeightPriorityQueue.swift in Sources */,
+				00E4661D1EBF6962009BFD2C /* SingleLinkedListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

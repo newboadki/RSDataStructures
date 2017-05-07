@@ -1,0 +1,35 @@
+//
+//  Stack.swift
+//  Algorithmia
+//
+//  Created by Borja Arias Drake on 07/05/2017.
+//  Copyright © 2017 Borja Arias Drake. All rights reserved.
+//
+
+import Foundation
+
+protocol Stack {
+    
+    associatedtype Item
+    
+    
+    mutating func push(item: Item)
+    
+    mutating func pop() -> Item?
+    
+    func peek() -> Item?
+    
+}
+
+enum StackPeekType {
+    case min, max
+}
+
+protocol MinMaxPeekStack : Stack {
+ 
+    var type: StackPeekType {get}
+    
+    init(type: StackPeekType)
+    
+    func minMaxPeek() -> Item?
+}

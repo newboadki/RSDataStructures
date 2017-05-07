@@ -26,6 +26,7 @@ public class SinglyLinkedListNode<T> {
 /// Data structure to hold a collection of nodes.
 /// Each nodes contains a reference to the next node.
 /// The last node does not reference any other node.
+/// FIX-ME: This struct does not keep value semantics
 public struct SinglyLinkedList<T>
 {
     // MARK: - PROPERTIES
@@ -83,6 +84,70 @@ public struct SinglyLinkedList<T>
         }
     }
     
+    
+    /// Convenience method to append a value directly to the list
+    ///
+    /// - Parameter value: value to be added
+    public mutating func append(value: T)
+    {
+        let node = SinglyLinkedListNode<T>(value: value)
+        self.append(node: node)
+    }
+    
+    
+    /// Adds a new node to the current head.
+    ///
+    /// - Parameter node: the node that will be the new head of the list.
+    public mutating func prepend(node: SinglyLinkedListNode<T>)
+    {
+        let (tailFromNewNode, _) = findTail(in: node)
+        tailFromNewNode.next = self.head
+        self.head = node
+        
+        if self.tail == nil {
+            self.tail = tailFromNewNode
+        }
+    }
+    
+    /// Convenience method to prepend a value directly to the list
+    ///
+    /// - Parameter value: value to be added as the new head of the list
+    public mutating func prepend(value: T)
+    {
+        let node = SinglyLinkedListNode<T>(value: value)
+        self.prepend(node: node)
+    }
+    
+    
+    mutating func deleteItem(at index:Int) -> SinglyLinkedListNode<T>
+    {
+        precondition((index >= 0) && (index < self.count))
+        
+        var previous: SinglyLinkedListNode<T>? = nil
+        var current = self.head
+        var i = 0
+        var elementToDelete: SinglyLinkedListNode<T>
+        
+        while (i < index) {
+            previous = current
+            current = current?.next
+            i += 1
+        }
+        
+        // Current is now the element to delete (at index position.tag)
+        elementToDelete = current!
+        if (self.head === current) {
+            self.head = current?.next
+        }
+        
+        if (self.tail === current) {
+            self.tail = previous
+        }
+        
+        previous?.next = current?.next
+        
+        return elementToDelete
+    }
     
     /// This is commented out becuase this solution for finding duplicates uses a set, which would
     /// contrain type T to be hashable, preventing easy types of Linked lists like List<Int> or List<Float>
@@ -302,9 +367,10 @@ extension SinglyLinkedList : Collection {
         }
     }
     
-    public subscript(position: Index) -> SinglyLinkedListNode<T>
-    {
-        return position.node!
+    public subscript(position: Index) -> SinglyLinkedListNode<T> {
+        get {
+            return position.node!
+        }
     }
     
     public func index(after idx: Index) -> Index {

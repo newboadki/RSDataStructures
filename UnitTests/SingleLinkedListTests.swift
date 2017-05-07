@@ -289,6 +289,78 @@ class SinglyLinkedListTests: XCTestCase {
         XCTAssertTrue(list.count == 1, "Found \(list.count)")
     }
     
+    
+    func testAppendValue() {
+        var list = SinglyLinkedList<Int>()
+        list.append(value: 1)
+        list.append(value: 1)
+        list.append(value: 2)
+        list.append(value: 2)
+        list.append(value: 4)
+        
+        let result = string(from: list)
+        XCTAssertTrue(result == "11224", "Found \(result)")
+        XCTAssertTrue(list.count == 5, "Found \(list.count)")
+        XCTAssertTrue(list.tail?.value == 4, "Found \(String(describing: list.tail?.value))")
+    }
+    
+    func testPrependValue() {
+        var list = SinglyLinkedList<Int>()
+        list.prepend(value: 1)
+        list.prepend(value: 2)
+        list.prepend(value: 3)
+        list.prepend(value: 4)
+        list.prepend(value: 5)
+        list.prepend(value: 6)
+        
+        let result = string(from: list)
+        XCTAssertTrue(result == "654321", "Found \(result)")
+        XCTAssertTrue(list.count == 6, "Found \(list.count)")
+        XCTAssertTrue(list.tail?.value == 1, "Found \(String(describing: list.tail?.value))")
+    }
+
+    func testDeleteHeadInListWithMultipleItems() {
+        var list: SinglyLinkedList<Int> = [1,2,3,4,5,6,7,8]
+        
+        let _ = list.deleteItem(at: 0)
+        let result = string(from: list)
+        XCTAssertTrue(result == "2345678", "Found \(result)")
+        XCTAssertTrue(list.head?.value == 2, "Found \(String(describing: list.head?.value))")
+        XCTAssertTrue(list.count == 7, "Found \(list.count)")
+    }
+
+    func testDeleteTailInListWithMultipleItems() {
+        var list: SinglyLinkedList<Int> = [1,2,3,4,5,6,7,8]
+        
+        let _ = list.deleteItem(at: 7)
+        let result = string(from: list)
+        XCTAssertTrue(result == "1234567", "Found \(result)")
+        XCTAssertTrue(list.tail?.value == 7, "Found \(String(describing: list.tail?.value))")
+        XCTAssertTrue(list.count == 7, "Found \(list.count)")
+    }
+
+    func testDeleteItemInListWithMultipleItems() {
+        var list: SinglyLinkedList<Int> = [1,2,3,4,5,6,7,8]
+        
+        let _ = list.deleteItem(at: 4)
+        let result = string(from: list)
+        XCTAssertTrue(result == "1234678", "Found \(result)")
+        XCTAssertTrue(list.head?.value == 1, "Found \(String(describing: list.head?.value))")
+        XCTAssertTrue(list.tail?.value == 8, "Found \(String(describing: list.tail?.value))")
+        XCTAssertTrue(list.count == 7, "Found \(list.count)")
+    }
+
+    func testDeleteHeadInListWithSingleElement() {
+        var list: SinglyLinkedList<Int> = [1]
+        
+        let _ = list.deleteItem(at: 0)
+        let result = string(from: list)
+        XCTAssertTrue(result == "", "Found \(result)")
+        XCTAssertTrue(list.head == nil, "Found \(String(describing: list.head))")
+        XCTAssertTrue(list.tail == nil, "Found \(String(describing: list.tail))")
+        XCTAssertTrue(list.count == 0, "Found \(list.count)")
+    }
+
     func string(from list: SinglyLinkedList<Int>) -> String {
         var result = ""
         var current = list.head
