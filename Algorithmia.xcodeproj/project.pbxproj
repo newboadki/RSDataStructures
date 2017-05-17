@@ -48,6 +48,12 @@
 		00BBA4E11EA63A1200E26C3A /* BoyerMooreAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4DB1EA4049200E26C3A /* BoyerMooreAlgorithm.swift */; };
 		00BBA4E31EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */; };
 		00BBA4E51EACF10800E26C3A /* AreCharactersUnique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */; };
+		00C299D31EC8CA20000575E7 /* BinarySearchTreeTraversalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C299D21EC8CA20000575E7 /* BinarySearchTreeTraversalTests.swift */; };
+		00C299D51ECA427C000575E7 /* TreeInOrderIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C299D41ECA427C000575E7 /* TreeInOrderIterator.swift */; };
+		00C299D71ECA42CA000575E7 /* TreeTraversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C299D61ECA42CA000575E7 /* TreeTraversal.swift */; };
+		00C299D91ECB8050000575E7 /* TreePostOrderIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C299D81ECB8050000575E7 /* TreePostOrderIterator.swift */; };
+		00C299DD1ECB882B000575E7 /* TreeIteratorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C299DC1ECB882B000575E7 /* TreeIteratorProtocol.swift */; };
+		00C299DF1ECB8C42000575E7 /* BinaryTreeIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C299DE1ECB8C42000575E7 /* BinaryTreeIterator.swift */; };
 		00C876891E0899F200FA49DB /* BoundedHeightPriorityQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F531DD8FA8C003A70FD /* BoundedHeightPriorityQueueTests.swift */; };
 		00E466131EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466121EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift */; };
 		00E466181EBF4FD5009BFD2C /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466171EBF4FD5009BFD2C /* Stack.swift */; };
@@ -56,6 +62,7 @@
 		00E466211EBF8A9F009BFD2C /* StackBasedOnLinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466201EBF8A9F009BFD2C /* StackBasedOnLinkedListTests.swift */; };
 		00E466221EBF8F1B009BFD2C /* MinMaxStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466151EBF4F94009BFD2C /* MinMaxStack.swift */; };
 		00E466241EBF9ED3009BFD2C /* MinMaxStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466231EBF9ED3009BFD2C /* MinMaxStackTests.swift */; };
+		00E466281EBFA6A6009BFD2C /* CollectionStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466271EBFA6A6009BFD2C /* CollectionStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -122,12 +129,19 @@
 		00BBA4DF1EA639DA00E26C3A /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoyerMooreAlgorithmTests.swift; sourceTree = "<group>"; };
 		00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreCharactersUnique.swift; sourceTree = "<group>"; };
+		00C299D21EC8CA20000575E7 /* BinarySearchTreeTraversalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySearchTreeTraversalTests.swift; sourceTree = "<group>"; };
+		00C299D41ECA427C000575E7 /* TreeInOrderIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeInOrderIterator.swift; sourceTree = "<group>"; };
+		00C299D61ECA42CA000575E7 /* TreeTraversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeTraversal.swift; sourceTree = "<group>"; };
+		00C299D81ECB8050000575E7 /* TreePostOrderIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreePostOrderIterator.swift; sourceTree = "<group>"; };
+		00C299DC1ECB882B000575E7 /* TreeIteratorProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeIteratorProtocol.swift; sourceTree = "<group>"; };
+		00C299DE1ECB8C42000575E7 /* BinaryTreeIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryTreeIterator.swift; sourceTree = "<group>"; };
 		00E466121EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleProtocolsWithAssociatedTypes.swift; sourceTree = "<group>"; };
 		00E466151EBF4F94009BFD2C /* MinMaxStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinMaxStack.swift; sourceTree = "<group>"; };
 		00E466171EBF4FD5009BFD2C /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		00E4661A1EBF5760009BFD2C /* StackBasedOnLinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackBasedOnLinkedList.swift; sourceTree = "<group>"; };
 		00E466201EBF8A9F009BFD2C /* StackBasedOnLinkedListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackBasedOnLinkedListTests.swift; sourceTree = "<group>"; };
 		00E466231EBF9ED3009BFD2C /* MinMaxStackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinMaxStackTests.swift; sourceTree = "<group>"; };
+		00E466271EBFA6A6009BFD2C /* CollectionStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -300,6 +314,11 @@
 			isa = PBXGroup;
 			children = (
 				00AC0F4D1DD3B8B8003A70FD /* BinaryTree.swift */,
+				00C299D41ECA427C000575E7 /* TreeInOrderIterator.swift */,
+				00C299D81ECB8050000575E7 /* TreePostOrderIterator.swift */,
+				00C299DE1ECB8C42000575E7 /* BinaryTreeIterator.swift */,
+				00C299D61ECA42CA000575E7 /* TreeTraversal.swift */,
+				00C299DC1ECB882B000575E7 /* TreeIteratorProtocol.swift */,
 			);
 			name = Trees;
 			sourceTree = "<group>";
@@ -308,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				00AC0F4F1DD3BF97003A70FD /* BinarySearchTreeTests.swift */,
+				00C299D21EC8CA20000575E7 /* BinarySearchTreeTraversalTests.swift */,
 			);
 			name = Trees;
 			sourceTree = "<group>";
@@ -355,9 +375,8 @@
 		00E466141EBF4F69009BFD2C /* Stacks */ = {
 			isa = PBXGroup;
 			children = (
-				00E466151EBF4F94009BFD2C /* MinMaxStack.swift */,
-				00E4661A1EBF5760009BFD2C /* StackBasedOnLinkedList.swift */,
-				00E466171EBF4FD5009BFD2C /* Stack.swift */,
+				00E466261EBFA65B009BFD2C /* ProtocolBased */,
+				00E466251EBFA614009BFD2C /* InheritanceBased */,
 			);
 			name = Stacks;
 			sourceTree = "<group>";
@@ -369,6 +388,24 @@
 				00E466231EBF9ED3009BFD2C /* MinMaxStackTests.swift */,
 			);
 			name = Stacks;
+			sourceTree = "<group>";
+		};
+		00E466251EBFA614009BFD2C /* InheritanceBased */ = {
+			isa = PBXGroup;
+			children = (
+				00E466151EBF4F94009BFD2C /* MinMaxStack.swift */,
+				00E4661A1EBF5760009BFD2C /* StackBasedOnLinkedList.swift */,
+				00E466171EBF4FD5009BFD2C /* Stack.swift */,
+			);
+			name = InheritanceBased;
+			sourceTree = "<group>";
+		};
+		00E466261EBFA65B009BFD2C /* ProtocolBased */ = {
+			isa = PBXGroup;
+			children = (
+				00E466271EBFA6A6009BFD2C /* CollectionStack.swift */,
+			);
+			name = ProtocolBased;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -464,10 +501,12 @@
 				00AC085A1E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift in Sources */,
 				00140EFD1EB8A53E00992C1B /* IsLinkedListPalindrome.swift in Sources */,
 				00E466221EBF8F1B009BFD2C /* MinMaxStack.swift in Sources */,
+				00C299DF1ECB8C42000575E7 /* BinaryTreeIterator.swift in Sources */,
 				0017C9D01EAF08E900E5E749 /* ReplaceSpacesTests.swift in Sources */,
 				0099EB6E1EBC54BD006497B1 /* Queue.swift in Sources */,
 				00E4661C1EBF67BA009BFD2C /* StackBasedOnLinkedList.swift in Sources */,
 				00BBA4E01EA639DA00E26C3A /* Int+Extensions.swift in Sources */,
+				00E466281EBFA6A6009BFD2C /* CollectionStack.swift in Sources */,
 				00E466211EBF8A9F009BFD2C /* StackBasedOnLinkedListTests.swift in Sources */,
 				00E466181EBF4FD5009BFD2C /* Stack.swift in Sources */,
 				003DB8871DCD30A600B51FCC /* ArrayBasedHeapTests.swift in Sources */,
@@ -475,6 +514,7 @@
 				0017C9CE1EAF04F500E5E749 /* ReplaceSpaces.swift in Sources */,
 				00140EFF1EB8A98200992C1B /* IsLinkedListPalindromeTests.swift in Sources */,
 				0017C9D21EB065C300E5E749 /* IsPermutationOfPalindrome.swift in Sources */,
+				00C299D31EC8CA20000575E7 /* BinarySearchTreeTraversalTests.swift in Sources */,
 				00E466131EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift in Sources */,
 				00140EF31EB617FD00992C1B /* StringRotation.swift in Sources */,
 				00140EEB1EB5D8C800992C1B /* MatrixRotation.swift in Sources */,
@@ -491,14 +531,18 @@
 				00AECD8C1E9CB745007E8458 /* FindAllPermutations.swift in Sources */,
 				00AC08571E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift in Sources */,
 				00140EF81EB62CB700992C1B /* SingleLinkedList.swift in Sources */,
+				00C299D51ECA427C000575E7 /* TreeInOrderIterator.swift in Sources */,
 				00BBA4E31EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift in Sources */,
+				00C299D71ECA42CA000575E7 /* TreeTraversal.swift in Sources */,
 				00AC0F4E1DD3B8B8003A70FD /* BinaryTree.swift in Sources */,
 				00BBA4E11EA63A1200E26C3A /* BoyerMooreAlgorithm.swift in Sources */,
 				00C876891E0899F200FA49DB /* BoundedHeightPriorityQueueTests.swift in Sources */,
 				00140EE91EB49BE300992C1B /* SmallDifferenceTests.swift in Sources */,
 				0017C9CC1EACF84C00E5E749 /* AreCharactersUniqueTests.swift in Sources */,
+				00C299D91ECB8050000575E7 /* TreePostOrderIterator.swift in Sources */,
 				00AC08601EA0CC3A007B0414 /* RabinKarpAlgorithm.swift in Sources */,
 				003DB8921DCD330800B51FCC /* PriorityQueue.swift in Sources */,
+				00C299DD1ECB882B000575E7 /* TreeIteratorProtocol.swift in Sources */,
 				00AC08621EA135C0007B0414 /* RabinKarpAlgorithmTests.swift in Sources */,
 				00140EF11EB5E18A00992C1B /* MatrixRotationTests.swift in Sources */,
 				003DB8941DCD3F4800B51FCC /* KeyValuePair.swift in Sources */,

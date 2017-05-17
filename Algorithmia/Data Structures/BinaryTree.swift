@@ -21,6 +21,11 @@ enum ChildType {
     case root
 }
 
+enum BinarySearchTraversalTraversalType {
+    case preOrder
+    case inOrder
+    case postOrder
+}
 
 
 /// Generic implementation of a binary search tree. 
@@ -36,6 +41,7 @@ class BinarySearchTree<Element : KeyValuePair> /*Just a test, if wanted to force
     /// The content of the node
     var node : Element
     
+    var type: BinarySearchTraversalTraversalType = .inOrder
     
     
     // MARK: -  Initializers
@@ -232,4 +238,14 @@ class BinarySearchTree<Element : KeyValuePair> /*Just a test, if wanted to force
             }
         }
     }
+}
+
+
+
+extension BinarySearchTree : Sequence {
+    
+    func makeIterator() -> BinaryTreeIterator<Element> {
+        return BinaryTreeIterator<Element>(tree: self, type:self.type)
+    }
+    
 }

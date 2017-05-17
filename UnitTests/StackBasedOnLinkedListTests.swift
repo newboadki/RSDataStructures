@@ -11,7 +11,7 @@ import XCTest
 class StackBasedOnLinkedListTests: XCTestCase {
 
     func testStack() {
-        var stack = StackBasedOnLinkedList<Float>()
+        let stack = StackBasedOnLinkedList<Float>()
 
         XCTAssertNil(stack.peek())
         XCTAssertNil(stack.pop())

@@ -24,15 +24,14 @@ class MinMaxStack<T: Comparable> : StackBasedOnLinkedList<T> {
         
         if let _ = self.minMaxStack.peek() {
             let shouldBeAdded = self.comparisonBlock()(item, self.minMaxStack.peek()!)
-            if shouldBeAdded {
+            if shouldBeAdded {                
                 self.minMaxStack.push(item: item)
             }
         } else {
             self.minMaxStack.push(item: item)
         }
         
-        super.push(item: item)
-        
+        super.push(item: item)        
     }
 
     override func pop() -> T? {

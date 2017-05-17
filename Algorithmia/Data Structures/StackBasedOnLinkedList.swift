@@ -13,7 +13,7 @@ open class StackBasedOnLinkedList<T> : Stack
     typealias Item = T
     
     /// Internal data structure
-    open var list = SinglyLinkedList<T>()
+    internal var list = SinglyLinkedList<T>()
 
     
     /// Adds a new element in Last In First Out order
@@ -39,5 +39,9 @@ open class StackBasedOnLinkedList<T> : Stack
     func peek() -> Item?
     {
         return self.list.head?.value
+    }
+    
+    func count() -> Int {
+        return self.list.count
     }
 }

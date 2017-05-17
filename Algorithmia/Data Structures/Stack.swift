@@ -12,6 +12,7 @@ protocol Stack {
     
     associatedtype Item
     
+    var isEmpty: Bool {get}
     
     mutating func push(item: Item)
     
@@ -19,10 +20,20 @@ protocol Stack {
     
     func peek() -> Item?
     
+    func count() -> Int
 }
 
 enum StackPeekType {
     case min, max
+}
+
+extension Stack {
+    
+    var isEmpty: Bool {
+        get {
+            return (self.count() <= 0)
+        }        
+    }
 }
 
 protocol MinMaxPeekStack : Stack {
