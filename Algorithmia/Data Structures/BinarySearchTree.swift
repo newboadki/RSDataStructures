@@ -119,7 +119,11 @@ final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryTree {
     
     // MARK: - Deletion
     
-    // I think we should be passing just the key we want to delete: deleteElement(withKey: Int)
+    
+    /// Delete the node containing the passed key
+    ///
+    /// - Parameter key: Identifier of the node to be deleted.
+    /// - Returns: Whether the element was deleted or not.
     func delete(elementWithKey key : Element.K) -> Bool {
         
         if let elementToDelete = self.search(key: key) {

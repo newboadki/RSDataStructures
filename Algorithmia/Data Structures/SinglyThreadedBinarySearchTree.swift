@@ -128,14 +128,15 @@ extension SinglyThreadedBinarySearchTree : Collection {
     public typealias Index = SinglyThreadedBinaryTreeIndex<Element>
     
     
-    /// Complexity: O(1)
+    /// Complexity: O(Log N). This is a deviation from the collection requirement; O(1). It can be improved if after every time there's a new minimum or maximum we store and correctly propagate that value across all the nodes in the tree.
     public var startIndex: Index {
         get {
             return SinglyThreadedBinaryTreeIndex<Element>(node: self.minimum(), tag: 0)
         }
     }
+
     
-    /// Complexity: O(Log N). This is a deviation from the collection requirement. It can be improved if after every time there's a new minimum or maximum we store and correctly propagate that value across all the nodes in the tree.
+    /// Complexity: O(1)
     public var endIndex: Index {
         get {
             return SinglyThreadedBinaryTreeIndex<Element>(node: nil, tag: self.count)
