@@ -71,7 +71,7 @@ class BinarySearchTreeTests: XCTestCase {
     }
 
     func test_min_where_root_is_not_it() {
-        XCTAssert(self.root?.minimum()?.node.key == 2)
+        XCTAssert(self.root?.minimum()?.item.key == 2)
     }
 
     func test_min_where_root_is_min() {
@@ -81,11 +81,11 @@ class BinarySearchTreeTests: XCTestCase {
         self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
         self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 124, value: 0)))
 
-        XCTAssert(self.root?.minimum()?.node.key == 13)
+        XCTAssert(self.root?.minimum()?.item.key == 13)
     }
 
     func test_max_where_root_is_not_it() {
-        XCTAssert(self.root?.maximum()?.node.key == 100)
+        XCTAssert(self.root?.maximum()?.item.key == 100)
     }
 
     func test_max_where_root_is_max() {
@@ -95,7 +95,7 @@ class BinarySearchTreeTests: XCTestCase {
         self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 10, value: 0)))
         self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 5, value: 0)))
 
-        XCTAssert(self.root?.maximum()?.node.key == 40)
+        XCTAssert(self.root?.maximum()?.item.key == 40)
     }
     
     func test_insert_iterative() {
@@ -106,8 +106,8 @@ class BinarySearchTreeTests: XCTestCase {
         self.root?.insertIterative(element: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
         self.root?.insertIterative(element: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 4, value: 0)))
         
-        XCTAssert(self.root?.minimum()?.node.key == 3)
-        XCTAssert(self.root?.maximum()?.node.key == 66)
+        XCTAssert(self.root?.minimum()?.item.key == 3)
+        XCTAssert(self.root?.maximum()?.item.key == 66)
         XCTAssert((self.root?.search(key: 5) != nil))
         XCTAssert((self.root?.search(key: 3) != nil))
         XCTAssert((self.root?.search(key: 4) != nil))
@@ -125,8 +125,8 @@ class BinarySearchTreeTests: XCTestCase {
         self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
         self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 4, value: 0)))
         
-        XCTAssert(self.root?.minimum()?.node.key == 3)
-        XCTAssert(self.root?.maximum()?.node.key == 66)
+        XCTAssert(self.root?.minimum()?.item.key == 3)
+        XCTAssert(self.root?.maximum()?.item.key == 66)
         XCTAssert((self.root?.search(key: 5) != nil))
         XCTAssert((self.root?.search(key: 3) != nil))
         XCTAssert((self.root?.search(key: 4) != nil))
@@ -271,8 +271,8 @@ class BinarySearchTreeTests: XCTestCase {
         
         var s30 : BinarySearchTree<IntegerPair>? = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 30, value: 0))
         self.root?.insert(newElement: s30!)
-        XCTAssert(self.root?.node.key == 30)
-        XCTAssert(self.root?.node.value == 0)
+        XCTAssert(self.root?.item.key == 30)
+        XCTAssert(self.root?.item.value == 0)
         XCTAssertNil(self.root?.leftChild)
         XCTAssertNil(self.root?.rightChild)
         

@@ -135,7 +135,7 @@ struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
 
     private func minimumElementFromTopQueue() -> Int? {
         if let result = self.topPriorityQueue?.minimum() {
-            return result.node.key
+            return result.item.key
         }
         
         return nil

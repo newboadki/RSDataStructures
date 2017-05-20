@@ -52,12 +52,8 @@ extension Array : StackCollection {
 
     public var first: Element? {
         get {
-            print("!!!")
             return self[0]
         }
-        
-        
-    
     }
 
 }

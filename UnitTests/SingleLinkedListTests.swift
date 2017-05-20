@@ -360,6 +360,13 @@ class SinglyLinkedListTests: XCTestCase {
         XCTAssertTrue(list.tail == nil, "Found \(String(describing: list.tail))")
         XCTAssertTrue(list.count == 0, "Found \(list.count)")
     }
+    
+    func testDirectIndexAccess() {
+        let list: SinglyLinkedList<Int> = [1,2,3,4,5,6,7,8]        
+        let fifthElementIndex = list.index(list.startIndex, offsetBy: 5)
+        XCTAssertTrue(list[fifthElementIndex].value == 6 ,  "Found \(list.count)")
+    }
+
 
     func string(from list: SinglyLinkedList<Int>) -> String {
         var result = ""

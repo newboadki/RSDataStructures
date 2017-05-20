@@ -42,32 +42,15 @@ class BinarySearchTreeTraversalTests: XCTestCase {
     }
     
 
-    func testTraverseInOrderMethod() {
-        var p = Processor<Int>()
-        let expectation = [2,5,13,50,65,66,70,79,100]
-        
-        traverseInOrder(root: root!, processor: &p)
-        XCTAssert(p.visited == expectation)
-    }
-
-    
-    func testTraverseInPostOrderMethod() {
-        var p = Processor<Int>()
-        let expectation = [2,5,50,66,65,100,79,70,13]
-        
-        traverseInPostOrder(root: root!, processor: &p)
-        XCTAssert(p.visited == expectation)
-    }
-
-    
     func testTraverseInOrderIterator() {
         let expectation = [2,5,13,50,65,66,70,79,100]
-        //var it = TreeInOrderIterator(tree: root!)
-        var it = root?.makeIterator()
+        
+        root?.iterator = inOrderTraversalIterator(tree: root!)
+        let it = root?.makeIterator()
         var count = 0
         
         while let node = it?.next() {
-            XCTAssertTrue(node.node.key == expectation[count])
+            XCTAssertTrue(node.key == expectation[count])
             count += 1
         }
         
@@ -78,13 +61,13 @@ class BinarySearchTreeTraversalTests: XCTestCase {
     
     func testTraverseInPostOrderIterator() {
         let expectation = [2,5,50,66,65,100,79,70,13]
-        //var it = TreePostOrderIterator(tree: root!)
-        root?.type = .postOrder
-        var it = root?.makeIterator()
+        
+        root?.iterator = postOrderTraversalIterator(tree: root!)
+        let it = root?.makeIterator()
         var count = 0
         
         while let node = it?.next() {
-            XCTAssertTrue(node.node.key == expectation[count])
+            XCTAssertTrue(node.key == expectation[count])
             count += 1
         }
         
@@ -92,15 +75,3 @@ class BinarySearchTreeTraversalTests: XCTestCase {
         XCTAssertNil(it?.next())
     }
 }
-
-struct Processor<U: Comparable> : NodeProcessor {
-    
-    typealias T = U
-    
-    var visited = [U]()
-    
-    mutating func process(element: U) {
-        self.visited.append(element)
-    }
-}
-

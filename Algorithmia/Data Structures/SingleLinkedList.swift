@@ -151,8 +151,8 @@ public struct SinglyLinkedList<T>
     
     /// This is commented out becuase this solution for finding duplicates uses a set, which would
     /// contrain type T to be hashable, preventing easy types of Linked lists like List<Int> or List<Float>
-    /// Takes O(N)
-    /// Uses Additional space to keep track of already seen elements
+    /// - Complexity: O(N)
+    /// - Abstract: Uses Additional space to keep track of already seen elements
     /*
     public mutating func deleteDuplicates()
     {

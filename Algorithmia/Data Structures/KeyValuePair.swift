@@ -10,7 +10,7 @@
 /// Conformers of this protocol represent a pair of comparable values
 /// This can be useful in many data structures and algorithms where items
 /// stored contain a value, but are ordered or retrieved according to a key.
-protocol KeyValuePair : Comparable {
+public protocol KeyValuePair : Comparable {
     
     associatedtype K : Comparable
     associatedtype V : Comparable
