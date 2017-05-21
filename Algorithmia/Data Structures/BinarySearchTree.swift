@@ -131,8 +131,12 @@ final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryTree {
             if ((elementToDelete.leftChild != nil) && (elementToDelete.rightChild != nil)) {
                 // Two children
                 let minimumFromRightBranch : BinarySearchTree! = elementToDelete.rightChild?.minimum()
+                
+                // Replace the values of the node to be deleted by the values in minimum
                 elementToDelete.item.key = minimumFromRightBranch.item.key
                 elementToDelete.item.value = minimumFromRightBranch.item.value
+                
+                // And delete the minimum form the right branch
                 _ = minimumFromRightBranch.delete(elementWithKey: minimumFromRightBranch.item.key)
                 
             }

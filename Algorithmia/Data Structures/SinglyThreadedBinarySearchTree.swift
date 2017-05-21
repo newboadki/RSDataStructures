@@ -32,6 +32,8 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
     
     public var count: Int
 
+    var minNode: SinglyThreadedBinarySearchTree<Element>?
+    
     
     // MARK: -  Initializers
     
@@ -52,6 +54,7 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
         self.item = value
         self.rightChildLinksToSuccessor = false
         self.count = 1
+        self.minNode = self
     }
     
     public func insert(item: Element) {
@@ -68,12 +71,12 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
                 self.leftChild = newNode
                 newNode.rightChildLinksToSuccessor = true
                 newNode.rightChild = self
-                
+                self.updateMinimum(newCandidate: newNode)
                 self.count += 1
-                
+                self.propagateCount(startingFrom: self.parent)
             }
         } else {
-            if let rc = self.rightChild {
+            if let rc = self.rightChild, self.rightChildLinksToSuccessor==false {
                 rc.insert(item: item)
             } else {
                 let newNode = SinglyThreadedBinarySearchTree<Element>(parent: self, leftChild: nil, rightChild: nil, value: item)
@@ -86,12 +89,166 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
                     newNode.rightChildLinksToSuccessor = false                    
                 }
                 self.rightChild = newNode
+                self.updateMinimum(newCandidate: newNode)
                 self.count += 1
+                self.propagateCount(startingFrom: self.parent)
+                
             }
         }
     }
 
-    public func next(after node: SinglyThreadedBinarySearchTree<Element>) -> SinglyThreadedBinarySearchTree<Element>? {
+    public func delete(elementWithKey key: Element.K) -> Bool {
+        
+        if let nodeToBeDeleted = self.search(key: key) {
+         
+            if ((nodeToBeDeleted.rightChildLinksToSuccessor == false) &&
+                (nodeToBeDeleted.leftChild != nil) &&
+                (nodeToBeDeleted.rightChild != nil)) {
+                // TWO CHILDREN
+                let minimumFromRightBranch: SinglyThreadedBinarySearchTree<Element>! = nodeToBeDeleted.rightChild?.minimum()
+                
+                // In this case we are not deleting the physical node but replacingthe values in
+                // the node to be deleted by the values in the minimum from the right branch.be
+                nodeToBeDeleted.item.key = minimumFromRightBranch.item.key
+                nodeToBeDeleted.item.value = minimumFromRightBranch.item.value
+                
+                // Delete the minimum from the right branch
+                _ = minimumFromRightBranch.delete(elementWithKey:minimumFromRightBranch.item.key)
+                
+            } else if (nodeToBeDeleted.leftChild != nil) {
+                // ONE LEFT CHILD
+                replace(element: nodeToBeDeleted, with: nodeToBeDeleted.leftChild)
+                
+            } else if ((nodeToBeDeleted.rightChildLinksToSuccessor == false) && (nodeToBeDeleted.rightChild != nil)) {
+                // ONE RIGHT CHILD
+                replace(element: nodeToBeDeleted, with: nodeToBeDeleted.rightChild)
+                
+            } else {
+                // NO CHILDREN, CHECK WHAT THE RIGHT REF. IS BEING USED FOR.
+                replace(element: nodeToBeDeleted, with: nil)
+            }
+            return true
+            
+        } else {
+            return false
+        }
+    }
+    
+    private func replace(element existingElement: SinglyThreadedBinarySearchTree<Element>, with newElement: SinglyThreadedBinarySearchTree<Element>?) {
+        
+        if let parent = existingElement.parent {
+            
+            if existingElement === parent.leftChild {
+                parent.leftChild = newElement
+
+            } else if existingElement === parent.rightChild {
+                if existingElement.rightChildLinksToSuccessor == false {
+                    parent.rightChild = newElement
+                }                
+            }
+            
+            if let ne = newElement {
+                ne.parent = parent
+            }
+            
+            if existingElement.rightChildLinksToSuccessor == true  {
+                
+                if let ne = newElement {
+                    let maximumNodeOfSubtree = ne.maximum()
+                    ne.rightChildLinksToSuccessor = true
+                    ne.rightChild = existingElement.rightChild
+                    maximumNodeOfSubtree?.rightChild = existingElement.rightChild // Assuming here that the tree is weel-constructed and that the maximum of any subtree has
+
+                } else if existingElement.parent?.rightChild === existingElement {
+                    existingElement.parent?.rightChildLinksToSuccessor = true
+                    existingElement.parent?.rightChild = existingElement.rightChild
+                }
+            }
+
+            // If we are deleting the minimum, find a new one and propagate it upwards
+            if existingElement.minNode === existingElement {
+                if let ne = newElement {
+                    // the new element replacing the min is the new minimum
+                    ne.minNode = ne
+                    propagateMinimum(startingFrom: ne)
+                } else {
+                    parent.minNode = parent
+                    propagateMinimum(startingFrom: parent)
+                }
+            }
+            
+            existingElement.decrementCountByOne(startingFrom: existingElement.parent)
+            existingElement.leftChild = nil
+            existingElement.rightChild = nil
+            existingElement.parent = nil
+            existingElement.minNode = nil
+            
+        } else {
+            // REPLACING THE ROOT
+            if let ne = newElement {
+                existingElement.item.key = ne.item.key
+                existingElement.item.value = ne.item.value
+                existingElement.leftChild = ne.leftChild
+                existingElement.rightChild = ne.rightChild
+                
+                ne.leftChild?.parent = existingElement
+                ne.rightChild?.parent = existingElement
+                ne.count = (existingElement.count - 1)
+                
+            } else {
+                // We are destroying the root
+                existingElement.item.resetToDefaultValues()
+                existingElement.leftChild = nil
+                existingElement.rightChild = nil
+                existingElement.minNode = nil
+                existingElement.count = 0
+            }
+        }
+    }
+    
+    
+    private func updateMinimum(newCandidate: SinglyThreadedBinarySearchTree<Element>) {
+        if newCandidate.item < (self.minNode?.item)! {
+            self.minNode = newCandidate
+            propagateMinimum(startingFrom: self.minNode!)
+        }
+    }
+    
+    private func propagateMinimum(startingFrom node: SinglyThreadedBinarySearchTree<Element>) {
+        
+        var current: SinglyThreadedBinarySearchTree<Element>? = node
+        
+        // Current is left child
+        while current?.parent?.leftChild === current {
+            current?.parent?.minNode = current?.minNode
+            current = current?.parent
+        }
+    }
+    
+    private func propagateCount(startingFrom node: SinglyThreadedBinarySearchTree<Element>?) {
+        
+        var current: SinglyThreadedBinarySearchTree<Element>? = node
+        
+        // Current is left child
+        while current != nil {
+            current?.count += 1
+            current = current?.parent
+        }
+    }
+
+    private func decrementCountByOne(startingFrom node: SinglyThreadedBinarySearchTree<Element>?) {
+        
+        var current: SinglyThreadedBinarySearchTree<Element>? = node
+        
+        // Current is left child
+        while current != nil {
+            current?.count -= 1
+            current = current?.parent
+        }
+    }
+
+    
+    fileprivate func next(after node: SinglyThreadedBinarySearchTree<Element>) -> SinglyThreadedBinarySearchTree<Element>? {
         
         var current: SinglyThreadedBinarySearchTree<Element>? = node
         
@@ -103,6 +260,22 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
 
         return current
     }
+    
+    
+    /// Maximum element
+    ///
+    /// - Returns: The right most leave of the tree, which has the maximum value as its node's key
+    /// - Complexity: O(log N), with N being the number of nodes in the tree.
+    func maximum() -> SinglyThreadedBinarySearchTree<Element>? {
+        
+        var max = self
+        while (max.rightChild != nil && max.rightChildLinksToSuccessor == false) {
+            max = max.rightChild!
+        }
+        
+        return max
+    }
+
 }
 
 
@@ -128,10 +301,10 @@ extension SinglyThreadedBinarySearchTree : Collection {
     public typealias Index = SinglyThreadedBinaryTreeIndex<Element>
     
     
-    /// Complexity: O(Log N). This is a deviation from the collection requirement; O(1). It can be improved if after every time there's a new minimum or maximum we store and correctly propagate that value across all the nodes in the tree.
+    /// Complexity: O(1)
     public var startIndex: Index {
         get {
-            return SinglyThreadedBinaryTreeIndex<Element>(node: self.minimum(), tag: 0)
+            return SinglyThreadedBinaryTreeIndex<Element>(node: self.minNode, tag: 0)
         }
     }
 
