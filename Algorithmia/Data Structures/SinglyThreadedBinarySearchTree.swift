@@ -24,16 +24,21 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
     
     var rightChild : SinglyThreadedBinarySearchTree<Element>?
     
-    var rightChildLinksToSuccessor: Bool
-    
     var item : Element
     
     var iterator: AnyIterator<Element>?
     
     public var count: Int
-
-    var minNode: SinglyThreadedBinarySearchTree<Element>?
     
+    /// Keeps a reference to the node, in this node's subtree, containing the minimum value. 
+    /// Becuase we only need to potentialy update the minimum during insertion, deletion and edition, we can
+    /// efficiently keep a reference that would prevent a search
+    /// - Complexity: O(1)
+    fileprivate var minNode: SinglyThreadedBinarySearchTree<Element>?
+    
+    /// Reference to the next node according to the explicit order defined by the internals of this class
+    fileprivate var successor : SinglyThreadedBinarySearchTree<Element>?
+
     
     // MARK: -  Initializers
     
@@ -52,9 +57,9 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
         self.leftChild = leftChild
         self.rightChild = rightChild
         self.item = value
-        self.rightChildLinksToSuccessor = false
         self.count = 1
         self.minNode = self
+        self.successor = nil
     }
     
     public func insert(item: Element) {
@@ -69,24 +74,22 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
             } else {
                 let newNode = SinglyThreadedBinarySearchTree<Element>(parent: self, leftChild: nil, rightChild: nil, value: item)
                 self.leftChild = newNode
-                newNode.rightChildLinksToSuccessor = true
-                newNode.rightChild = self
+                newNode.successor = self
                 self.updateMinimum(newCandidate: newNode)
                 self.count += 1
                 self.propagateCount(startingFrom: self.parent)
             }
         } else {
-            if let rc = self.rightChild, self.rightChildLinksToSuccessor==false {
+            if let rc = self.rightChild, self.successor==nil {
                 rc.insert(item: item)
             } else {
                 let newNode = SinglyThreadedBinarySearchTree<Element>(parent: self, leftChild: nil, rightChild: nil, value: item)
                 
-                if (self.rightChildLinksToSuccessor) {
-                    newNode.rightChild = self.rightChild
-                    newNode.rightChildLinksToSuccessor = true
-                    self.rightChildLinksToSuccessor = false
+                if self.successor != nil {
+                    newNode.successor = self.successor
+                    self.successor = nil
                 } else {
-                    newNode.rightChildLinksToSuccessor = false                    
+                    newNode.successor = nil
                 }
                 self.rightChild = newNode
                 self.updateMinimum(newCandidate: newNode)
@@ -101,7 +104,7 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
         
         if let nodeToBeDeleted = self.search(key: key) {
          
-            if ((nodeToBeDeleted.rightChildLinksToSuccessor == false) &&
+            if ((nodeToBeDeleted.successor == nil) &&
                 (nodeToBeDeleted.leftChild != nil) &&
                 (nodeToBeDeleted.rightChild != nil)) {
                 // TWO CHILDREN
@@ -119,7 +122,7 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
                 // ONE LEFT CHILD
                 replace(element: nodeToBeDeleted, with: nodeToBeDeleted.leftChild)
                 
-            } else if ((nodeToBeDeleted.rightChildLinksToSuccessor == false) && (nodeToBeDeleted.rightChild != nil)) {
+            } else if ((nodeToBeDeleted.successor == nil) && (nodeToBeDeleted.rightChild != nil)) {
                 // ONE RIGHT CHILD
                 replace(element: nodeToBeDeleted, with: nodeToBeDeleted.rightChild)
                 
@@ -142,7 +145,7 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
                 parent.leftChild = newElement
 
             } else if existingElement === parent.rightChild {
-                if existingElement.rightChildLinksToSuccessor == false {
+                if existingElement.successor == nil {
                     parent.rightChild = newElement
                 }                
             }
@@ -151,17 +154,17 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
                 ne.parent = parent
             }
             
-            if existingElement.rightChildLinksToSuccessor == true  {
+            if existingElement.successor != nil  {
                 
                 if let ne = newElement {
                     let maximumNodeOfSubtree = ne.maximum()
-                    ne.rightChildLinksToSuccessor = true
-                    ne.rightChild = existingElement.rightChild
+                    ne.successor = existingElement.successor
+                    ne.rightChild = nil
                     maximumNodeOfSubtree?.rightChild = existingElement.rightChild // Assuming here that the tree is weel-constructed and that the maximum of any subtree has
 
                 } else if existingElement.parent?.rightChild === existingElement {
-                    existingElement.parent?.rightChildLinksToSuccessor = true
-                    existingElement.parent?.rightChild = existingElement.rightChild
+                    existingElement.parent?.successor = existingElement.successor
+                    existingElement.parent?.rightChild = nil
                 }
             }
 
@@ -252,8 +255,8 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
         
         var current: SinglyThreadedBinarySearchTree<Element>? = node
         
-        if current!.rightChildLinksToSuccessor {
-            current = current!.rightChild
+        if current!.successor != nil {
+            current = current!.successor
         } else {
             current = current!.rightChild?.minimum()
         }
@@ -269,7 +272,7 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
     func maximum() -> SinglyThreadedBinarySearchTree<Element>? {
         
         var max = self
-        while (max.rightChild != nil && max.rightChildLinksToSuccessor == false) {
+        while (max.rightChild != nil && max.successor == nil) {
             max = max.rightChild!
         }
         
