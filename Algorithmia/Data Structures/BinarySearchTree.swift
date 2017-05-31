@@ -12,21 +12,23 @@ import Foundation
 /// Generic implementation of a binary search tree. 
 /// It is a recursive implementation.
 /// Just a test, if wanted to force K and V to be equal. where Element.K == Element.V
-final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryTree {
+public final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryTree {
     
     typealias Item = Element
     
-    var parent : BinarySearchTree<Element>?
     
-    var leftChild : BinarySearchTree<Element>?
+    public var parent : BinarySearchTree<Element>?
     
-    var rightChild : BinarySearchTree<Element>?
+    public var leftChild : BinarySearchTree<Element>?
     
-    var item : Element!
+    public var rightChild : BinarySearchTree<Element>?
     
-    var iterator: AnyIterator<Element>?
+    public var item : Element!
+        
+    /// Traversable binary tries accept an interator to enumerate its elements.
+    public var iterator: AnyIterator<Element>?
     
-    var count: Int
+    fileprivate(set) var count: Int
     
 
     

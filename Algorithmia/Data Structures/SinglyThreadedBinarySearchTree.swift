@@ -26,9 +26,11 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinaryTree
     
     var item : T!
     
+    /// Traversable binary tries accept an interator to enumerate its elements.
+    /// By default this class provides an in-order iterator.
     var iterator: AnyIterator<T>?
     
-    public var count: Int
+    public fileprivate(set) var count: Int
     
     /// Keeps a reference to the node, in this node's subtree, containing the minimum value. 
     /// Becuase we only need to potentialy update the minimum during insertion, deletion and edition, we can
@@ -233,6 +235,19 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinaryTree
         }
     }
     
+    /// Maximum element
+    ///
+    /// - Returns: The right most leave of the tree, which has the maximum value as its node's key
+    /// - Complexity: O(log N), with N being the number of nodes in the tree.
+    func maximum() -> SinglyThreadedBinarySearchTree<T>? {
+        
+        var max = self
+        while (max.rightChild != nil && max.successor == nil) {
+            max = max.rightChild!
+        }
+        
+        return max
+    }
     
     private func updateMinimum(newCandidate: SinglyThreadedBinarySearchTree<T>) {
         if newCandidate.item < (self.minNode?.item)! {
@@ -241,8 +256,11 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinaryTree
         }
     }
     
+    
+    /// In order to return the minimum in Order O(1), this class keeps track of it after every insertion
+    /// or deletion. But, once the minimum changes we might need to update its uncestors.
+    /// - Parameter node: <#node description#>
     private func propagateMinimum(startingFrom node: SinglyThreadedBinarySearchTree<T>) {
-        
         var current: SinglyThreadedBinarySearchTree<T>? = node
         
         // Current is left child
@@ -289,21 +307,12 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinaryTree
     }
     
     
-    /// Maximum element
+    
+    /// Default in-order iterator
     ///
-    /// - Returns: The right most leave of the tree, which has the maximum value as its node's key
-    /// - Complexity: O(log N), with N being the number of nodes in the tree.
-    func maximum() -> SinglyThreadedBinarySearchTree<T>? {
-        
-        var max = self
-        while (max.rightChild != nil && max.successor == nil) {
-            max = max.rightChild!
-        }
-        
-        return max
-    }
-    
-    
+    /// - Parameter tree: Tree to be iterated through
+    /// - Returns: An iterator for the given tree
+    /// - Complexity: O(n)
     fileprivate func defaultIterator(tree: SinglyThreadedBinarySearchTree<T>) -> AnyIterator<T> {
         
         var current: SinglyThreadedBinarySearchTree<T>?
@@ -329,12 +338,9 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinaryTree
             
             
             return result?.item
-            
         }
     }
-
 }
-
 
 
 
@@ -357,15 +363,15 @@ extension SinglyThreadedBinarySearchTree : Collection {
     
     public typealias Index = SinglyThreadedBinaryTreeIndex<T>
     
-    /// Complexity: O(1)
+    /// - Complexity: O(1)
     public var startIndex: Index {
         get {
             return SinglyThreadedBinaryTreeIndex<T>(node: self.minNode, tag: 0)
         }
     }
-
     
-    /// Complexity: O(1)
+    
+    /// - Complexity: O(1)
     public var endIndex: Index {
         get {
             return SinglyThreadedBinaryTreeIndex<T>(node: nil, tag: self.count)
@@ -385,6 +391,9 @@ extension SinglyThreadedBinarySearchTree : Collection {
 }
 
 
+
+// MARK: - TRAVERSABLE TREE -
+
 extension SinglyThreadedBinarySearchTree : TraversableBinaryTree {
 
     /// - Discussion: Having to re-define becuase there's ambiguity between the TraversableBinaryTree extension 
@@ -394,6 +403,9 @@ extension SinglyThreadedBinarySearchTree : TraversableBinaryTree {
     }
 
 }
+
+
+
 
 // MARK: - EXPRESSIBLE-BY-ARRAY-LITERAL -
 

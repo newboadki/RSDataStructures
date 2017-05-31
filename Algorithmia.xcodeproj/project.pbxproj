@@ -179,6 +179,14 @@
 			name = Lists;
 			sourceTree = "<group>";
 		};
+		001B650C1EDF62B40035CAAF /* SinglyThreadedBinarySearchTree */ = {
+			isa = PBXGroup;
+			children = (
+				001989101ECE1E8E001D6214 /* SinglyThreadedBinarySearchTree.swift */,
+			);
+			name = SinglyThreadedBinarySearchTree;
+			sourceTree = "<group>";
+		};
 		003DB8851DCD30A600B51FCC /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,7 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				00AC0F4D1DD3B8B8003A70FD /* BinarySearchTree.swift */,
-				001989101ECE1E8E001D6214 /* SinglyThreadedBinarySearchTree.swift */,
+				001B650C1EDF62B40035CAAF /* SinglyThreadedBinarySearchTree */,
 				00C299E01ECCE8EA000575E7 /* BinaryTree.swift */,
 				00C299D61ECA42CA000575E7 /* TreeTraversals.swift */,
 			);
