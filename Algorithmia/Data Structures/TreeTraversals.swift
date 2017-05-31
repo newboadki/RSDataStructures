@@ -30,8 +30,7 @@ func inOrderTraversalIterator<Element: KeyValuePair, T: TraversableBinaryTree>(t
             
         } while((!stack.isEmpty) || (current != nil))
         
-        return nil
-        
+        return nil        
     }
 }
 

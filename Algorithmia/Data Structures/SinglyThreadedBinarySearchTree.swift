@@ -14,19 +14,19 @@ import Foundation
 /// becuase its internal implementation does not allow
 /// all arbitraty traversal algorithms. Some would not work. 
 /// Therefore it is this class that defines the different supported traversal algorithms.
-public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : BinaryTree {
+public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinaryTree {
     
-    typealias Item = Element
+    typealias Item = T
     
-    var parent : SinglyThreadedBinarySearchTree<Element>?
+    var parent : SinglyThreadedBinarySearchTree<T>?
     
-    var leftChild : SinglyThreadedBinarySearchTree<Element>?
+    var leftChild : SinglyThreadedBinarySearchTree<T>?
     
-    var rightChild : SinglyThreadedBinarySearchTree<Element>?
+    var rightChild : SinglyThreadedBinarySearchTree<T>?
     
-    var item : Element
+    var item : T!
     
-    var iterator: AnyIterator<Element>?
+    var iterator: AnyIterator<T>?
     
     public var count: Int
     
@@ -34,10 +34,10 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
     /// Becuase we only need to potentialy update the minimum during insertion, deletion and edition, we can
     /// efficiently keep a reference that would prevent a search
     /// - Complexity: O(1)
-    fileprivate var minNode: SinglyThreadedBinarySearchTree<Element>?
+    fileprivate var minNode: SinglyThreadedBinarySearchTree<T>?
     
     /// Reference to the next node according to the explicit order defined by the internals of this class
-    fileprivate var successor : SinglyThreadedBinarySearchTree<Element>?
+    fileprivate var successor : SinglyThreadedBinarySearchTree<T>?
 
     
     // MARK: -  Initializers
@@ -51,7 +51,8 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
     ///   - value: item contained in the tree node.
     public init(parent: SinglyThreadedBinarySearchTree?,
          leftChild: SinglyThreadedBinarySearchTree?,
-         rightChild: SinglyThreadedBinarySearchTree?, value:Element) {
+         rightChild: SinglyThreadedBinarySearchTree?,
+         value:T) {
         
         self.parent = parent
         self.leftChild = leftChild
@@ -60,9 +61,32 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
         self.count = 1
         self.minNode = self
         self.successor = nil
+        self.iterator = self.defaultIterator(tree:self)
     }
     
-    public func insert(item: Element) {
+    
+    public init(arrayLiteral elements: T...)
+    {
+        var isFirstElement = true
+        self.count = 0
+        
+        
+        for element in elements {
+            if isFirstElement {
+                self.count = 1
+                self.item = element
+                self.minNode = self
+                isFirstElement = false
+            } else {
+                self.count += 1
+                self.insert(item: element)
+            }
+        }
+        
+        self.iterator = self.defaultIterator(tree:self)
+    }
+    
+    public func insert(item: T) {
         
         guard  (self.item != item) else {
             return
@@ -72,7 +96,7 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
             if let lc = self.leftChild {
                 lc.insert(item: item)
             } else {
-                let newNode = SinglyThreadedBinarySearchTree<Element>(parent: self, leftChild: nil, rightChild: nil, value: item)
+                let newNode = SinglyThreadedBinarySearchTree<T>(parent: self, leftChild: nil, rightChild: nil, value: item)
                 self.leftChild = newNode
                 newNode.successor = self
                 self.updateMinimum(newCandidate: newNode)
@@ -83,7 +107,7 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
             if let rc = self.rightChild, self.successor==nil {
                 rc.insert(item: item)
             } else {
-                let newNode = SinglyThreadedBinarySearchTree<Element>(parent: self, leftChild: nil, rightChild: nil, value: item)
+                let newNode = SinglyThreadedBinarySearchTree<T>(parent: self, leftChild: nil, rightChild: nil, value: item)
                 
                 if self.successor != nil {
                     newNode.successor = self.successor
@@ -100,7 +124,7 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
         }
     }
 
-    public func delete(elementWithKey key: Element.K) -> Bool {
+    public func delete(elementWithKey key: T.K) -> Bool {
         
         if let nodeToBeDeleted = self.search(key: key) {
          
@@ -108,7 +132,7 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
                 (nodeToBeDeleted.leftChild != nil) &&
                 (nodeToBeDeleted.rightChild != nil)) {
                 // TWO CHILDREN
-                let minimumFromRightBranch: SinglyThreadedBinarySearchTree<Element>! = nodeToBeDeleted.rightChild?.minimum()
+                let minimumFromRightBranch: SinglyThreadedBinarySearchTree<T>! = nodeToBeDeleted.rightChild?.minimum()
                 
                 // In this case we are not deleting the physical node but replacingthe values in
                 // the node to be deleted by the values in the minimum from the right branch.be
@@ -137,7 +161,7 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
         }
     }
     
-    private func replace(element existingElement: SinglyThreadedBinarySearchTree<Element>, with newElement: SinglyThreadedBinarySearchTree<Element>?) {
+    private func replace(element existingElement: SinglyThreadedBinarySearchTree<T>, with newElement: SinglyThreadedBinarySearchTree<T>?) {
         
         if let parent = existingElement.parent {
             
@@ -210,16 +234,16 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
     }
     
     
-    private func updateMinimum(newCandidate: SinglyThreadedBinarySearchTree<Element>) {
+    private func updateMinimum(newCandidate: SinglyThreadedBinarySearchTree<T>) {
         if newCandidate.item < (self.minNode?.item)! {
             self.minNode = newCandidate
             propagateMinimum(startingFrom: self.minNode!)
         }
     }
     
-    private func propagateMinimum(startingFrom node: SinglyThreadedBinarySearchTree<Element>) {
+    private func propagateMinimum(startingFrom node: SinglyThreadedBinarySearchTree<T>) {
         
-        var current: SinglyThreadedBinarySearchTree<Element>? = node
+        var current: SinglyThreadedBinarySearchTree<T>? = node
         
         // Current is left child
         while current?.parent?.leftChild === current {
@@ -228,9 +252,9 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
         }
     }
     
-    private func propagateCount(startingFrom node: SinglyThreadedBinarySearchTree<Element>?) {
+    private func propagateCount(startingFrom node: SinglyThreadedBinarySearchTree<T>?) {
         
-        var current: SinglyThreadedBinarySearchTree<Element>? = node
+        var current: SinglyThreadedBinarySearchTree<T>? = node
         
         // Current is left child
         while current != nil {
@@ -239,9 +263,9 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
         }
     }
 
-    private func decrementCountByOne(startingFrom node: SinglyThreadedBinarySearchTree<Element>?) {
+    private func decrementCountByOne(startingFrom node: SinglyThreadedBinarySearchTree<T>?) {
         
-        var current: SinglyThreadedBinarySearchTree<Element>? = node
+        var current: SinglyThreadedBinarySearchTree<T>? = node
         
         // Current is left child
         while current != nil {
@@ -251,9 +275,9 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
     }
 
     
-    fileprivate func next(after node: SinglyThreadedBinarySearchTree<Element>) -> SinglyThreadedBinarySearchTree<Element>? {
+    fileprivate func next(after node: SinglyThreadedBinarySearchTree<T>) -> SinglyThreadedBinarySearchTree<T>? {
         
-        var current: SinglyThreadedBinarySearchTree<Element>? = node
+        var current: SinglyThreadedBinarySearchTree<T>? = node
         
         if current!.successor != nil {
             current = current!.successor
@@ -269,7 +293,7 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
     ///
     /// - Returns: The right most leave of the tree, which has the maximum value as its node's key
     /// - Complexity: O(log N), with N being the number of nodes in the tree.
-    func maximum() -> SinglyThreadedBinarySearchTree<Element>? {
+    func maximum() -> SinglyThreadedBinarySearchTree<T>? {
         
         var max = self
         while (max.rightChild != nil && max.successor == nil) {
@@ -278,15 +302,45 @@ public final class SinglyThreadedBinarySearchTree<Element : KeyValuePair> : Bina
         
         return max
     }
+    
+    
+    fileprivate func defaultIterator(tree: SinglyThreadedBinarySearchTree<T>) -> AnyIterator<T> {
+        
+        var current: SinglyThreadedBinarySearchTree<T>?
+        var minimumBeenFound = false
+        
+        return AnyIterator {
+            if minimumBeenFound == false {
+                current = tree.minNode
+                minimumBeenFound = true
+            }
+            
+            let result = current
+            
+            if current?.successor != nil {
+                current = current!.successor
+                
+            } else if current?.rightChild != nil {
+                current = current!.rightChild?.minimum()
+                
+            } else {
+                current = nil
+            }
+            
+            
+            return result?.item
+            
+        }
+    }
 
 }
 
 
 
 
-public struct SinglyThreadedBinaryTreeIndex<Element:KeyValuePair> : Comparable
+public struct SinglyThreadedBinaryTreeIndex<T:KeyValuePair> : Comparable
 {
-    fileprivate let node: SinglyThreadedBinarySearchTree<Element>?
+    fileprivate let node: SinglyThreadedBinarySearchTree<T>?
     fileprivate let tag: Int
     
     public static func==<T: KeyValuePair>(lhs: SinglyThreadedBinaryTreeIndex<T>, rhs: SinglyThreadedBinaryTreeIndex<T>) -> Bool {
@@ -301,13 +355,12 @@ public struct SinglyThreadedBinaryTreeIndex<Element:KeyValuePair> : Comparable
 
 extension SinglyThreadedBinarySearchTree : Collection {
     
-    public typealias Index = SinglyThreadedBinaryTreeIndex<Element>
-    
+    public typealias Index = SinglyThreadedBinaryTreeIndex<T>
     
     /// Complexity: O(1)
     public var startIndex: Index {
         get {
-            return SinglyThreadedBinaryTreeIndex<Element>(node: self.minNode, tag: 0)
+            return SinglyThreadedBinaryTreeIndex<T>(node: self.minNode, tag: 0)
         }
     }
 
@@ -315,20 +368,39 @@ extension SinglyThreadedBinarySearchTree : Collection {
     /// Complexity: O(1)
     public var endIndex: Index {
         get {
-            return SinglyThreadedBinaryTreeIndex<Element>(node: nil, tag: self.count)
+            return SinglyThreadedBinaryTreeIndex<T>(node: nil, tag: self.count)
         }
     }
     
-    public subscript(position: Index) -> Element {
+    public subscript(position: Index) -> T {
         get {
             return position.node!.item
         }
     }
     
     public func index(after idx: Index) -> Index {
-        return SinglyThreadedBinaryTreeIndex<Element>(node: self.next(after: idx.node!), tag: idx.tag+1)
+        return SinglyThreadedBinaryTreeIndex<T>(node: self.next(after: idx.node!), tag: idx.tag+1)
     }
+    
 }
 
 
+extension SinglyThreadedBinarySearchTree : TraversableBinaryTree {
+
+    /// - Discussion: Having to re-define becuase there's ambiguity between the TraversableBinaryTree extension 
+    ///   and the Collection extension to define the default indexingIterator
+    public func makeIterator() -> AnyIterator<T> {
+        return self.iterator!
+    }
+
+}
+
+// MARK: - EXPRESSIBLE-BY-ARRAY-LITERAL -
+
+extension SinglyThreadedBinarySearchTree : ExpressibleByArrayLiteral
+{
+    public typealias Element = T
+
+
+}
 

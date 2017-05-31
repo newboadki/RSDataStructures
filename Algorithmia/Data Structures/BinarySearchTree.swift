@@ -22,7 +22,7 @@ final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryTree {
     
     var rightChild : BinarySearchTree<Element>?
     
-    var item : Element
+    var item : Element!
     
     var iterator: AnyIterator<Element>?
     

@@ -18,7 +18,7 @@ protocol BinaryTree : Equatable {
     
     var rightChild: Self? {get}
     
-    var item: Item {get}
+    var item: Item! {get}
     
     var count: Int {get}
     
