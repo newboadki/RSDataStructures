@@ -26,7 +26,7 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinaryTree
     
     var item : T!
     
-    /// Traversable binary tries accept an interator to enumerate its elements.
+    /// Traversable binary trees accept an interator to enumerate its elements.
     /// By default this class provides an in-order iterator.
     var iterator: AnyIterator<T>?
     

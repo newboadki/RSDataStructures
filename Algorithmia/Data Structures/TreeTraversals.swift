@@ -9,6 +9,11 @@
 import Foundation
 
 
+
+/// Returns an iterator to traverse a tree in order.
+///
+/// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase some implementations define an internal structure that would make this code fail.
+/// - Returns: An iterator to traverse a tree in order.
 func inOrderTraversalIterator<Element: KeyValuePair, T: TraversableBinaryTree>(tree: T) -> AnyIterator<Element> where Element == T.Item {
     
     let stack = StackBasedOnLinkedList<T>()
@@ -34,6 +39,10 @@ func inOrderTraversalIterator<Element: KeyValuePair, T: TraversableBinaryTree>(t
     }
 }
 
+/// Returns an iterator to traverse a tree in post order.
+///
+/// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase some implementations define an internal structure that would make this code fail.
+/// - Returns: An iterator to traverse a tree in post order.
 func postOrderTraversalIterator<Element: KeyValuePair, T: TraversableBinaryTree>(tree: T) -> AnyIterator<Element> where Element == T.Item {
     
     let stack = StackBasedOnLinkedList<T>()
