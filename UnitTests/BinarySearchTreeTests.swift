@@ -377,3 +377,31 @@ class BinarySearchTreeTests: XCTestCase {
     }
 
 }
+
+class BinarySearchTreeBinaryTreeExtensions: XCTestCase {
+    
+    func testPathsFromRootToLeaves() {
+        let tree = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
+        tree.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 10, value: 0)))
+        tree.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 45, value: 0)))
+        tree.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
+        tree.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 124, value: 0)))
+        
+        let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
+        
+        XCTAssertTrue(paths[0] == [13,10])
+        XCTAssertTrue(paths[1] == [13,45,66,124])
+        XCTAssertTrue(paths.count == 2)
+    }
+
+    func testPathsFromRootToLeavesSingleNode() {
+        let tree = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
+        
+        let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
+        
+        XCTAssertTrue(paths[0] == [13])
+        XCTAssertTrue(paths.count == 1)
+        
+    }
+
+}

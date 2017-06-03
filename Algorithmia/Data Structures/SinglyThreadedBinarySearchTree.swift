@@ -88,6 +88,11 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinaryTree
         self.iterator = self.defaultIterator(tree:self)
     }
     
+    
+    /// Adds an item to the tree structure
+    ///
+    /// - Parameter item: Item to be added
+    /// - Complexity: O(log(N))
     public func insert(item: T) {
         
         guard  (self.item != item) else {
@@ -412,7 +417,5 @@ extension SinglyThreadedBinarySearchTree : TraversableBinaryTree {
 extension SinglyThreadedBinarySearchTree : ExpressibleByArrayLiteral
 {
     public typealias Element = T
-
-
 }
 

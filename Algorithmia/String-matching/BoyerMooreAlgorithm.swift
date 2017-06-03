@@ -46,6 +46,14 @@ struct BoyerMooreAlgorithm {
         return occurrences
     }
     
+    
+    /// Bad Character Heuristic
+    ///
+    /// - Parameters:
+    ///   - pattern: The string to search for
+    ///   - text: The text to search the pattern in
+    ///   - vocabularyRadix: Base, or vocabulary length
+    /// - Returns: <#return value description#>
     static func skipTable(of pattern: String, in text: String, vocabularyRadix: Int) -> [Int] {
         var skipTable = Array<Int>(repeating: -1, count: vocabularyRadix)
         let m = pattern.characters.count

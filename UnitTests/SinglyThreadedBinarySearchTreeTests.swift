@@ -158,6 +158,29 @@ class SinglyThreadedBinarySearchTreeTraversalTests: XCTestCase {
     }
 }
 
+class SinglyThreadedBinarySearchTreeBinaryTreeExtensions: XCTestCase {
+    
+    func testPathsFromRootToLeaves() {
+        let tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(2),p(1),p(0),p(5),p(3),p(6)]
+        let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
+        
+        XCTAssertTrue(paths[0] == [2,1,0])
+        XCTAssertTrue(paths[1] == [2,5,3])
+        XCTAssertTrue(paths[2] == [2,5,6])
+        XCTAssertTrue(paths.count == 3)
+    }
+    
+    func testPathsFromRootToLeavesEmpty() {
+        let tree: SinglyThreadedBinarySearchTree<IntegerPair> = []
+        let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
+        
+        XCTAssertTrue(paths.count == 0)
+        
+    }
+
+}
+
+
 func keysFromIteration(tree: SinglyThreadedBinarySearchTree<IntegerPair>) -> (keys: Array<Int>, values: Array<Int>) {
     var keys = Array<Int>()
     var values = Array<Int>()

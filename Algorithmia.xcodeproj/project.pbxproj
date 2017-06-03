@@ -227,7 +227,6 @@
 				00546D781A37A04600A043A7 /* Utils */,
 				00546D731A33B48C00A043A7 /* Sorting */,
 				00546D721A33B48100A043A7 /* Measurement */,
-				00546D681A33981000A043A7 /* main.c */,
 				00AC08551E9EA85C007B0414 /* Generic problems */,
 				00AECD8A1E9CB705007E8458 /* String-matching */,
 			);
@@ -246,6 +245,7 @@
 		00546D731A33B48C00A043A7 /* Sorting */ = {
 			isa = PBXGroup;
 			children = (
+				00546D681A33981000A043A7 /* main.c */,
 				00546D741A33B4D200A043A7 /* sorting.h */,
 				00546D821A3A3DA300A043A7 /* exchange_sort.h */,
 				00546D811A3A3DA300A043A7 /* exchange_sort.c */,
