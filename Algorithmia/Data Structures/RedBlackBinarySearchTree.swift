@@ -64,6 +64,26 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : TraversableBinaryTree {
         self.color = color
     }
     
+    
+    public init(arrayLiteral elements: T...)
+    {
+        var isFirstElement = true
+        self.count = 0
+        self.color = .black
+        
+        for element in elements {
+            if isFirstElement {
+                self.count = 1
+                self.item = element
+                isFirstElement = false
+            } else {
+                self.count += 1
+                self.insert(item: element)
+            }
+        }        
+    }
+
+    
     public func insert(item: T) {
         let _ = RedBlackBinarySearchTree.insert(item: item, in: self)
         self.color = .black
@@ -150,3 +170,11 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : TraversableBinaryTree {
     }
 
 }
+
+// MARK: - EXPRESSIBLE-BY-ARRAY-LITERAL -
+
+extension RedBlackBinarySearchTree : ExpressibleByArrayLiteral
+{
+    public typealias Element = T
+}
+

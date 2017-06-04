@@ -11,17 +11,7 @@ import XCTest
 class RedBlackBinarySearchTreeTests: XCTestCase {
     
     func testMultipleInsertion() {
-        let tree = RedBlackBinarySearchTree<IntegerPair>(leftChild: nil,
-                                                         rightChild: nil,
-                                                         value: IntegerPair(key: 50, value: 0),
-                                                         color: .black)
-        tree.insert(item: IntegerPair(key: 23, value: 0))
-        tree.insert(item: IntegerPair(key: 76, value: 0))
-        tree.insert(item: IntegerPair(key: 100, value: 0))
-        tree.insert(item: IntegerPair(key: 40, value: 0))
-        tree.insert(item: IntegerPair(key: 22, value: 0))
-        tree.insert(item: IntegerPair(key: 21, value: 0))
-        tree.insert(item: IntegerPair(key: 20, value: 0))
+        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
         let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
         
         XCTAssertTrue(paths[0] == [23,21,20])
@@ -32,14 +22,9 @@ class RedBlackBinarySearchTreeTests: XCTestCase {
     }
     
     func testInsertingLeftLeaf() {
-        let tree = RedBlackBinarySearchTree<IntegerPair>(leftChild: nil,
-                                                         rightChild: nil,
-                                                         value: IntegerPair(key: 3, value: 0),
-                                                         color: .black)
+        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(3)]
         tree.insert(item: IntegerPair(key: 1, value: 0))
-        let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
-        
-        
+
         XCTAssertTrue(tree.item.key == 3)
         XCTAssertTrue(tree.color == .black)
         XCTAssertTrue(tree.rightChild == nil)
@@ -47,19 +32,15 @@ class RedBlackBinarySearchTreeTests: XCTestCase {
         XCTAssertTrue(tree.leftChild?.item.key == 1)
         XCTAssertTrue(tree.leftChild?.color == .red)
 
+        let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
         XCTAssertTrue(paths[0] == [3,1])
         XCTAssertTrue(paths.count == 1)
     }
 
     func testLeftRotation() {
-        let tree = RedBlackBinarySearchTree<IntegerPair>(leftChild: nil,
-                                                         rightChild: nil,
-                                                         value: IntegerPair(key: 3, value: 0),
-                                                         color: .black)
+        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(3)]
         tree.insert(item: IntegerPair(key: 4, value: 0))
-        
-        
-        
+
         XCTAssertTrue(tree.item.key == 4)
         XCTAssertTrue(tree.color == .black)
         XCTAssertTrue(tree.rightChild == nil)
@@ -68,7 +49,6 @@ class RedBlackBinarySearchTreeTests: XCTestCase {
         XCTAssertTrue(tree.leftChild?.color == .red)
         XCTAssertTrue(tree.leftChild?.leftChild == nil)
         XCTAssertTrue(tree.leftChild?.rightChild == nil)
-
         
         let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
         XCTAssertTrue(paths[0] == [4,3])
@@ -76,10 +56,7 @@ class RedBlackBinarySearchTreeTests: XCTestCase {
     }
 
     func testRightRotationAndFlip() {
-        let tree = RedBlackBinarySearchTree<IntegerPair>(leftChild: nil,
-                                                         rightChild: nil,
-                                                         value: IntegerPair(key: 5, value: 0),
-                                                         color: .black)
+        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(5)]
         tree.insert(item: IntegerPair(key: 2, value: 0))
         tree.insert(item: IntegerPair(key: 1, value: 0))
         
@@ -107,17 +84,7 @@ class RedBlackBinarySearchTreeTests: XCTestCase {
 class RedBlackBinarySearchTreeTraversalTests: XCTestCase {
     
     func testDefaultIteration() {
-        let tree: RedBlackBinarySearchTree<IntegerPair> = RedBlackBinarySearchTree<IntegerPair>(leftChild: nil,
-                                                                                                rightChild: nil,
-                                                                                                value: IntegerPair(key: 50, value: 0),
-                                                                                                color: .black)
-        tree.insert(item: IntegerPair(key: 23, value: 0))
-        tree.insert(item: IntegerPair(key: 76, value: 0))
-        tree.insert(item: IntegerPair(key: 100, value: 0))
-        tree.insert(item: IntegerPair(key: 40, value: 0))
-        tree.insert(item: IntegerPair(key: 22, value: 0))
-        tree.insert(item: IntegerPair(key: 21, value: 0))
-        tree.insert(item: IntegerPair(key: 20, value: 0))
+        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
         
         let keyExpectation = [20,21,22,23,40,50,76,100]
         let valueExpectation = [0,0,0,0,0,0,0,0]
@@ -128,18 +95,7 @@ class RedBlackBinarySearchTreeTraversalTests: XCTestCase {
     }
     
     func testTraverseInOrderIterator() {
-        let tree: RedBlackBinarySearchTree<IntegerPair> = RedBlackBinarySearchTree<IntegerPair>(leftChild: nil,
-                                                                                                rightChild: nil,
-                                                                                                value: IntegerPair(key: 50, value: 0),
-                                                                                                color: .black)
-        tree.insert(item: IntegerPair(key: 23, value: 0))
-        tree.insert(item: IntegerPair(key: 76, value: 0))
-        tree.insert(item: IntegerPair(key: 100, value: 0))
-        tree.insert(item: IntegerPair(key: 40, value: 0))
-        tree.insert(item: IntegerPair(key: 22, value: 0))
-        tree.insert(item: IntegerPair(key: 21, value: 0))
-        tree.insert(item: IntegerPair(key: 20, value: 0))
-
+        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
         tree.iterator = inOrderTraversalIterator(tree: tree)
         
         let keyExpectation = [20,21,22,23,40,50,76,100]
@@ -152,18 +108,7 @@ class RedBlackBinarySearchTreeTraversalTests: XCTestCase {
     
     
     func testTraverseInPostOrderIterator() {
-        let tree: RedBlackBinarySearchTree<IntegerPair> = RedBlackBinarySearchTree<IntegerPair>(leftChild: nil,
-                                                                                                rightChild: nil,
-                                                                                                value: IntegerPair(key: 50, value: 0),
-                                                                                                color: .black)
-        tree.insert(item: IntegerPair(key: 23, value: 0))
-        tree.insert(item: IntegerPair(key: 76, value: 0))
-        tree.insert(item: IntegerPair(key: 100, value: 0))
-        tree.insert(item: IntegerPair(key: 40, value: 0))
-        tree.insert(item: IntegerPair(key: 22, value: 0))
-        tree.insert(item: IntegerPair(key: 21, value: 0))
-        tree.insert(item: IntegerPair(key: 20, value: 0))
-        
+        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
         tree.iterator = postOrderTraversalIterator(tree: tree)
         
         let keyExpectation = [20,22,21,40,76,100,50,23]
