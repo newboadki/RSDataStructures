@@ -65,6 +65,10 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : TraversableBinaryTree {
     }
     
     
+    
+    /// Convenience initialiser to create a tree from an array
+    ///
+    /// - Parameter elements: array literal of keyValue pairs
     public init(arrayLiteral elements: T...)
     {
         var isFirstElement = true
@@ -84,6 +88,10 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : TraversableBinaryTree {
     }
 
     
+    /// Add new node to the tree
+    ///
+    /// - Parameter item: key-value pair that will be inserted into the tree
+    /// - Complexity: O(log(N))
     public func insert(item: T) {
         let _ = RedBlackBinarySearchTree.insert(item: item, in: self)
         self.color = .black
@@ -121,18 +129,17 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : TraversableBinaryTree {
         
     }
     
+    
+    /// Helper method to determine if a node is red
+    ///
+    /// - Returns: True if the node is red. False otherwise.
     public func isRed() -> Bool {
         return (self.color == .red)
     }
-    
-    private func assignValues(from tree: RedBlackBinarySearchTree<T>) {
-        if !(self === tree) {
-            self.item = tree.item
-            self.leftChild = tree.leftChild
-            self.rightChild = tree.rightChild
-        }
 
-    }
+    
+    
+    // MARK: - TRANSFORMATIONS TO KEEP RED-BLACK PROPERTIES -
     
     private static func rotateLeft(tree: RedBlackBinarySearchTree<T>) {
         let right = tree.rightChild
