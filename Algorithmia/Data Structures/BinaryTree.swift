@@ -159,6 +159,16 @@ protocol TraversableBinaryTree : BinaryTree, Sequence {
 extension TraversableBinaryTree {
     
     public func makeIterator() -> AnyIterator<Item> {
-        return self.iterator!
+        if let existingIterator = self.iterator {
+            return existingIterator
+        } else {
+            return self.defaultIterator()
+        }
+        
     }
+    
+    fileprivate func defaultIterator() -> AnyIterator<Item> {
+        return inOrderTraversalIterator(tree: self)
+    }
+
 }
