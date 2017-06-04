@@ -8,7 +8,7 @@
 
 import XCTest
 
-class RedBlackBinarySearchTreeTests: XCTestCase {
+class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
     
     func testMultipleInsertion() {
         let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
@@ -80,6 +80,20 @@ class RedBlackBinarySearchTreeTests: XCTestCase {
     }
 }
 
+
+class RedBlackBinarySearchTreeMinMaxTests: XCTestCase {
+    
+    func testMinimum() {
+        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
+        XCTAssertTrue(tree.minimum()?.item.key == 20)
+    }
+    
+    func testMaximum() {
+        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
+        XCTAssertTrue(tree.maximum()?.item.key == 100)
+    }
+
+}
 
 class RedBlackBinarySearchTreeTraversalTests: XCTestCase {
     
