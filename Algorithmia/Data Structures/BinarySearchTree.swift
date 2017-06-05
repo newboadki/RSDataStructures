@@ -12,16 +12,16 @@ import Foundation
 /// Generic implementation of a binary search tree. 
 /// It is a recursive implementation.
 /// Just a test, if wanted to force K and V to be equal. where Element.K == Element.V
-public final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryTree {
+public final class BasicBinarySearchTree<Element : KeyValuePair> : TraversableBinaryTree {
     
     typealias Item = Element
     
     
-    public var parent : BinarySearchTree<Element>?
+    public var parent :BasicBinarySearchTree<Element>?
     
-    public var leftChild : BinarySearchTree<Element>?
+    public var leftChild :BasicBinarySearchTree<Element>?
     
-    public var rightChild : BinarySearchTree<Element>?
+    public var rightChild :BasicBinarySearchTree<Element>?
     
     public var item : Element!
         
@@ -42,7 +42,7 @@ public final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryT
     ///   - leftChild: reference to the  left subtree
     ///   - rightChild: reference to the right subtree
     ///   - value: item contained in the tree node.
-    init(parent: BinarySearchTree?, leftChild: BinarySearchTree?, rightChild: BinarySearchTree?, value:Element) {
+    init(parent:BasicBinarySearchTree?, leftChild:BasicBinarySearchTree?, rightChild:BasicBinarySearchTree?, value:Element) {
         self.parent = parent
         self.leftChild = leftChild
         self.rightChild = rightChild
@@ -58,7 +58,7 @@ public final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryT
     ///
     /// - Parameter element: Element to be inserted into the tree.
     /// - Complexity: O(log N), N being the number of nodes in the tree
-    func insert(newElement : BinarySearchTree) {
+    func insert(newElement :BasicBinarySearchTree) {
  
         if self.item.containsDefaultValues() == true {
             self.replace(element: self, with: newElement)
@@ -85,7 +85,7 @@ public final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryT
     /// Adds a new subtree to the tree, maintaining the order property of a binary search tree
     ///
     /// - Parameter element: Element to be inserted into the tree.
-    func insertIterative(element : BinarySearchTree) {
+    func insertIterative(element :BasicBinarySearchTree) {
         
         guard self.item != element.item else {
             // If the element to insert is equal to the current tree's root we don't insert
@@ -94,7 +94,7 @@ public final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryT
         
         var cameFromLeft : Bool = false
         var parentNode = self
-        var currentNode : BinarySearchTree? = self
+        var currentNode :BasicBinarySearchTree? = self
         
         while (currentNode != nil) {
             parentNode = currentNode!
@@ -132,7 +132,7 @@ public final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryT
 
             if ((elementToDelete.leftChild != nil) && (elementToDelete.rightChild != nil)) {
                 // Two children
-                let minimumFromRightBranch : BinarySearchTree! = elementToDelete.rightChild?.minimum()
+                let minimumFromRightBranch :BasicBinarySearchTree! = elementToDelete.rightChild?.minimum()
                 
                 // Replace the values of the node to be deleted by the values in minimum
                 elementToDelete.item.key = minimumFromRightBranch.item.key
@@ -162,7 +162,7 @@ public final class BinarySearchTree<Element : KeyValuePair> : TraversableBinaryT
         }
     }
     
-    private func replace(element existingElement: BinarySearchTree<Element>, with newElement: BinarySearchTree<Element>?) {
+    private func replace(element existingElement:BasicBinarySearchTree<Element>, with newElement:BasicBinarySearchTree<Element>?) {
         
         if let parentNode = existingElement.parent {
             

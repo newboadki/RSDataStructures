@@ -20,7 +20,7 @@ struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
     
     var array : Array<Array<Element>?>
     
-    var topPriorityQueue : BinarySearchTree<IntegerPair>?
+    var topPriorityQueue : BasicBinarySearchTree<IntegerPair>?
     
     
     // MARK : PriorityQueue Protocol
@@ -117,7 +117,7 @@ struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
     
     // MARK:  Top priority queue
     private mutating func addElementToTopQueue(element : Int) {
-        let treeNode = BinarySearchTree<IntegerPair>(parent: nil,
+        let treeNode = BasicBinarySearchTree<IntegerPair>(parent: nil,
                                                      leftChild: nil,
                                                      rightChild: nil,
                                                      value: IntegerPair(key: element, value: 0))

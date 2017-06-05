@@ -1,5 +1,5 @@
 //
-//  BinarySearchTreeTests.swift
+//  BasicBinarySearchTreeTests.swift
 //  Algorithmia
 //
 //  Created by Borja Arias Drake on 09/11/2016.
@@ -9,9 +9,9 @@
 import XCTest
 
 
-class BinarySearchTreeTests: XCTestCase {
+class BasicBinarySearchTreeTests: XCTestCase {
     
-    var root : BinarySearchTree<IntegerPair>?
+    var root : BasicBinarySearchTree<IntegerPair>?
     
     override func setUp() {
         /*
@@ -27,31 +27,31 @@ class BinarySearchTreeTests: XCTestCase {
          */
         
         let A1_value = IntegerPair(key:2, value:300)
-        let A1 = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: A1_value)
+        let A1 = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: A1_value)
         
         let A_value = IntegerPair(key:5, value:300)
-        let A = BinarySearchTree(parent: nil, leftChild: A1, rightChild: nil, value: A_value)
+        let A = BasicBinarySearchTree(parent: nil, leftChild: A1, rightChild: nil, value: A_value)
         
         let B_1_1_value = IntegerPair(key:50, value:300)
-        let B1_1 = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: B_1_1_value)
+        let B1_1 = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: B_1_1_value)
         
         let B_1_2_value = IntegerPair(key:66, value:300)
-        let B1_2 = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: B_1_2_value)
+        let B1_2 = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: B_1_2_value)
         
         let B_2_2_value = IntegerPair(key:100, value:300)
-        let B2_2 = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: B_2_2_value)
+        let B2_2 = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: B_2_2_value)
         
         let B_1_value = IntegerPair(key:65, value:300)
-        let B1 = BinarySearchTree(parent: nil, leftChild: B1_1, rightChild: B1_2, value: B_1_value)
+        let B1 = BasicBinarySearchTree(parent: nil, leftChild: B1_1, rightChild: B1_2, value: B_1_value)
         
         let B_2_value = IntegerPair(key:79, value:300)
-        let B2 = BinarySearchTree(parent: nil, leftChild: nil, rightChild: B2_2, value: B_2_value)
+        let B2 = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: B2_2, value: B_2_value)
         
         let B_value = IntegerPair(key:70, value:300)
-        let B = BinarySearchTree(parent: nil, leftChild: B1, rightChild: B2, value: B_value)
+        let B = BasicBinarySearchTree(parent: nil, leftChild: B1, rightChild: B2, value: B_value)
         
         let R_value = IntegerPair(key:13, value:300)
-        self.root = BinarySearchTree(parent: nil, leftChild: A, rightChild: B, value: R_value)
+        self.root = BasicBinarySearchTree(parent: nil, leftChild: A, rightChild: B, value: R_value)
     }
     
     func test_search() {
@@ -75,11 +75,11 @@ class BinarySearchTreeTests: XCTestCase {
     }
 
     func test_min_where_root_is_min() {
-        self.root = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 25, value: 0)))
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 45, value: 0)))
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 124, value: 0)))
+        self.root = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 25, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 45, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 124, value: 0)))
 
         XCTAssert(self.root?.minimum()?.item.key == 13)
     }
@@ -89,22 +89,22 @@ class BinarySearchTreeTests: XCTestCase {
     }
 
     func test_max_where_root_is_max() {
-        self.root = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:40, value:0))
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 12, value: 0)))
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 11, value: 0)))
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 10, value: 0)))
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 5, value: 0)))
+        self.root = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:40, value:0))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 12, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 11, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 10, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 5, value: 0)))
 
         XCTAssert(self.root?.maximum()?.item.key == 40)
     }
     
     func test_insert_iterative() {
-        self.root = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
+        self.root = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
         
-        self.root?.insertIterative(element: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 5, value: 0)))
-        self.root?.insertIterative(element: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 3, value: 0)))
-        self.root?.insertIterative(element: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
-        self.root?.insertIterative(element: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 4, value: 0)))
+        self.root?.insertIterative(element: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 5, value: 0)))
+        self.root?.insertIterative(element: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 3, value: 0)))
+        self.root?.insertIterative(element: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
+        self.root?.insertIterative(element: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 4, value: 0)))
         
         XCTAssert(self.root?.minimum()?.item.key == 3)
         XCTAssert(self.root?.maximum()?.item.key == 66)
@@ -118,12 +118,12 @@ class BinarySearchTreeTests: XCTestCase {
     }
 
     func test_insert() { // Recursive
-        self.root = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
+        self.root = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
         
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 5, value: 0)))
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 3, value: 0)))
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
-        self.root?.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 4, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 5, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 3, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 4, value: 0)))
         
         XCTAssert(self.root?.minimum()?.item.key == 3)
         XCTAssert(self.root?.maximum()?.item.key == 66)
@@ -138,16 +138,16 @@ class BinarySearchTreeTests: XCTestCase {
 
     func test_delete() {
         
-        var s11 : BinarySearchTree<IntegerPair>? = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 11, value: 0))
-        var s12 : BinarySearchTree<IntegerPair>?  = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 12, value: 0))
-        var s90 : BinarySearchTree<IntegerPair>?  = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 90, value: 0))
-        var s75 : BinarySearchTree<IntegerPair>?  = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 75, value: 0))
-        var s100 : BinarySearchTree<IntegerPair>?  = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 100, value: 0))
-        var s99 : BinarySearchTree<IntegerPair>?  = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 99, value: 0))
-        var s101 : BinarySearchTree<IntegerPair>?  = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 101, value: 0))
+        var s11 : BasicBinarySearchTree<IntegerPair>? = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 11, value: 0))
+        var s12 : BasicBinarySearchTree<IntegerPair>?  = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 12, value: 0))
+        var s90 : BasicBinarySearchTree<IntegerPair>?  = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 90, value: 0))
+        var s75 : BasicBinarySearchTree<IntegerPair>?  = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 75, value: 0))
+        var s100 : BasicBinarySearchTree<IntegerPair>?  = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 100, value: 0))
+        var s99 : BasicBinarySearchTree<IntegerPair>?  = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 99, value: 0))
+        var s101 : BasicBinarySearchTree<IntegerPair>?  = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 101, value: 0))
         
-        self.root = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:50, value:0))
-        var s50 : BinarySearchTree<IntegerPair>? = self.root
+        self.root = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:50, value:0))
+        var s50 : BasicBinarySearchTree<IntegerPair>? = self.root
         
         self.root?.insert(newElement: s12!)
         self.root?.insert(newElement: s11!)
@@ -269,7 +269,7 @@ class BinarySearchTreeTests: XCTestCase {
         XCTAssertNil(self.root?.search(key: 12))
         
         
-        var s30 : BinarySearchTree<IntegerPair>? = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 30, value: 0))
+        var s30 : BasicBinarySearchTree<IntegerPair>? = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 30, value: 0))
         self.root?.insert(newElement: s30!)
         XCTAssert(self.root?.item.key == 30)
         XCTAssert(self.root?.item.value == 0)
@@ -279,8 +279,8 @@ class BinarySearchTreeTests: XCTestCase {
         s30 = self.root?.search(key: 30)
         XCTAssertNil(s30?.leftChild)
         XCTAssertNil(s30?.rightChild)
-        var s29  : BinarySearchTree<IntegerPair>? = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 29, value: 0))
-        var s31  : BinarySearchTree<IntegerPair>? = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 31, value: 0))
+        var s29  : BasicBinarySearchTree<IntegerPair>? = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 29, value: 0))
+        var s31  : BasicBinarySearchTree<IntegerPair>? = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 31, value: 0))
         self.root?.insert(newElement: s29!)
         self.root?.insert(newElement: s31!)
 
@@ -292,11 +292,11 @@ class BinarySearchTreeTests: XCTestCase {
 
     func test_delete_in_failing_step() {
         
-        let s278 : BinarySearchTree<IntegerPair>?  = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 278, value: 0))
-        let s98 : BinarySearchTree<IntegerPair>? = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 98, value: 0))
-        let s800 : BinarySearchTree<IntegerPair>?  = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 800, value: 0))
+        let s278 : BasicBinarySearchTree<IntegerPair>?  = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 278, value: 0))
+        let s98 : BasicBinarySearchTree<IntegerPair>? = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 98, value: 0))
+        let s800 : BasicBinarySearchTree<IntegerPair>?  = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 800, value: 0))
         
-        self.root = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:780, value:0))
+        self.root = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:780, value:0))
         self.root?.insert(newElement: s98!)
         self.root?.insert(newElement: s278!)
         self.root?.insert(newElement: s800!)
@@ -310,10 +310,10 @@ class BinarySearchTreeTests: XCTestCase {
 
     }
     
-//    func assertNodeisCorrect(node: BinarySearchTree<IntegerPair>?,
-//                             parent:BinarySearchTree<IntegerPair>?,
-//                             leftChild:BinarySearchTree<IntegerPair>?,
-//                             rightChild:BinarySearchTree<IntegerPair>?) {
+//    func assertNodeisCorrect(node: BasicBinarySearchTree<IntegerPair>?,
+//                             parent:BasicBinarySearchTree<IntegerPair>?,
+//                             leftChild:BasicBinarySearchTree<IntegerPair>?,
+//                             rightChild:BasicBinarySearchTree<IntegerPair>?) {
 //        XCTAssertNotNil(node)
 //        
 //        if let n =  node {
@@ -343,10 +343,10 @@ class BinarySearchTreeTests: XCTestCase {
 //        
 //    }
     
-    func assertNodeisCorrect(node: BinarySearchTree<IntegerPair>?,
-                             parent:BinarySearchTree<IntegerPair>?,
-                             leftChild:BinarySearchTree<IntegerPair>?,
-                             rightChild:BinarySearchTree<IntegerPair>?) {
+    func assertNodeisCorrect(node: BasicBinarySearchTree<IntegerPair>?,
+                             parent:BasicBinarySearchTree<IntegerPair>?,
+                             leftChild:BasicBinarySearchTree<IntegerPair>?,
+                             rightChild:BasicBinarySearchTree<IntegerPair>?) {
         
         
         if let n =  node {
@@ -378,14 +378,14 @@ class BinarySearchTreeTests: XCTestCase {
 
 }
 
-class BinarySearchTreeBinaryTreeExtensions: XCTestCase {
+class BasicBinarySearchTreeBinaryTreeExtensions: XCTestCase {
     
     func testPathsFromRootToLeaves() {
-        let tree = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
-        tree.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 10, value: 0)))
-        tree.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 45, value: 0)))
-        tree.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
-        tree.insert(newElement: BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 124, value: 0)))
+        let tree = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
+        tree.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 10, value: 0)))
+        tree.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 45, value: 0)))
+        tree.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
+        tree.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 124, value: 0)))
         
         let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
         
@@ -395,7 +395,7 @@ class BinarySearchTreeBinaryTreeExtensions: XCTestCase {
     }
 
     func testPathsFromRootToLeavesSingleNode() {
-        let tree = BinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
+        let tree = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
         
         let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
         
