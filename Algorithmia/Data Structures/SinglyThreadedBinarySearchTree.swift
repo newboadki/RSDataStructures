@@ -14,7 +14,7 @@ import Foundation
 /// becuase its internal implementation does not allow
 /// all arbitraty traversal algorithms. Some would not work. 
 /// Therefore it is this class that defines the different supported traversal algorithms.
-public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : SearchBinaryTree {
+public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySearchTree {
     
     typealias Item = T
     

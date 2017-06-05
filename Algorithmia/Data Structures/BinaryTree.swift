@@ -40,6 +40,24 @@ protocol BinaryTree : Equatable {
     /// - Returns: True if an element was deleted.
     func delete(elementWithKey: Item.K) -> Bool
     
+    
+    /// Finds a node in the tree with the given key
+    ///
+    /// - Parameter key: Key to search for.
+    /// - Returns: A node with the given key or nil if not found.
+    func search(key: Self.Item.K) -> Self?
+    
+    
+    /// Minimum
+    ///
+    /// - Returns: The node with the smallest key
+    func minimum() -> Self?
+
+    /// Maximum
+    ///
+    /// - Returns: The node with the bigest key
+    func maximum() -> Self?
+
     /// Builds all paths from the root to the leaves of the tree.
     ///
     /// - Parameter tree: The tree to be traversed.
@@ -116,18 +134,18 @@ extension BinaryTree {
 }
 
 
-protocol SearchBinaryTree : BinaryTree {
+/// Search Binary Trees are Binary trees that enforce the following invariant:
+/// Given a node with key K:
+///  - The left subtree contains keys that are lower than K.
+///  - The right subtree contains keys that are greater than K.
+///
+/// It is due to this property that the BinarySearchTree protocol offers default implementations 
+/// for search, minimum, maximum and other common tasks.
+protocol BinarySearchTree : BinaryTree {
     
-    func search(key: Self.Item.K) -> Self?
-    
-    func minimum() -> Self?
-    
-    func maximum() -> Self?
-    
-    func pathsFromRootToLeaves<C: Comparable, T: BinaryTree>(tree: T?) -> [[C]] where T.Item.K == C
 }
 
-extension SearchBinaryTree {
+extension BinarySearchTree {
     
     // MARK: - Search
     
@@ -179,7 +197,7 @@ extension SearchBinaryTree {
 }
 
 
-protocol TraversableBinaryTree : SearchBinaryTree, Sequence {
+protocol TraversableBinaryTree : BinarySearchTree, Sequence {
     
     var iterator : AnyIterator<Item>? {get set}
 }
