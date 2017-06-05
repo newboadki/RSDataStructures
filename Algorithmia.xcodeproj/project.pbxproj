@@ -41,7 +41,7 @@
 		00AC085E1E9F5F9C007B0414 /* Base_DNumberFromDigitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC085D1E9F5F9C007B0414 /* Base_DNumberFromDigitsTests.swift */; };
 		00AC08601EA0CC3A007B0414 /* RabinKarpAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC085F1EA0CC3A007B0414 /* RabinKarpAlgorithm.swift */; };
 		00AC08621EA135C0007B0414 /* RabinKarpAlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC08611EA135C0007B0414 /* RabinKarpAlgorithmTests.swift */; };
-		00AC0F4E1DD3B8B8003A70FD /* BinarySearchTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F4D1DD3B8B8003A70FD /* BinarySearchTree.swift */; };
+		00AC0F4E1DD3B8B8003A70FD /* BasicBinarySearchTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F4D1DD3B8B8003A70FD /* BasicBinarySearchTree.swift */; };
 		00AC0F501DD3BF97003A70FD /* BinarySearchTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC0F4F1DD3BF97003A70FD /* BinarySearchTreeTests.swift */; };
 		00AECD8C1E9CB745007E8458 /* FindAllPermutations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AECD8B1E9CB745007E8458 /* FindAllPermutations.swift */; };
 		00AECD901E9E7D7D007E8458 /* FindAllPermutationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AECD8F1E9E7D7D007E8458 /* FindAllPermutationTests.swift */; };
@@ -122,7 +122,7 @@
 		00AC085D1E9F5F9C007B0414 /* Base_DNumberFromDigitsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base_DNumberFromDigitsTests.swift; sourceTree = "<group>"; };
 		00AC085F1EA0CC3A007B0414 /* RabinKarpAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RabinKarpAlgorithm.swift; sourceTree = "<group>"; };
 		00AC08611EA135C0007B0414 /* RabinKarpAlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RabinKarpAlgorithmTests.swift; sourceTree = "<group>"; };
-		00AC0F4D1DD3B8B8003A70FD /* BinarySearchTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySearchTree.swift; sourceTree = "<group>"; };
+		00AC0F4D1DD3B8B8003A70FD /* BasicBinarySearchTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicBinarySearchTree.swift; sourceTree = "<group>"; };
 		00AC0F4F1DD3BF97003A70FD /* BinarySearchTreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySearchTreeTests.swift; sourceTree = "<group>"; };
 		00AC0F531DD8FA8C003A70FD /* BoundedHeightPriorityQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundedHeightPriorityQueueTests.swift; sourceTree = "<group>"; };
 		00AECD8B1E9CB745007E8458 /* FindAllPermutations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindAllPermutations.swift; sourceTree = "<group>"; };
@@ -315,7 +315,7 @@
 		00AC0F4C1DD3B836003A70FD /* Trees */ = {
 			isa = PBXGroup;
 			children = (
-				00AC0F4D1DD3B8B8003A70FD /* BinarySearchTree.swift */,
+				00AC0F4D1DD3B8B8003A70FD /* BasicBinarySearchTree.swift */,
 				001989101ECE1E8E001D6214 /* SinglyThreadedBinarySearchTree.swift */,
 				00C299E01ECCE8EA000575E7 /* BinaryTree.swift */,
 				00C299D61ECA42CA000575E7 /* TreeTraversals.swift */,
@@ -538,7 +538,7 @@
 				00140EF81EB62CB700992C1B /* SingleLinkedList.swift in Sources */,
 				00BBA4E31EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift in Sources */,
 				00C299D71ECA42CA000575E7 /* TreeTraversals.swift in Sources */,
-				00AC0F4E1DD3B8B8003A70FD /* BinarySearchTree.swift in Sources */,
+				00AC0F4E1DD3B8B8003A70FD /* BasicBinarySearchTree.swift in Sources */,
 				00BBA4E11EA63A1200E26C3A /* BoyerMooreAlgorithm.swift in Sources */,
 				00C876891E0899F200FA49DB /* BoundedHeightPriorityQueueTests.swift in Sources */,
 				001989111ECE1E8E001D6214 /* SinglyThreadedBinarySearchTree.swift in Sources */,

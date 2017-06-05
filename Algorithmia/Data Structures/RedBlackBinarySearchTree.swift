@@ -15,7 +15,6 @@ enum RedBlackTreeColor {
 
 final class RedBlackBinarySearchTree<T: KeyValuePair> : TraversableBinaryTree {
     
-    
     // MARK: From BinaryTree protocol
     typealias Item = T
     
@@ -129,6 +128,11 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : TraversableBinaryTree {
         
     }
     
+    
+    func delete(elementWithKey key: T.K) -> Bool {
+        return false
+    }
+
     
     /// Helper method to determine if a node is red
     ///
