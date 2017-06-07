@@ -13,7 +13,7 @@ enum RedBlackTreeColor {
     case red
 }
 
-final class RedBlackBinarySearchTree<T: KeyValuePair> : TraversableBinaryTree {
+final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree, TraversableBinaryTree {
     
     // MARK: From BinaryTree protocol
     typealias Item = T
@@ -24,6 +24,8 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : TraversableBinaryTree {
     
     var item : T!
     
+    /// TODO: Implement
+    public var parent :RedBlackBinarySearchTree<T>?
     
     // MARK: From TrversableTree protocol
     /// Traversable binary trees accept an interator to enumerate its elements.
@@ -62,7 +64,6 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : TraversableBinaryTree {
         self.count = 1
         self.color = color
     }
-    
     
     
     /// Convenience initialiser to create a tree from an array
@@ -122,7 +123,7 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : TraversableBinaryTree {
             RedBlackBinarySearchTree.flipColors(tree: tree!)
         }
 
-        // UPDATE SIZES
+        // TODO: UPDATE SIZES
         
         return tree
         

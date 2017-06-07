@@ -14,7 +14,7 @@ import Foundation
 /// becuase its internal implementation does not allow
 /// all arbitraty traversal algorithms. Some would not work. 
 /// Therefore it is this class that defines the different supported traversal algorithms.
-public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySearchTree {
+public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySearchTree, CompleteBinaryTree {
     
     typealias Item = T
     
@@ -67,8 +67,13 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
     }
     
     
+    
+    /// - Parameter elements: non-empty array literal
+    /// - Discussion: This method has the precondition of the array literal not being empty.
     public init(arrayLiteral elements: T...)
-    {
+    {        
+        precondition(elements.count > 0)
+        
         var isFirstElement = true
         self.count = 0
         

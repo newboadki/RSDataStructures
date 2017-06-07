@@ -20,6 +20,7 @@ public protocol KeyValuePair : Comparable {
     
     mutating func resetToDefaultValues()
     func containsDefaultValues() -> Bool
+    init(key: K, value: V)
 }
 
 

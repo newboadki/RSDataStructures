@@ -21,23 +21,26 @@ protocol BinaryTree : Equatable {
     /// Reference to the right subtree
     var rightChild: Self? {get}
     
-    /// A container for information.
+    /// A container of information.
+    /// TODO: Allow this to be optional
     var item: Item! {get}
     
     /// The number of nodes in the tree
     var count: Int {get}
     
-    
-    /// Adds a new node to the tree. 
+
+    /// Adds a new node to the tree.
     ///
     /// - Parameter item: new item to be added to the tree.
     /// - Complexity: Normally a O(Log(N)) is expected. Deviations must be documented.
     func insert(item: Item)
     
+    
     /// Removes a node from the tree, that has a matching key.
     ///
     /// - Parameter elementWithKey: the key the element to be deleted must have.
     /// - Returns: True if an element was deleted.
+    /// - Complexity: Normally a O(Log(N)) is expected. Deviations must be documented.
     func delete(elementWithKey: Item.K) -> Bool
     
     
@@ -53,17 +56,42 @@ protocol BinaryTree : Equatable {
     /// - Returns: The node with the smallest key
     func minimum() -> Self?
 
+    
     /// Maximum
     ///
     /// - Returns: The node with the bigest key
     func maximum() -> Self?
 
+    
     /// Builds all paths from the root to the leaves of the tree.
     ///
     /// - Parameter tree: The tree to be traversed.
     /// - Returns: An array of arrays, ech of which contains the keys of the nodes that make up the path.
     /// - Complexity: Expected O(N * log_2(N)). As a very basic explanation, each path has log_2(N) nodes (at worst, in a perfect binary tree). There are N leaves. The cost of printing all paths is #(paths) * cost(printing_a_path) => N * log_2(N).
     func pathsFromRootToLeaves<C: Comparable, T: BinaryTree>(tree: T?) -> [[C]] where T.Item.K == C
+    
+    
+    /// The legth of the longest root to leaf path
+    ///
+    /// - Returns: The legth of the longest root to leaf path
+    /// - Complexity: Worst case O(N).
+    func maximumHeight() -> Int
+    
+    
+    /// This is the deepest node at the far most right in the tree.
+    /// The position of this node makes it useful in many algorithmic 
+    /// like for example to keep the balance property of certain trees.
+    ///
+    /// - Returns: The bottommost rightmost node in the tree.
+    func bottommostRightMostNode() -> Self?
+    
+    
+    
+    /// Binary trees have at most 2 children, but they can actually have any
+    /// number from 0 to 2 children, both inclusive.
+    ///
+    /// - Returns: The number of children nodes.
+    func numberOfChildren() -> Int
 }
 
 
@@ -131,7 +159,42 @@ extension BinaryTree {
         traversePaths(tree: tree, paths: &paths, stack: &stackCallArray, count: 0)
         return paths
     }
+    
+    
+    /// The legth of the longest root to leaf path
+    ///
+    /// - Returns: The legth of the longest root to leaf path
+    /// - Complexity: O(N * Log_2(N)). This worsens the expectations defined in the protocol, because it relies on pathsFromRootToLeaves which does extra effort to compose an array of paths.
+    /// - Discussion: The height of the root is considered to be 1.
+    func maximumHeight() -> Int {
+        let paths = self.pathsFromRootToLeaves(tree: self)
+        var max = 0
+        
+        for p in paths {
+            if p.count > max {
+                max = p.count
+            }
+        }
+        return max
+    }
+    
+    
+    /// Binary trees have at most 2 children, but they can actually have any
+    /// number from 0 to 2 children, both inclusive.
+    ///
+    /// - Returns: The number of children nodes.
+    func numberOfChildren() -> Int {
+        if self.leftChild != nil && self.rightChild != nil {
+            return 2
+        } else if (self.leftChild != nil) || (self.rightChild != nil) {
+            return 1
+        } else {
+            return 0
+        }
+    }
 }
+
+
 
 
 /// Search Binary Trees are Binary trees that enforce the following invariant:
@@ -197,7 +260,62 @@ extension BinarySearchTree {
 }
 
 
-protocol TraversableBinaryTree : BinarySearchTree, Sequence {
+/// A CompleteBinaryTree is a binary tree that introduces the following invariant:
+///  - All levels have all possible nodes
+///  - Only the last level can have missing nodes, but the are filled from left to right.
+protocol CompleteBinaryTree : BinaryTree {
+    
+}
+
+extension CompleteBinaryTree {
+
+    /// The legth of the longest root to leaf path
+    ///
+    /// - Returns: The legth of the longest root to leaf path
+    /// - Complexity: The invariant allows a worst case of O(Log(N)) because either all paths will have the same length or the longest paths will be found on the left descendants of the root.
+    /// - Discussion: The height of the root is considered to be 1.
+    func maximumHeight() -> Int {
+        var height: Int = 1
+        var current: Self? = self
+        
+        while(current?.leftChild != nil) {
+            current = current?.leftChild
+            height += 1
+        }
+        
+        return height
+    }
+}
+
+extension CompleteBinaryTree where Self : TraversableBinaryTree {
+    
+    /// - Returns: The node the first node that still has space to allocate a child according to the invariant that a
+    ///   Balanced Binary Tree defines all levels full, except the last one, which is filled from left to right.
+    func nextIncompleteNode() -> Self {
+        
+        let iterator: AnyIterator<(node: Self, height: Int)> = breadthFirstSearchTraversalIterator(tree: self)
+        let maximumHeight = self.maximumHeight()
+        
+        while let tuple = iterator.next() {
+            let h = tuple.height
+            if (h == maximumHeight || h == (maximumHeight-1)) && (tuple.node.numberOfChildren()<2) {
+                return tuple.node
+            }
+        }
+        
+        return self
+    }
+}
+
+/// Here, we define Traversal binary trees as those binary trees that accept any traversal strategy (iterator) based on
+/// the fact that a binary tree has left and right children. If your implementation requires more knowledge to be traversed
+/// then, not every strategy will work, therefore it's not traversable according to this definition. But of course, that 
+/// implementation can be a sequence and provide its own iterator.
+///
+/// Conformers of this class must guarantee that left and right children are not being reused when nil to encode information.
+/// For example, some implementations of binary trees replace nil right children to point to the successor. Those kinds of
+/// implementations are not considered Traversable becuause basic traversal algorithms would fail on that structure.
+protocol TraversableBinaryTree : BinaryTree, Sequence {
     
     var iterator : AnyIterator<Item>? {get set}
 }
@@ -218,4 +336,24 @@ extension TraversableBinaryTree {
         return inOrderTraversalIterator(tree: self)
     }
 
+    
+    /// This is the deepest node at the far most right in the tree.
+    /// The position of this node makes it useful in many algorithmic
+    /// like for example to keep the balance property of certain trees.
+    ///
+    /// - Returns: The bottommost rightmost node in the tree.
+    /// - Complexity: O(N)
+    public func bottommostRightMostNode() -> Self? {
+        
+        let iterator: AnyIterator<(node: Self, height: Int)> = postOrderRightToLeftTraversalIterator(tree: self)
+        let maximumHeight = self.maximumHeight()
+        
+        while let tuple = iterator.next() {
+            if tuple.height == maximumHeight {                
+                return tuple.node
+            }
+        }
+        
+        return nil        
+    }
 }

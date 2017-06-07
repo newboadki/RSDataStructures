@@ -12,7 +12,7 @@ import Foundation
 /// Generic implementation of a binary search tree. 
 /// It is a recursive implementation.
 /// Just a test, if wanted to force K and V to be equal. where Element.K == Element.V
-public final class BasicBinarySearchTree<Element : KeyValuePair> : TraversableBinaryTree {
+public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchTree, TraversableBinaryTree {
     
     typealias Item = Element
     

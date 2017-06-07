@@ -145,5 +145,3 @@ func keysFromIteration(tree: RedBlackBinarySearchTree<IntegerPair>) -> (keys: Ar
     }
     return (keys: keys, values: values)
 }
-
-

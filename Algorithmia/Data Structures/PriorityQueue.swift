@@ -8,12 +8,12 @@
 
 
 
-enum PriorityQueueType {
+public enum PriorityQueueType {
     case min
     case max
 }
 
-enum PriorityQueueError : Error {
+public enum PriorityQueueError : Error {
     case invalidOperationForType
     case capacityExceeded
 }
