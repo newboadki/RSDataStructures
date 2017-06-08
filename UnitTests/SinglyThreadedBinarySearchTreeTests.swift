@@ -90,6 +90,28 @@ class SinglyThreadedBinarySearchTreeTests: XCTestCase {
         XCTAssertTrue(keys == keyExpectation)
         XCTAssertTrue(values == valueExpectation)
     }
+    
+    func testDeletionUntilEmptyTree() {
+        
+        let tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(2),p(1),p(0),p(5),p(3),p(6),p(4)]
+        
+        _ = tree.delete(elementWithKey: 2)
+        _ = tree.delete(elementWithKey: 6)
+        _ = tree.delete(elementWithKey: 0)
+        _ = tree.delete(elementWithKey: 4)
+        _ = tree.delete(elementWithKey: 3)
+        _ = tree.delete(elementWithKey: 5)
+        _ = tree.delete(elementWithKey: 1)
+        
+        XCTAssert(tree.item == nil)
+        XCTAssert(tree.leftChild == nil)
+        XCTAssert(tree.rightChild == nil)
+        
+        tree.insert(item: p(56))
+        XCTAssert(tree.item?.key == 56)
+        XCTAssert(tree.leftChild == nil)
+        XCTAssert(tree.rightChild == nil)
+    }
 }
 
 
@@ -222,13 +244,7 @@ class SinglyThreadedBinarySearchTreeBinaryTreeExtensions: XCTestCase {
         tree = [p(20)]
         next = tree.nextIncompleteNode()
         XCTAssertTrue(next.item?.key == 20)
-
-
-
-
-
     }
-
 }
 
 

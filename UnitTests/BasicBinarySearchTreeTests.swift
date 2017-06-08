@@ -306,42 +306,37 @@ class BasicBinarySearchTreeTests: XCTestCase {
         assertNodeisCorrect(node: self.root, parent: nil, leftChild: s278, rightChild: s800)
         assertNodeisCorrect(node: s278, parent: self.root, leftChild: nil, rightChild: nil)
         assertNodeisCorrect(node: s800, parent: self.root, leftChild: nil, rightChild: nil)
-        
-
     }
     
-//    func assertNodeisCorrect(node: BasicBinarySearchTree<IntegerPair>?,
-//                             parent:BasicBinarySearchTree<IntegerPair>?,
-//                             leftChild:BasicBinarySearchTree<IntegerPair>?,
-//                             rightChild:BasicBinarySearchTree<IntegerPair>?) {
-//        XCTAssertNotNil(node)
-//        
-//        if let n =  node {
-//            if parent == nil {
-//                XCTAssertNil(n.parent)
-//            } else {
-//                XCTAssert(n.parent!.node.key == parent!.node.key)
-//            }
-//            
-//            if n.leftChild == nil {
-//                XCTAssertNil(leftChild)
-//            } else {
-//                XCTAssert(n.leftChild!.node.key == leftChild!.node.key)
-//            }
-//            
-//            if n.rightChild == nil {
-//                XCTAssertNil(rightChild)
-//            } else {
-//                XCTAssert(n.rightChild!.node.key == rightChild!.node.key)
-//            }
-//
-//        } else {
-//            XCTFail()
-//            return
-//            
-//        }
-//        
-//    }
+    func testDeletionUntilEmptyTree() {
+        
+        let s278 : BasicBinarySearchTree<IntegerPair>?  = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 278, value: 0))
+        let s98 : BasicBinarySearchTree<IntegerPair>? = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 98, value: 0))
+        let s800 : BasicBinarySearchTree<IntegerPair>?  = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 800, value: 0))
+        
+        self.root = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:780, value:0))
+        self.root?.insert(newElement: s98!)
+        self.root?.insert(newElement: s278!)
+        self.root?.insert(newElement: s800!)
+        
+        _ = self.root?.delete(elementWithKey: 98)
+        _ = self.root?.delete(elementWithKey: 780)
+        _ = self.root?.delete(elementWithKey: 278)
+        _ = self.root?.delete(elementWithKey: 800)
+        
+        XCTAssert(self.root?.item == nil)
+        XCTAssert(self.root?.leftChild == nil)
+        XCTAssert(self.root?.rightChild == nil)
+        
+        self.root?.insert(item: p(6))
+        self.root?.insert(item: p(2))
+
+        XCTAssert(self.root?.item?.key == 6)
+        XCTAssert(self.root?.leftChild?.item?.key == 2)
+        XCTAssert(self.root?.leftChild?.leftChild == nil)
+        XCTAssert(self.root?.leftChild?.rightChild == nil)
+        XCTAssert(self.root?.rightChild == nil)
+    }
     
     func assertNodeisCorrect(node: BasicBinarySearchTree<IntegerPair>?,
                              parent:BasicBinarySearchTree<IntegerPair>?,

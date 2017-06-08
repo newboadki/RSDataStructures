@@ -142,6 +142,11 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     /// - Complexity: Normally a O(Log(N)) is expected. Deviations must be documented.
     public func insert(item: T) {
         
+        guard self.item != nil else {
+            self.item = item.copy()
+            return
+        }
+        
         // Create a new node
         let newNode = BasicBinaryHeap<T>(value: item, parent:nil, leftChild: nil, rightChild: nil, type: self.type)
         

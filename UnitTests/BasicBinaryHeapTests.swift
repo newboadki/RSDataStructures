@@ -35,6 +35,13 @@ class BasicBinaryMinHeapTests: XCTestCase {
 
         XCTAssertTrue(heap.extractMinimum()?.item?.key == 8)
         XCTAssertTrue(heap.minimum() == nil)
+        XCTAssertTrue(heap.item == nil)
+        XCTAssertTrue(heap.leftChild == nil)
+        XCTAssertTrue(heap.rightChild == nil)
+
+        heap.insert(item: p(1))
+        XCTAssertTrue(heap.minimum()?.item?.key == 1)
+
     }
     
     func testInsertionWithReferenceType() {
@@ -62,12 +69,19 @@ class BasicBinaryMinHeapTests: XCTestCase {
         
         XCTAssertTrue(heap.extractMinimum()?.item?.key == 8.0)
         XCTAssertTrue(heap.minimum() == nil)
+        XCTAssertTrue(heap.item == nil)
+        XCTAssertTrue(heap.leftChild == nil)
+        XCTAssertTrue(heap.rightChild == nil)
+
+        heap.insert(item: DataContainer(key: 1.1, value: ""))
+        XCTAssertTrue(heap.minimum()?.item?.key == 1.1)
+
     }
 }
 
 class BasicBinaryMaxHeapTests: XCTestCase {
     
-    func testInsertion() {
+    func testInsertionAndExtraction() {
         let heap = BasicBinaryHeap<IntegerPair>(value: p(5), parent: nil, leftChild: nil, rightChild: nil, type:.max)        
         heap.insert(item: p(3))
         heap.insert(item: p(4))
@@ -92,6 +106,12 @@ class BasicBinaryMaxHeapTests: XCTestCase {
         
         XCTAssertTrue(heap.extractMaximum()?.item?.key == 1)
         XCTAssertTrue(heap.maximum() == nil)
+        XCTAssertTrue(heap.item == nil)
+        XCTAssertTrue(heap.leftChild == nil)
+        XCTAssertTrue(heap.rightChild == nil)
+        
+        heap.insert(item: p(1))
+        XCTAssertTrue(heap.maximum()?.item?.key == 1)
     }
 }
 
