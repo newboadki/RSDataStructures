@@ -18,22 +18,22 @@ class BasicBinaryMinHeapTests: XCTestCase {
         heap.insert(item: p(8))
         heap.insert(item: p(1))
         
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 1)
-        XCTAssertTrue(heap.minimum()?.item.key == 3)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 1)
+        XCTAssertTrue(heap.minimum()?.item?.key == 3)
         
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 3)
-        XCTAssertTrue(heap.minimum()?.item.key == 4)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 3)
+        XCTAssertTrue(heap.minimum()?.item?.key == 4)
         
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 4)
-        XCTAssertTrue(heap.minimum()?.item.key == 5)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 4)
+        XCTAssertTrue(heap.minimum()?.item?.key == 5)
         
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 5)
-        XCTAssertTrue(heap.minimum()?.item.key == 6)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 5)
+        XCTAssertTrue(heap.minimum()?.item?.key == 6)
         
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 6)
-        XCTAssertTrue(heap.minimum()?.item.key == 8)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 6)
+        XCTAssertTrue(heap.minimum()?.item?.key == 8)
 
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 8)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 8)
         XCTAssertTrue(heap.minimum() == nil)
     }
     
@@ -45,22 +45,22 @@ class BasicBinaryMinHeapTests: XCTestCase {
         heap.insert(item: DataContainer(key:8.0, value:"adf"))
         heap.insert(item: DataContainer(key:1.0, value:"adf"))
         
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 1.0)
-        XCTAssertTrue(heap.minimum()?.item.key == 3.0)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 1.0)
+        XCTAssertTrue(heap.minimum()?.item?.key == 3.0)
         
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 3.0)
-        XCTAssertTrue(heap.minimum()?.item.key == 4.0)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 3.0)
+        XCTAssertTrue(heap.minimum()?.item?.key == 4.0)
         
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 4.0)
-        XCTAssertTrue(heap.minimum()?.item.key == 5.0)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 4.0)
+        XCTAssertTrue(heap.minimum()?.item?.key == 5.0)
         
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 5.0)
-        XCTAssertTrue(heap.minimum()?.item.key == 6.0)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 5.0)
+        XCTAssertTrue(heap.minimum()?.item?.key == 6.0)
         
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 6.0)
-        XCTAssertTrue(heap.minimum()?.item.key == 8.0)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 6.0)
+        XCTAssertTrue(heap.minimum()?.item?.key == 8.0)
         
-        XCTAssertTrue(heap.extractMinimum()?.item.key == 8.0)
+        XCTAssertTrue(heap.extractMinimum()?.item?.key == 8.0)
         XCTAssertTrue(heap.minimum() == nil)
     }
 }
@@ -75,22 +75,22 @@ class BasicBinaryMaxHeapTests: XCTestCase {
         heap.insert(item: p(8))
         heap.insert(item: p(1))
         
-        XCTAssertTrue(heap.extractMaximum()?.item.key == 8)
-        XCTAssertTrue(heap.maximum()?.item.key == 6)
+        XCTAssertTrue(heap.extractMaximum()?.item?.key == 8)
+        XCTAssertTrue(heap.maximum()?.item?.key == 6)
         
-        XCTAssertTrue(heap.extractMaximum()?.item.key == 6)
-        XCTAssertTrue(heap.maximum()?.item.key == 5)
+        XCTAssertTrue(heap.extractMaximum()?.item?.key == 6)
+        XCTAssertTrue(heap.maximum()?.item?.key == 5)
         
-        XCTAssertTrue(heap.extractMaximum()?.item.key == 5)
-        XCTAssertTrue(heap.maximum()?.item.key == 4)
+        XCTAssertTrue(heap.extractMaximum()?.item?.key == 5)
+        XCTAssertTrue(heap.maximum()?.item?.key == 4)
         
-        XCTAssertTrue(heap.extractMaximum()?.item.key == 4)
-        XCTAssertTrue(heap.maximum()?.item.key == 3)
+        XCTAssertTrue(heap.extractMaximum()?.item?.key == 4)
+        XCTAssertTrue(heap.maximum()?.item?.key == 3)
         
-        XCTAssertTrue(heap.extractMaximum()?.item.key == 3)
-        XCTAssertTrue(heap.maximum()?.item.key == 1)
+        XCTAssertTrue(heap.extractMaximum()?.item?.key == 3)
+        XCTAssertTrue(heap.maximum()?.item?.key == 1)
         
-        XCTAssertTrue(heap.extractMaximum()?.item.key == 1)
+        XCTAssertTrue(heap.extractMaximum()?.item?.key == 1)
         XCTAssertTrue(heap.maximum() == nil)
     }
 }
@@ -108,15 +108,6 @@ final class DataContainer : KeyValuePair {
     required init(key: Float, value: String) {
         self.key = key
         self.value = value
-    }
-
-    func resetToDefaultValues() {
-        self.key = -1.0
-        self.value = "Default value"
-    }
-    
-    func containsDefaultValues() -> Bool {
-        return self.key == -1.0 && self.value == "Default value"
     }
 
     func copy() -> DataContainer {

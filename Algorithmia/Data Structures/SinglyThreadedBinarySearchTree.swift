@@ -24,7 +24,7 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
     
     var rightChild : SinglyThreadedBinarySearchTree<T>?
     
-    var item : T!
+    var item : T?
     
     /// Traversable binary trees accept an interator to enumerate its elements.
     /// By default this class provides an in-order iterator.
@@ -100,11 +100,18 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
     /// - Complexity: O(log(N))
     public func insert(item: T) {
         
+        // If the tree is empty, just assign the root's value
+        guard (self.item != nil) else {
+            self.item = item.copy()
+            return
+        }
+
+        // If the values are the same, ignore
         guard  (self.item != item) else {
             return
         }
         
-        if item < self.item {
+        if item < self.item! {
             if let lc = self.leftChild {
                 lc.insert(item: item)
             } else {
@@ -138,6 +145,11 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
 
     public func delete(elementWithKey key: T.K) -> Bool {
         
+        // If the tree is empty, there's nothing to delete
+        guard self.item != nil else {
+            return false
+        }
+        
         if let nodeToBeDeleted = self.search(key: key) {
          
             if ((nodeToBeDeleted.successor == nil) &&
@@ -148,11 +160,11 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
                 
                 // In this case we are not deleting the physical node but replacingthe values in
                 // the node to be deleted by the values in the minimum from the right branch.be
-                nodeToBeDeleted.item.key = minimumFromRightBranch.item.key
-                nodeToBeDeleted.item.value = minimumFromRightBranch.item.value
+                nodeToBeDeleted.item!.key = minimumFromRightBranch.item!.key
+                nodeToBeDeleted.item!.value = minimumFromRightBranch.item!.value
                 
                 // Delete the minimum from the right branch
-                _ = minimumFromRightBranch.delete(elementWithKey:minimumFromRightBranch.item.key)
+                _ = minimumFromRightBranch.delete(elementWithKey:minimumFromRightBranch.item!.key)
                 
             } else if (nodeToBeDeleted.leftChild != nil) {
                 // ONE LEFT CHILD
@@ -225,8 +237,8 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
         } else {
             // REPLACING THE ROOT
             if let ne = newElement {
-                existingElement.item.key = ne.item.key
-                existingElement.item.value = ne.item.value
+                existingElement.item!.key = ne.item!.key
+                existingElement.item!.value = ne.item!.value
                 existingElement.leftChild = ne.leftChild
                 existingElement.rightChild = ne.rightChild
                 
@@ -236,7 +248,7 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
                 
             } else {
                 // We are destroying the root
-                existingElement.item.resetToDefaultValues()
+                existingElement.item = nil
                 existingElement.leftChild = nil
                 existingElement.rightChild = nil
                 existingElement.minNode = nil
@@ -260,7 +272,7 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
     }
     
     private func updateMinimum(newCandidate: SinglyThreadedBinarySearchTree<T>) {
-        if newCandidate.item < (self.minNode?.item)! {
+        if newCandidate.item! < (self.minNode?.item)! {
             self.minNode = newCandidate
             propagateMinimum(startingFrom: self.minNode!)
         }
@@ -390,7 +402,7 @@ extension SinglyThreadedBinarySearchTree : Collection {
     
     public subscript(position: Index) -> T {
         get {
-            return position.node!.item
+            return position.node!.item!
         }
     }
     

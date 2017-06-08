@@ -22,8 +22,9 @@ protocol BinaryTree : Equatable {
     var rightChild: Self? {get}
     
     /// A container of information.
-    /// TODO: Allow this to be optional
-    var item: Item! {get}
+    /// This value can only be nil to signify that the tree is nil. 
+    /// In any given tree, there can only be one node with its item set to nil; the root of the tree.
+    var item: Item? {get}
     
     /// The number of nodes in the tree
     var count: Int {get}
@@ -140,7 +141,7 @@ extension BinaryTree {
                 return
             }
             
-            let key: C = tree?.item.key as! C
+            let key: C = tree?.item!.key as! C
             stack.insert(key, at: count)
             let nextCount = count + 1
 
@@ -219,12 +220,17 @@ extension BinarySearchTree {
     /// - Complexity: O(ln n)
     func search(key: Item.K) -> Self? {
         
-        if self.item.key == key {
+        // If the tree is empty fail the search
+        guard self.item != nil else {
+            return nil
+        }
+        
+        if self.item!.key == key {
             // The shought element is the root of the current tree
             return self
         }
         
-        if key < self.item.key {
+        if key < self.item!.key {
             return self.leftChild?.search(key: key)
         } else {
             return self.rightChild?.search(key: key)

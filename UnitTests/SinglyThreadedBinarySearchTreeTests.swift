@@ -172,56 +172,56 @@ class SinglyThreadedBinarySearchTreeBinaryTreeExtensions: XCTestCase {
     
     func testBottommostRightmost() {
         var tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(20),p(15),p(25),p(14),p(16),p(24),p(26)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item.key == 26)
+        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 26)
         
         tree = [p(20),p(15),p(25),p(14),p(16),p(24)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item.key == 24)
+        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 24)
         
         tree = [p(20),p(15),p(25),p(14),p(16)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item.key == 16)
+        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 16)
 
         tree = [p(20),p(15),p(25),p(14)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item.key == 14)
+        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 14)
         
         tree = [p(20),p(15),p(25)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item.key == 25)
+        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 25)
         
         tree = [p(20),p(15)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item.key == 15)
+        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 15)
         
         tree = [p(20)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item.key == 20)
+        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 20)
     }
     
     
     func testNextFreeNode() {
         var tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(20),p(15),p(25),p(14),p(16),p(23),p(26)]
         var next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item.key == 14)
+        XCTAssertTrue(next.item?.key == 14)
         
         tree = [p(20),p(15),p(25),p(14),p(16),p(23)]
         next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item.key == 25)
+        XCTAssertTrue(next.item?.key == 25)
         
         tree = [p(20),p(15),p(25),p(14),p(16)]
         next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item.key == 25)
+        XCTAssertTrue(next.item?.key == 25)
         
         tree = [p(20),p(15),p(25),p(14)]
         next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item.key == 15)
+        XCTAssertTrue(next.item?.key == 15)
         
         tree = [p(20),p(15),p(25)]
         next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item.key == 15)
+        XCTAssertTrue(next.item?.key == 15)
         
         tree = [p(20),p(15)]
         next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item.key == 20)
+        XCTAssertTrue(next.item?.key == 20)
         
         tree = [p(20)]
         next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item.key == 20)
+        XCTAssertTrue(next.item?.key == 20)
 
 
 

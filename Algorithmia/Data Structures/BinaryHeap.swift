@@ -23,7 +23,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     var rightChild: BasicBinaryHeap?
     
     /// A container of information.
-    var item: Item!
+    var item: Item?
     
     /// The number of nodes in the tree
     var count: Int = 0
@@ -40,7 +40,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     ///   - leftChild: reference to the  left subtree
     ///   - rightChild: reference to the right subtree
     ///   - value: item contained in the tree node.
-    public init(value: T,
+    public init(value: T?,
                 parent: BasicBinaryHeap?,
                 leftChild: BasicBinaryHeap?,
                 rightChild: BasicBinaryHeap?,
@@ -58,17 +58,25 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     /// - Returns: The node with the smallest key
     /// - Complexity: O(1)
     public func minimum() -> BasicBinaryHeap? {
-        if self.item.containsDefaultValues() {
+        if self.item == nil {
+            // If empty tree
             return nil
         } else {
+            // Otherwise return the root
             return self
         }        
     }
 
     public func extractMinimum() -> BasicBinaryHeap? {
+        
+        guard self.item != nil else {
+            // If the tree is empty
+            return nil
+        }
+        
         // Create a copy of the top of the heap.
-        // TODO: This might be an unnecessary copy for value types, since passing it as a parameter will copy it.        
-        let top = BasicBinaryHeap<T>(value: self.item.copy(), parent: nil, leftChild: nil, rightChild: nil, type:self.type)
+        // TODO: This might be an unnecessary copy for value types, since passing it as a parameter will copy it.
+        let top = BasicBinaryHeap<T>(value: self.item!.copy(), parent: nil, leftChild: nil, rightChild: nil, type:self.type)
         
         // Find the replacement, which is the bottommost rightmost node
         let replacement = self.bottommostRightMostNode()
@@ -83,7 +91,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
             replacement?.parent?.rightChild = nil
         } else {
             // root. TODO. Represent empty tree with a node with item set to nil. Only allow the root to be like that
-            self.item.resetToDefaultValues()
+            self.item = nil
         }
         
         // Restore heap properties
@@ -98,9 +106,11 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     /// - Returns: The node with the bigest key
     /// - Complexity: O(1)
     public func maximum() -> Self? {
-        if self.item.containsDefaultValues() {
+        if self.item == nil {
+            // If the tree is empty, there's no maximum
             return nil
         } else {
+            // Otherwise return the root
             return self
         }
 
@@ -184,9 +194,9 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         if let p = parent {
             switch type {
             case .min:
-                return p.item < child.item
+                return p.item! < child.item!
             case .max:
-                return p.item > child.item
+                return p.item! > child.item!
             }
         } else {
             return true
@@ -209,17 +219,17 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
             if let leftChild = self.leftChild {
                 switch type {
                     case .min:
-                        return (self.item > leftChild.item) ? leftChild : nil
+                        return (self.item! > leftChild.item!) ? leftChild : nil
                     case .max:
-                        return self.item < leftChild.item ? leftChild : nil
+                        return self.item! < leftChild.item! ? leftChild : nil
                 }
 
             } else {
                 switch type {
                 case .min:
-                    return (self.item > self.rightChild!.item) ? rightChild : nil
+                    return (self.item! > self.rightChild!.item!) ? rightChild : nil
                 case .max:
-                    return self.item < self.rightChild!.item ? rightChild : nil
+                    return self.item! < self.rightChild!.item! ? rightChild : nil
                 }
                 
             }
@@ -227,17 +237,17 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
             switch type {
                 case .min:
                     let minChild = BasicBinaryHeap.minBetween(n1: self.leftChild!, n2: self.rightChild!)
-                    return (self.item > minChild.item) ? minChild : nil
+                    return (self.item! > minChild.item!) ? minChild : nil
                 case .max:
                     let maxChild = BasicBinaryHeap.maxBetween(n1: self.leftChild!, n2: self.rightChild!)
-                    return self.item < maxChild.item ? maxChild : nil
+                    return self.item! < maxChild.item! ? maxChild : nil
             }
         }
     }
     
     private static func minBetween(n1: BasicBinaryHeap<T>, n2: BasicBinaryHeap<T>) -> BasicBinaryHeap<T> {
         
-        if n1.item < n2.item {
+        if n1.item! < n2.item! {
             return n1
         } else {
             return n2
@@ -247,7 +257,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
 
     private static func maxBetween(n1: BasicBinaryHeap<T>, n2: BasicBinaryHeap<T>) -> BasicBinaryHeap<T> {
         
-        if n1.item > n2.item {
+        if n1.item! > n2.item! {
             return n1
         } else {
             return n2

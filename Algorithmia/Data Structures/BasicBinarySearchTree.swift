@@ -23,7 +23,7 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     
     public var rightChild :BasicBinarySearchTree<Element>?
     
-    public var item : Element!
+    public var item : Element?
         
     /// Traversable binary tries accept an interator to enumerate its elements.
     public var iterator: AnyIterator<Element>?
@@ -64,13 +64,25 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     /// - Parameter element: Element to be inserted into the tree.
     /// - Complexity: O(log N), N being the number of nodes in the tree
     func insert(newElement :BasicBinarySearchTree) {
- 
-        if self.item.containsDefaultValues() == true {
+
+        // Trying to insert an empty node
+        guard newElement.item != nil else {
+            return
+        }
+
+        // Trying to insert into an empty tree just assigns the value
+        guard self.item != nil else {
+            self.item = newElement.item!.copy()
+            return
+        }
+
+        
+        if self.item == nil {
             self.replace(element: self, with: newElement)
             return
         }
         
-        if newElement.item < self.item {
+        if newElement.item! < self.item! {
             if let leftC = self.leftChild {
                 leftC.insert(newElement: newElement)
             } else {
@@ -92,6 +104,17 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     /// - Parameter element: Element to be inserted into the tree.
     func insertIterative(element :BasicBinarySearchTree) {
         
+        // Trying to insert an empty node
+        guard element.item != nil else {
+            return
+        }
+        
+        // Trying to insert into an empty tree just assigns the value
+        guard self.item != nil else {
+            self.item = element.item!.copy()
+            return
+        }
+
         guard self.item != element.item else {
             // If the element to insert is equal to the current tree's root we don't insert
             return
@@ -103,7 +126,7 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
         
         while (currentNode != nil) {
             parentNode = currentNode!
-            if (element.item < (currentNode?.item)! ) {
+            if (element.item! < (currentNode?.item)! ) {
                 currentNode = currentNode!.leftChild
                 cameFromLeft = true
             } else {
@@ -133,6 +156,10 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     /// - Returns: Whether the element was deleted or not.
     func delete(elementWithKey key: Element.K) -> Bool {
         
+        guard self.item != nil else {
+            return false
+        }
+        
         if let elementToDelete = self.search(key: key) {
 
             if ((elementToDelete.leftChild != nil) && (elementToDelete.rightChild != nil)) {
@@ -140,11 +167,11 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
                 let minimumFromRightBranch :BasicBinarySearchTree! = elementToDelete.rightChild?.minimum()
                 
                 // Replace the values of the node to be deleted by the values in minimum
-                elementToDelete.item.key = minimumFromRightBranch.item.key
-                elementToDelete.item.value = minimumFromRightBranch.item.value
+                elementToDelete.item!.key = minimumFromRightBranch.item!.key
+                elementToDelete.item!.value = minimumFromRightBranch.item!.value
                 
                 // And delete the minimum form the right branch
-                _ = minimumFromRightBranch.delete(elementWithKey: minimumFromRightBranch.item.key)
+                _ = minimumFromRightBranch.delete(elementWithKey: minimumFromRightBranch.item!.key)
                 
             }
             else if (elementToDelete.leftChild != nil) {
@@ -187,15 +214,15 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
         } else {
             // You are replacing the root, just override node values
             if let new = newElement {
-                existingElement.item.key = new.item.key
-                existingElement.item.value = new.item.value
+                existingElement.item!.key = new.item!.key
+                existingElement.item!.value = new.item!.value
                 existingElement.leftChild = new.leftChild
                 existingElement.rightChild = new.rightChild
                 
                 new.leftChild?.parent = existingElement
                 new.rightChild?.parent = existingElement
             } else {
-                existingElement.item.resetToDefaultValues()
+                existingElement.item = nil
                 existingElement.leftChild = nil
                 existingElement.rightChild = nil
             }

@@ -22,7 +22,7 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree, Traver
     
     var rightChild : RedBlackBinarySearchTree<T>?
     
-    var item : T!
+    var item : T?
     
     /// TODO: Implement
     public var parent :RedBlackBinarySearchTree<T>?

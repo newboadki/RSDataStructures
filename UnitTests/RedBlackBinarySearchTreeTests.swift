@@ -25,11 +25,11 @@ class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
         let tree: RedBlackBinarySearchTree<IntegerPair> = [p(3)]
         tree.insert(item: IntegerPair(key: 1, value: 0))
 
-        XCTAssertTrue(tree.item.key == 3)
+        XCTAssertTrue(tree.item?.key == 3)
         XCTAssertTrue(tree.color == .black)
         XCTAssertTrue(tree.rightChild == nil)
         
-        XCTAssertTrue(tree.leftChild?.item.key == 1)
+        XCTAssertTrue(tree.leftChild?.item?.key == 1)
         XCTAssertTrue(tree.leftChild?.color == .red)
 
         let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
@@ -41,11 +41,11 @@ class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
         let tree: RedBlackBinarySearchTree<IntegerPair> = [p(3)]
         tree.insert(item: IntegerPair(key: 4, value: 0))
 
-        XCTAssertTrue(tree.item.key == 4)
+        XCTAssertTrue(tree.item?.key == 4)
         XCTAssertTrue(tree.color == .black)
         XCTAssertTrue(tree.rightChild == nil)
         
-        XCTAssertTrue(tree.leftChild?.item.key == 3)
+        XCTAssertTrue(tree.leftChild?.item?.key == 3)
         XCTAssertTrue(tree.leftChild?.color == .red)
         XCTAssertTrue(tree.leftChild?.leftChild == nil)
         XCTAssertTrue(tree.leftChild?.rightChild == nil)
@@ -60,15 +60,15 @@ class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
         tree.insert(item: IntegerPair(key: 2, value: 0))
         tree.insert(item: IntegerPair(key: 1, value: 0))
         
-        XCTAssertTrue(tree.item.key == 2)
+        XCTAssertTrue(tree.item?.key == 2)
         XCTAssertTrue(tree.color == .black)
         
-        XCTAssertTrue(tree.leftChild?.item.key == 1)
+        XCTAssertTrue(tree.leftChild?.item?.key == 1)
         XCTAssertTrue(tree.leftChild?.color == .black)
         XCTAssertTrue(tree.leftChild?.leftChild == nil)
         XCTAssertTrue(tree.leftChild?.rightChild == nil)
 
-        XCTAssertTrue(tree.rightChild?.item.key == 5)
+        XCTAssertTrue(tree.rightChild?.item?.key == 5)
         XCTAssertTrue(tree.rightChild?.color == .black)
         XCTAssertTrue(tree.rightChild?.leftChild == nil)
         XCTAssertTrue(tree.rightChild?.rightChild == nil)
@@ -98,12 +98,12 @@ class RedBlackBinarySearchTreeMinMaxTests: XCTestCase {
     
     func testMinimum() {
         let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
-        XCTAssertTrue(tree.minimum()?.item.key == 20)
+        XCTAssertTrue(tree.minimum()?.item?.key == 20)
     }
     
     func testMaximum() {
         let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
-        XCTAssertTrue(tree.maximum()?.item.key == 100)
+        XCTAssertTrue(tree.maximum()?.item?.key == 100)
     }
 
 }
