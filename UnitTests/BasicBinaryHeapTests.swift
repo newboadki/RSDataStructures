@@ -10,7 +10,7 @@ import XCTest
 
 class BasicBinaryMinHeapTests: XCTestCase {
     
-    func testInsertion() {
+    func testInsertionWithValueType() {
         let heap = BasicBinaryHeap<IntegerPair>(value: p(5), parent: nil, leftChild: nil, rightChild: nil, type: .min)
         heap.insert(item: p(3))
         heap.insert(item: p(4))
@@ -35,12 +35,34 @@ class BasicBinaryMinHeapTests: XCTestCase {
 
         XCTAssertTrue(heap.extractMinimum()?.item.key == 8)
         XCTAssertTrue(heap.minimum() == nil)
-
-
-
-
     }
-
+    
+    func testInsertionWithReferenceType() {
+        let heap = BasicBinaryHeap<DataContainer>(value: DataContainer(key:5.0, value:"adf"), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: DataContainer(key:3.0, value:"adf"))
+        heap.insert(item: DataContainer(key:4.0, value:"adf"))
+        heap.insert(item: DataContainer(key:6.0, value:"adf"))
+        heap.insert(item: DataContainer(key:8.0, value:"adf"))
+        heap.insert(item: DataContainer(key:1.0, value:"adf"))
+        
+        XCTAssertTrue(heap.extractMinimum()?.item.key == 1.0)
+        XCTAssertTrue(heap.minimum()?.item.key == 3.0)
+        
+        XCTAssertTrue(heap.extractMinimum()?.item.key == 3.0)
+        XCTAssertTrue(heap.minimum()?.item.key == 4.0)
+        
+        XCTAssertTrue(heap.extractMinimum()?.item.key == 4.0)
+        XCTAssertTrue(heap.minimum()?.item.key == 5.0)
+        
+        XCTAssertTrue(heap.extractMinimum()?.item.key == 5.0)
+        XCTAssertTrue(heap.minimum()?.item.key == 6.0)
+        
+        XCTAssertTrue(heap.extractMinimum()?.item.key == 6.0)
+        XCTAssertTrue(heap.minimum()?.item.key == 8.0)
+        
+        XCTAssertTrue(heap.extractMinimum()?.item.key == 8.0)
+        XCTAssertTrue(heap.minimum() == nil)
+    }
 }
 
 class BasicBinaryMaxHeapTests: XCTestCase {
@@ -70,10 +92,36 @@ class BasicBinaryMaxHeapTests: XCTestCase {
         
         XCTAssertTrue(heap.extractMaximum()?.item.key == 1)
         XCTAssertTrue(heap.maximum() == nil)
-        
-        
-        
-        
+    }
+}
+
+
+final class DataContainer : KeyValuePair {
+
+    
+    typealias K = Float
+    typealias V = String
+    
+    var key: K
+    var value: V
+    
+    required init(key: Float, value: String) {
+        self.key = key
+        self.value = value
+    }
+
+    func resetToDefaultValues() {
+        self.key = -1.0
+        self.value = "Default value"
     }
     
+    func containsDefaultValues() -> Bool {
+        return self.key == -1.0 && self.value == "Default value"
+    }
+
+    func copy() -> DataContainer {
+        return DataContainer(key: self.key, value: self.value)
+    }
+
+   
 }

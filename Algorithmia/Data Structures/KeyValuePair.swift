@@ -18,9 +18,14 @@ public protocol KeyValuePair : Comparable {
     var key : K {get set}
     var value : V {get set}
     
-    mutating func resetToDefaultValues()
-    func containsDefaultValues() -> Bool
+    
     init(key: K, value: V)
+    
+    mutating func resetToDefaultValues()
+    
+    func containsDefaultValues() -> Bool
+    
+    func copy() -> Self
 }
 
 
@@ -74,6 +79,10 @@ struct IntegerPair : KeyValuePair {
     
     func containsDefaultValues() -> Bool {
         return self.key == -1 && self.value == -1
+    }
+    
+    func copy() -> IntegerPair {
+        return IntegerPair(key: self.key, value: self.value)
     }
 }
 

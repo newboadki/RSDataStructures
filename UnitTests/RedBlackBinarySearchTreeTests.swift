@@ -78,6 +78,19 @@ class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
         XCTAssertTrue(paths[1] == [2,5])
         XCTAssertTrue(paths.count == 2)
     }
+    
+    func testMultipleInsertionWithReferenceType() {
+        
+        let tree: RedBlackBinarySearchTree<DataContainer> = [DataContainer(key: 50.0, value: ""),DataContainer(key: 23, value: ""),DataContainer(key: 76, value: ""),DataContainer(key: 100.0, value: ""),DataContainer(key: 40.0, value: ""),DataContainer(key: 22.0, value: ""),DataContainer(key: 21.0, value: ""),DataContainer(key: 20.0, value: "")]
+        let paths: [[Float]] = tree.pathsFromRootToLeaves(tree: tree)
+        
+        XCTAssertTrue(paths[0] == [23.0,21.0,20.0])
+        XCTAssertTrue(paths[1] == [23.0,21.0,22.0])
+        XCTAssertTrue(paths[2] == [23.0,50.0,40.0])
+        XCTAssertTrue(paths[3] == [23.0,50.0,100.0,76.0])
+        XCTAssertTrue(paths.count == 4)
+    }
+
 }
 
 

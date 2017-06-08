@@ -150,7 +150,7 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree, Traver
         let right = tree.rightChild
         
         // Swap items
-        let tempItem = tree.item // This won't work for KeyValuePairs that are Reference types. Add method to KeyValuePair protocol to copy().
+        let tempItem = tree.item
         tree.item = right?.item
         right?.item = tempItem
         

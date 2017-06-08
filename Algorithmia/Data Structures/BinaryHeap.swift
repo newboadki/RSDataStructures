@@ -66,13 +66,14 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     }
 
     public func extractMinimum() -> BasicBinaryHeap? {
-        // Create a copy of the top of the heap. TODO: copy the keyValuePair
-        let top = BasicBinaryHeap<T>(value: self.item, parent: nil, leftChild: nil, rightChild: nil, type:self.type)
+        // Create a copy of the top of the heap.
+        // TODO: This might be an unnecessary copy for value types, since passing it as a parameter will copy it.        
+        let top = BasicBinaryHeap<T>(value: self.item.copy(), parent: nil, leftChild: nil, rightChild: nil, type:self.type)
         
         // Find the replacement, which is the bottommost rightmost node
         let replacement = self.bottommostRightMostNode()
         
-        // Replace values. TODO: copy the keyValuePair
+        // Replace values.
         self.item = replacement?.item
         
         // Delete the replacement
@@ -193,7 +194,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     }
     
     private func swappItems(parent: BasicBinaryHeap<T>, child: BasicBinaryHeap<T>) {
-        let temp = parent.item // This won't work for reference types. A copy should be supported in KeyValuePair
+        let temp = parent.item
         parent.item = child.item
         child.item = temp
     }
