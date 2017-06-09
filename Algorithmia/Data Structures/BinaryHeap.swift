@@ -58,7 +58,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     /// - Returns: The node with the smallest key
     /// - Complexity: O(1)
     public func minimum() -> BasicBinaryHeap? {
-        if self.item == nil {
+        if self.isEmpty() {
             // If empty tree
             return nil
         } else {
@@ -69,7 +69,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
 
     public func extractMinimum() -> BasicBinaryHeap? {
         
-        guard self.item != nil else {
+        guard !self.isEmpty() else {
             // If the tree is empty
             return nil
         }
@@ -106,7 +106,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     /// - Returns: The node with the bigest key
     /// - Complexity: O(1)
     public func maximum() -> Self? {
-        if self.item == nil {
+        if self.isEmpty() {
             // If the tree is empty, there's no maximum
             return nil
         } else {
@@ -142,7 +142,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     /// - Complexity: Normally a O(Log(N)) is expected. Deviations must be documented.
     public func insert(item: T) {
         
-        guard self.item != nil else {
+        guard !self.isEmpty() else {
             self.item = item.copy()
             return
         }

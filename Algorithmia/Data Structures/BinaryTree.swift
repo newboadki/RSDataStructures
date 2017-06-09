@@ -93,6 +93,13 @@ protocol BinaryTree : Equatable {
     ///
     /// - Returns: The number of children nodes.
     func numberOfChildren() -> Int
+    
+    
+    
+    /// A tree is said to be empty if the root's node does not contain a value and does not have any children.
+    ///
+    /// - Returns: true if the tree is empty.
+    func isEmpty() -> Bool
 }
 
 
@@ -193,6 +200,14 @@ extension BinaryTree {
             return 0
         }
     }
+    
+    /// A tree is said to be empty if the root's node does not contain a value and does not have any children.
+    ///
+    /// - Returns: true if the tree is empty.
+    func isEmpty() -> Bool {
+        return (self.item == nil) && (self.numberOfChildren() == 0)
+    }
+
 }
 
 

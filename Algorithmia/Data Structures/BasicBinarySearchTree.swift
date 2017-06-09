@@ -71,17 +71,11 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
         }
 
         // Trying to insert into an empty tree just assigns the value
-        guard self.item != nil else {
+        guard !self.isEmpty() else {
             self.item = newElement.item!.copy()
             return
         }
 
-        
-        if self.item == nil {
-            self.replace(element: self, with: newElement)
-            return
-        }
-        
         if newElement.item! < self.item! {
             if let leftC = self.leftChild {
                 leftC.insert(newElement: newElement)
@@ -105,18 +99,18 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     func insertIterative(element :BasicBinarySearchTree) {
         
         // Trying to insert an empty node
-        guard element.item != nil else {
+        guard !element.isEmpty() else {
             return
         }
         
         // Trying to insert into an empty tree just assigns the value
-        guard self.item != nil else {
+        guard !self.isEmpty() else {
             self.item = element.item!.copy()
             return
         }
 
+        // If the element to insert is equal to the current tree's root we don't insert
         guard self.item != element.item else {
-            // If the element to insert is equal to the current tree's root we don't insert
             return
         }
         
@@ -156,7 +150,7 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     /// - Returns: Whether the element was deleted or not.
     func delete(elementWithKey key: Element.K) -> Bool {
         
-        guard self.item != nil else {
+        guard !self.isEmpty() else {
             return false
         }
         

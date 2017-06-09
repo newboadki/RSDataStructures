@@ -101,7 +101,7 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
     public func insert(item: T) {
         
         // If the tree is empty, just assign the root's value
-        guard (self.item != nil) else {
+        guard (!self.isEmpty) else {
             self.item = item.copy()
             return
         }
@@ -146,7 +146,7 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
     public func delete(elementWithKey key: T.K) -> Bool {
         
         // If the tree is empty, there's nothing to delete
-        guard self.item != nil else {
+        guard !self.isEmpty else {
             return false
         }
         
