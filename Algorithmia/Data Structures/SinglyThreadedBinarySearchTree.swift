@@ -371,11 +371,11 @@ public struct SinglyThreadedBinaryTreeIndex<T:KeyValuePair> : Comparable
     fileprivate let node: SinglyThreadedBinarySearchTree<T>?
     fileprivate let tag: Int
     
-    public static func==<T: KeyValuePair>(lhs: SinglyThreadedBinaryTreeIndex<T>, rhs: SinglyThreadedBinaryTreeIndex<T>) -> Bool {
+    public static func ==(lhs: SinglyThreadedBinaryTreeIndex<T>, rhs: SinglyThreadedBinaryTreeIndex<T>) -> Bool {
         return (lhs.tag == rhs.tag)
     }
     
-    public static func< <T: KeyValuePair>(lhs: SinglyThreadedBinaryTreeIndex<T>, rhs: SinglyThreadedBinaryTreeIndex<T>) -> Bool {
+    public static func <(lhs: SinglyThreadedBinaryTreeIndex<T>, rhs: SinglyThreadedBinaryTreeIndex<T>) -> Bool {
         return (lhs.tag < rhs.tag)
     }
 }

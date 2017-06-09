@@ -23,9 +23,6 @@ public enum PriorityQueueError : Error {
 /// They mainly add semantics to a queue. Elements are returned in order according to some rule.
 protocol PriorityQueue : Queue {
     
-    associatedtype Item
-
-    
     var type : PriorityQueueType { get }
     
     init(type: PriorityQueueType)

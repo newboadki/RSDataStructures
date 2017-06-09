@@ -14,7 +14,7 @@ import Foundation
 ///
 /// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase some implementations define an internal structure that would make this code fail.
 /// - Returns: An iterator to traverse a tree in order.
-func inOrderTraversalIterator<Element: KeyValuePair, T: TraversableBinaryTree>(tree: T) -> AnyIterator<Element> where Element == T.Item {
+func inOrderTraversalIterator<Element, T: TraversableBinaryTree>(tree: T) -> AnyIterator<Element> where Element == T.Item {
     
     let stack = StackBasedOnLinkedList<T>()
     var current: T? = tree
@@ -93,7 +93,7 @@ func breadthFirstSearchTraversalIterator<T: TraversableBinaryTree>(tree: T) -> A
 ///
 /// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase some implementations define an internal structure that would make this code fail.
 /// - Returns: An iterator to traverse a tree in post order.
-func postOrderTraversalIterator<Element: KeyValuePair, T: TraversableBinaryTree>(tree: T) -> AnyIterator<Element> where Element == T.Item {
+func postOrderTraversalIterator<Element, T: TraversableBinaryTree>(tree: T) -> AnyIterator<Element> where Element == T.Item {
     
     let stack = StackBasedOnLinkedList<T>()
     var previous: T? = nil
@@ -135,7 +135,7 @@ func postOrderTraversalIterator<Element: KeyValuePair, T: TraversableBinaryTree>
 ///
 /// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase some implementations define an internal structure that would make this code fail.
 /// - Returns: An iterator to traverse a tree in post order.
-func postOrderRightToLeftTraversalIterator<Element: KeyValuePair, T: TraversableBinaryTree>(tree: T) -> AnyIterator<Element> where Element == T.Item {
+func postOrderRightToLeftTraversalIterator<Element, T: TraversableBinaryTree>(tree: T) -> AnyIterator<Element> where Element == T.Item {
     
     let stack = StackBasedOnLinkedList<T>()
     var previous: T? = nil

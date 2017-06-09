@@ -317,14 +317,14 @@ extension SinglyLinkedList where T: Comparable
 
 
 public struct SinglyLinkedListForwardIterator<T> : IteratorProtocol {
-
-    public typealias Element = SinglyLinkedListNode<T>
+    
+    public typealias Element = T
     
     private(set) var head: SinglyLinkedListNode<T>?
     
-    mutating public func next() -> SinglyLinkedListNode<T>?
+    mutating public func next() -> T?
     {
-        let result = self.head
+        let result = self.head?.value
         self.head = self.head?.next
         return result
     }
@@ -367,9 +367,9 @@ extension SinglyLinkedList : Collection {
         }
     }
     
-    public subscript(position: Index) -> SinglyLinkedListNode<T> {
+    public subscript(position: Index) -> T {
         get {
-            return position.node!
+            return position.node!.value
         }
     }
     

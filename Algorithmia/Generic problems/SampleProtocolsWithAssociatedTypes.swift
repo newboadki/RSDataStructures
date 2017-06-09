@@ -30,7 +30,7 @@ func add<E, Q: Queue>(_ element: E, to queue: inout Q) where Q.Item == E {
     try! queue.enqueue(item: element)
 }
 
-func add<E:Comparable, C: Container>(_ element: E, to array: [C]) where C.Element == E {
+func add<E, C: Container>(_ element: E, to array: [C]) where C.Element == E {
     for bin in array {
         bin.addPlease(element: element)
     }

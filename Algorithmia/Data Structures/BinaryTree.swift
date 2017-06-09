@@ -69,7 +69,7 @@ protocol BinaryTree : Equatable {
     /// - Parameter tree: The tree to be traversed.
     /// - Returns: An array of arrays, ech of which contains the keys of the nodes that make up the path.
     /// - Complexity: Expected O(N * log_2(N)). As a very basic explanation, each path has log_2(N) nodes (at worst, in a perfect binary tree). There are N leaves. The cost of printing all paths is #(paths) * cost(printing_a_path) => N * log_2(N).
-    func pathsFromRootToLeaves<C: Comparable, T: BinaryTree>(tree: T?) -> [[C]] where T.Item.K == C
+    func pathsFromRootToLeaves<C, T: BinaryTree>(tree: T?) -> [[C]] where T.Item.K == C
     
     
     /// The legth of the longest root to leaf path
