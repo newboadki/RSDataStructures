@@ -101,6 +101,7 @@ protocol BinaryTree : Equatable {
     
     
     /// A tree is said to be balanced if the difference between each child's subtree height is 0 or 1.
+    /// The default implementation considers empty trees to be not balanced.
     ///
     /// - Returns: True if the tree is balanced
     func isBalanced() -> Bool
@@ -176,18 +177,24 @@ extension BinaryTree {
     /// The legth of the longest root to leaf path
     ///
     /// - Returns: The legth of the longest root to leaf path
-    /// - Complexity: O(N * Log_2(N)). This worsens the expectations defined in the protocol, because it relies on pathsFromRootToLeaves which does extra effort to compose an array of paths.
+    /// - Complexity: O(N).
     /// - Discussion: The height of the root is considered to be 1.
     func maximumHeight() -> Int {
-        let paths = self.pathsFromRootToLeaves(tree: self)
-        var max = 0
         
-        for p in paths {
-            if p.count > max {
-                max = p.count
-            }
+        // Consider empty trees
+        guard !self.isEmpty() else {
+            return 0
         }
-        return max
+        
+        // Base case: Single node
+        if self.numberOfChildren() == 0 {
+            return 1
+        }
+        
+        // Recursive step
+        let leftSubtreeHeight = (self.leftChild?.maximumHeight() ?? 0)
+        let rightSubtreeHeight = (self.rightChild?.maximumHeight() ?? 0)
+        return (1 + Swift.max(leftSubtreeHeight, rightSubtreeHeight))
     }
     
     
@@ -214,14 +221,20 @@ extension BinaryTree {
     
     
     /// A tree is said to be balanced if the difference between each child's subtree height is 0 or 1.
+    /// The default implementation considers empty trees to be not balanced.
     ///
-    /// - Returns: True if the tree is balanced
+    /// - Returns: True if the tree is balanced.
     func isBalanced() -> Bool {
+        // We consider empty trees to be not balanced
+        guard !self.isEmpty() else {
+            return false
+        }
+        
         let leftSubtreeHeight = (self.leftChild?.maximumHeight() ?? 0)
         let rightSubtreeHeight = (self.rightChild?.maximumHeight() ?? 0)
         let diffInHeight = abs(leftSubtreeHeight - rightSubtreeHeight)
         return (diffInHeight == 0) || (diffInHeight == 1)
-    }    
+    }
 }
 
 
