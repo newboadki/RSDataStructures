@@ -75,8 +75,99 @@ class BasicBinaryMinHeapTests: XCTestCase {
 
         heap.insert(item: DataContainer(key: 1.1, value: ""))
         XCTAssertTrue(heap.minimum()?.item?.key == 1.1)
-
     }
+    
+    func testNextFreeNode() {
+        var heap = BasicBinaryHeap<IntegerPair>(value: p(20), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(15))
+        heap.insert(item: p(25))
+        heap.insert(item: p(14))
+        heap.insert(item: p(16))
+        heap.insert(item: p(23))
+        heap.insert(item: p(26))
+        
+        var next = heap.nextIncompleteNode()
+        XCTAssertTrue(next.item?.key == 20)
+        
+        heap = BasicBinaryHeap<IntegerPair>(value: p(20), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(15))
+        heap.insert(item: p(25))
+        heap.insert(item: p(14))
+        heap.insert(item: p(16))
+        heap.insert(item: p(23))
+        next = heap.nextIncompleteNode()
+        XCTAssertTrue(next.item?.key == 23)
+        
+        heap = BasicBinaryHeap<IntegerPair>(value: p(20), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(15))
+        heap.insert(item: p(25))
+        heap.insert(item: p(14))
+        heap.insert(item: p(16))
+        next = heap.nextIncompleteNode()
+        XCTAssertTrue(next.item?.key == 25)
+        
+        heap = BasicBinaryHeap<IntegerPair>(value: p(20), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(15))
+        heap.insert(item: p(25))
+        heap.insert(item: p(14))
+        next = heap.nextIncompleteNode()
+        XCTAssertTrue(next.item?.key == 15)
+        
+        heap = BasicBinaryHeap<IntegerPair>(value: p(20), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(15))
+        heap.insert(item: p(25))
+        next = heap.nextIncompleteNode()
+        XCTAssertTrue(next.item?.key == 20)
+        
+        heap = BasicBinaryHeap<IntegerPair>(value: p(20), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(15))
+        next = heap.nextIncompleteNode()
+        XCTAssertTrue(next.item?.key == 15)
+        
+        heap = BasicBinaryHeap<IntegerPair>(value: p(20), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        next = heap.nextIncompleteNode()
+        XCTAssertTrue(next.item?.key == 20)
+    }
+    
+    func testBalancedTreeWhenInsertionOrderIsConvenient() {
+        let heap = BasicBinaryHeap<IntegerPair>(value: p(5), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(3))
+        heap.insert(item: p(7))
+        heap.insert(item: p(1))
+        heap.insert(item: p(6))
+        
+        XCTAssertTrue(heap.isBalanced())
+    }
+    
+    func testBalancedTreeWhenInsertionOrderIsUnconvenient() {
+        var heap = BasicBinaryHeap<IntegerPair>(value: p(1), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(2))
+        heap.insert(item: p(3))
+        heap.insert(item: p(4))
+        heap.insert(item: p(5))
+        heap.insert(item: p(6))
+        XCTAssertTrue(heap.isBalanced())
+        
+        heap = BasicBinaryHeap<IntegerPair>(value: p(7), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(6))
+        heap.insert(item: p(5))
+        heap.insert(item: p(4))
+        heap.insert(item: p(3))
+        heap.insert(item: p(2))
+        heap.insert(item: p(1))
+        XCTAssertTrue(heap.isBalanced())
+        
+        heap = BasicBinaryHeap<IntegerPair>(value: p(5), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(3))
+        heap.insert(item: p(17))
+        heap.insert(item: p(1))
+        heap.insert(item: p(6))
+        heap.insert(item: p(19))
+        heap.insert(item: p(20))
+        
+        XCTAssertTrue(heap.isBalanced())
+    }
+    
 }
 
 class BasicBinaryMaxHeapTests: XCTestCase {

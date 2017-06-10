@@ -215,36 +215,22 @@ class SinglyThreadedBinarySearchTreeBinaryTreeExtensions: XCTestCase {
         XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 20)
     }
     
-    
-    func testNextFreeNode() {
-        var tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(20),p(15),p(25),p(14),p(16),p(23),p(26)]
-        var next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item?.key == 14)
-        
-        tree = [p(20),p(15),p(25),p(14),p(16),p(23)]
-        next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item?.key == 25)
-        
-        tree = [p(20),p(15),p(25),p(14),p(16)]
-        next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item?.key == 25)
-        
-        tree = [p(20),p(15),p(25),p(14)]
-        next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item?.key == 15)
-        
-        tree = [p(20),p(15),p(25)]
-        next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item?.key == 15)
-        
-        tree = [p(20),p(15)]
-        next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item?.key == 20)
-        
-        tree = [p(20)]
-        next = tree.nextIncompleteNode()
-        XCTAssertTrue(next.item?.key == 20)
+    func testBalancedTree() {
+        let tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(5),p(3),p(7),p(1),p(6)]
+        XCTAssertTrue(tree.isBalanced())
     }
+    
+    func testNotBalancedTree() {
+        var tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(1),p(2),p(3),p(4),p(5),p(6),p(7)]
+        XCTAssertFalse(tree.isBalanced())
+        
+        tree = [p(7),p(6),p(5),p(4),p(3),p(2),p(1)]
+        XCTAssertFalse(tree.isBalanced())
+        
+        tree = [p(5),p(3),p(17),p(1),p(6), p(18), p(19), p(20)]
+        XCTAssertFalse(tree.isBalanced())
+    }
+    
 }
 
 

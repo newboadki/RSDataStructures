@@ -87,7 +87,6 @@ protocol BinaryTree : Equatable {
     func bottommostRightMostNode() -> Self?
     
     
-    
     /// Binary trees have at most 2 children, but they can actually have any
     /// number from 0 to 2 children, both inclusive.
     ///
@@ -95,11 +94,16 @@ protocol BinaryTree : Equatable {
     func numberOfChildren() -> Int
     
     
-    
     /// A tree is said to be empty if the root's node does not contain a value and does not have any children.
     ///
     /// - Returns: true if the tree is empty.
     func isEmpty() -> Bool
+    
+    
+    /// A tree is said to be balanced if the difference between each child's subtree height is 0 or 1.
+    ///
+    /// - Returns: True if the tree is balanced
+    func isBalanced() -> Bool
 }
 
 
@@ -207,7 +211,17 @@ extension BinaryTree {
     func isEmpty() -> Bool {
         return (self.item == nil) && (self.numberOfChildren() == 0)
     }
-
+    
+    
+    /// A tree is said to be balanced if the difference between each child's subtree height is 0 or 1.
+    ///
+    /// - Returns: True if the tree is balanced
+    func isBalanced() -> Bool {
+        let leftSubtreeHeight = (self.leftChild?.maximumHeight() ?? 0)
+        let rightSubtreeHeight = (self.rightChild?.maximumHeight() ?? 0)
+        let diffInHeight = abs(leftSubtreeHeight - rightSubtreeHeight)
+        return (diffInHeight == 0) || (diffInHeight == 1)
+    }    
 }
 
 
@@ -284,6 +298,7 @@ extension BinarySearchTree {
 /// A CompleteBinaryTree is a binary tree that introduces the following invariant:
 ///  - All levels have all possible nodes
 ///  - Only the last level can have missing nodes, but the are filled from left to right.
+/// Conforming classes must guarantee the invariant is kept at all times.
 protocol CompleteBinaryTree : BinaryTree {
     
 }
