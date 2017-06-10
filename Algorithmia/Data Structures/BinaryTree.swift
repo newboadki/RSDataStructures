@@ -75,7 +75,7 @@ protocol BinaryTree : Equatable {
     /// The legth of the longest root to leaf path
     ///
     /// - Returns: The legth of the longest root to leaf path
-    /// - Complexity: Worst case O(N).
+    /// - Complexity: O(N).
     func maximumHeight() -> Int
     
     
@@ -84,7 +84,7 @@ protocol BinaryTree : Equatable {
     /// like for example to keep the balance property of certain trees.
     ///
     /// - Returns: The bottommost rightmost node in the tree.
-    func bottommostRightMostNode() -> Self?
+    func bottommostRightmostNode() -> Self?
     
     
     /// Binary trees have at most 2 children, but they can actually have any
@@ -105,6 +105,12 @@ protocol BinaryTree : Equatable {
     ///
     /// - Returns: True if the tree is balanced
     func isBalanced() -> Bool
+    
+    
+    /// Determines if all nodes in the tree satisfy the BinarySearchTree invariant
+    ///
+    /// - Returns: True if it is a binary search tree
+    func isBinarySearchTree() -> Bool
 }
 
 
@@ -266,7 +272,33 @@ extension BinaryTree {
         }
     }
     
+    /// Determines if all nodes in the tree satisfy the BinarySearchTree invariant.
+    ///
+    /// - Returns: True if it is a binary search tree
+    /// - Discussion: Empty trees are considered not to be BST.
+    func isBinarySearchTree() -> Bool {
+        return self.checkIsBinarySearchTree(min: nil, max: nil)
+    }
+    
+    private func checkIsBinarySearchTree(min: Item.K?, max: Item.K?) -> Bool {
+        
+        guard !self.isEmpty() else {
+            return false
+        }
+        
+        if (min != nil && self.item!.key <= min!) || (max != nil && self.item!.key > max!) {
+            return false
+        }
+        
+        if !(self.leftChild?.checkIsBinarySearchTree(min: min, max: self.item!.key) ?? true) ||
+            !(self.rightChild?.checkIsBinarySearchTree(min: self.item!.key, max: max) ?? true) {
+            return false
+        }
+        
+        return true
+    }
 }
+
 
 
 
@@ -423,7 +455,7 @@ extension TraversableBinaryTree {
     ///
     /// - Returns: The bottommost rightmost node in the tree.
     /// - Complexity: O(N)
-    public func bottommostRightMostNode() -> Self? {
+    public func bottommostRightmostNode() -> Self? {
         
         let iterator: AnyIterator<(node: Self, height: Int)> = postOrderRightToLeftTraversalIterator(tree: self)
         let maximumHeight = self.maximumHeight()

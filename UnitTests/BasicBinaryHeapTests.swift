@@ -168,7 +168,21 @@ class BasicBinaryMinHeapTests: XCTestCase {
         XCTAssertTrue(heap.isBalanced())
     }
     
+    func testIsBinarySearchTreeFalse() {
+        var heap = BasicBinaryHeap<IntegerPair>(value: p(5), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        XCTAssertTrue(heap.isBinarySearchTree())
+        heap.insert(item: p(70))
+        XCTAssertFalse(heap.isBinarySearchTree())
+        
+        heap = BasicBinaryHeap<IntegerPair>(value: p(5), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        XCTAssertTrue(heap.isBinarySearchTree())
+        heap.insert(item: p(4))
+        XCTAssertFalse(heap.isBinarySearchTree())
+        heap.insert(item: p(70))
+        XCTAssertFalse(heap.isBinarySearchTree())
+    }
 }
+
 
 class BasicBinaryMaxHeapTests: XCTestCase {
     

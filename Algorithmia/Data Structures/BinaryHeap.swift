@@ -79,7 +79,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         let top = BasicBinaryHeap<T>(value: self.item!.copy(), parent: nil, leftChild: nil, rightChild: nil, type:self.type)
         
         // Find the replacement, which is the bottommost rightmost node
-        let replacement = self.bottommostRightMostNode()
+        let replacement = self.bottommostRightmostNode()
         
         // Replace values.
         self.item = replacement?.item
@@ -90,7 +90,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         } else if replacement == replacement?.parent?.rightChild {
             replacement?.parent?.rightChild = nil
         } else {
-            // root. TODO. Represent empty tree with a node with item set to nil. Only allow the root to be like that
+            // Root node
             self.item = nil
         }
         
@@ -117,7 +117,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     }
     
     public func extractMaximum() -> BasicBinaryHeap? {
-        return self.extractMinimum() // TODO. Refactor this to make sense, parameterise the 
+        return self.extractMinimum() // TODO. Refactor this to make sense, parameterise the type
     }
     
     /// Finds a node in the tree with the given key

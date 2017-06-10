@@ -194,25 +194,25 @@ class SinglyThreadedBinarySearchTreeBinaryTreeExtensions: XCTestCase {
     
     func testBottommostRightmost() {
         var tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(20),p(15),p(25),p(14),p(16),p(24),p(26)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 26)
+        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 26)
         
         tree = [p(20),p(15),p(25),p(14),p(16),p(24)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 24)
+        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 24)
         
         tree = [p(20),p(15),p(25),p(14),p(16)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 16)
+        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 16)
 
         tree = [p(20),p(15),p(25),p(14)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 14)
+        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 14)
         
         tree = [p(20),p(15),p(25)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 25)
+        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 25)
         
         tree = [p(20),p(15)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 15)
+        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 15)
         
         tree = [p(20)]
-        XCTAssertTrue(tree.bottommostRightMostNode()?.item?.key == 20)
+        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 20)
     }
     
     func testBalancedTree() {
@@ -229,6 +229,34 @@ class SinglyThreadedBinarySearchTreeBinaryTreeExtensions: XCTestCase {
         
         tree = [p(5),p(3),p(17),p(1),p(6), p(18), p(19), p(20)]
         XCTAssertFalse(tree.isBalanced())
+    }
+    
+    func testIsBinarySearchTreeAfterEditions() {
+        let tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(20),p(15),p(25),p(14),p(16),p(24),p(26)]
+        XCTAssertTrue(tree.isBinarySearchTree())
+        let _ = tree.delete(elementWithKey: 26)
+        XCTAssertTrue(tree.isBinarySearchTree())
+        let _ = tree.delete(elementWithKey: 14)
+        XCTAssertTrue(tree.isBinarySearchTree())
+        let _ = tree.delete(elementWithKey: 16)
+        XCTAssertTrue(tree.isBinarySearchTree())
+        let _ = tree.delete(elementWithKey: 25)
+        XCTAssertTrue(tree.isBinarySearchTree())
+        let _ = tree.delete(elementWithKey: 24)
+        XCTAssertTrue(tree.isBinarySearchTree())
+        let _ = tree.delete(elementWithKey: 20)
+        XCTAssertTrue(tree.isBinarySearchTree())
+        let _ = tree.delete(elementWithKey: 15)
+        XCTAssertFalse(tree.isBinarySearchTree())
+    }
+    
+    func testBinarySearchTreeInvariantForCustomTree() {
+        let n3 = SinglyThreadedBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:25, value:0))
+        let n1 = SinglyThreadedBinarySearchTree(parent: nil, leftChild: nil, rightChild: n3, value: IntegerPair(key:10, value:0))
+        let n2 = SinglyThreadedBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:30, value:0))
+        
+        let tree: SinglyThreadedBinarySearchTree<IntegerPair> = SinglyThreadedBinarySearchTree(parent: nil, leftChild: n1, rightChild: n2, value: IntegerPair(key:20, value:0))
+        XCTAssertFalse(tree.isBinarySearchTree())
     }
     
 }

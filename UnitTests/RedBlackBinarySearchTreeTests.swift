@@ -90,7 +90,21 @@ class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
         XCTAssertTrue(paths[3] == [23.0,50.0,100.0,76.0])
         XCTAssertTrue(paths.count == 4)
     }
-
+    
+    func testIsBinarySearchTreeAfterEditions() {
+        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(20),p(15),p(25),p(14),p(16),p(24),p(26)]
+        XCTAssertTrue(tree.isBinarySearchTree())
+    }
+    
+    func testBinarySearchTreeInvariantForCustomTree() {
+        let n3 = RedBlackBinarySearchTree(leftChild: nil, rightChild: nil, value: p(25), color: .black)
+        let n1 = RedBlackBinarySearchTree(leftChild: nil, rightChild: n3, value: p(10), color: .black)
+        let n2 = RedBlackBinarySearchTree(leftChild: nil, rightChild: nil, value: p(30), color: .black)
+        
+        let tree: RedBlackBinarySearchTree<IntegerPair> = RedBlackBinarySearchTree(leftChild: n1, rightChild: n2, value: p(20), color: .black)
+        XCTAssertFalse(tree.isBinarySearchTree())
+    }
+    
 }
 
 

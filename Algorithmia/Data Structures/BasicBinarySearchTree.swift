@@ -66,7 +66,7 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     func insert(newElement :BasicBinarySearchTree) {
 
         // Trying to insert an empty node
-        guard newElement.item != nil else {
+        guard !newElement.isEmpty() else {
             return
         }
 

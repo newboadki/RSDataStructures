@@ -83,7 +83,36 @@ class BasicBinarySearchTreeTests: XCTestCase {
 
         XCTAssert(self.root?.minimum()?.item?.key == 13)
     }
-
+    
+    func testBinarySearchTreeInvariantDuringEditions() {
+        self.root = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:13, value:0))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 25, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 45, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 66, value: 0)))
+        self.root?.insert(newElement: BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key: 124, value: 0)))
+        
+        XCTAssertTrue(self.root!.isBinarySearchTree())
+        let _ = self.root?.delete(elementWithKey: 66)
+        XCTAssertTrue(self.root!.isBinarySearchTree())
+        let _ = self.root?.delete(elementWithKey: 45)
+        XCTAssertTrue(self.root!.isBinarySearchTree())
+        let _ = self.root?.delete(elementWithKey: 25)
+        XCTAssertTrue(self.root!.isBinarySearchTree())
+        let _ = self.root?.delete(elementWithKey: 124)
+        XCTAssertTrue(self.root!.isBinarySearchTree())
+        let _ = self.root?.delete(elementWithKey: 13)
+        XCTAssertFalse(self.root!.isBinarySearchTree())
+    }
+    
+    func testBinarySearchTreeInvariantForCustomTree() {
+        let n3 = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:25, value:0))
+        let n1 = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: n3, value: IntegerPair(key:10, value:0))
+        let n2 = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: IntegerPair(key:30, value:0))
+        
+        self.root = BasicBinarySearchTree(parent: nil, leftChild: n1, rightChild: n2, value: IntegerPair(key:20, value:0))
+        XCTAssertFalse(self.root!.isBinarySearchTree())
+    }
+    
     func test_max_where_root_is_not_it() {
         XCTAssert(self.root?.maximum()?.item?.key == 100)
     }
