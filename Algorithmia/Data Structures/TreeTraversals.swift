@@ -9,11 +9,14 @@
 import Foundation
 
 
+// MARK: Depth-first traversals
 
 /// Returns an iterator to traverse a tree in order.
 ///
-/// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase some implementations define an internal structure that would make this code fail.
+/// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase some implementations
+///   define an internal structure that would make this code fail.
 /// - Returns: An iterator to traverse a tree in order.
+/// - Complexity: O(N)
 func inOrderTraversalIterator<Element, T: TraversableBinaryTree>(tree: T) -> AnyIterator<Element> where Element == T.Item {
     
     let stack = StackBasedOnLinkedList<T>()
@@ -40,59 +43,11 @@ func inOrderTraversalIterator<Element, T: TraversableBinaryTree>(tree: T) -> Any
 }
 
 
-/// Breadth First Search is an algorithm that visits the nodes in the same lavel first before moving to nodes in levels below.
-///
-/// - Parameter tree: Tree to be traversed
-/// - Returns: An iterator that respects BFS order.
-func breadthFirstSearchTraversalIterator<T: TraversableBinaryTree>(tree: T) -> AnyIterator<(node: T, height: Int)> {
-    
-    var queue = SinglyLinkedList<T>()
-    try! queue.enqueue(item: tree)
-    var level: Int = 1 // Start at the root
-    var maxLevelCount: Int = 1 // Level 1 can only have the root
-    var levelCount: Int = 0 // We have not processed any nodes yet
-    
-    return AnyIterator {
-        
-        while queue.count > 0 {
-            
-            let head = queue.dequeue()
-            // Increase the count of processed nodes
-            levelCount += 1
-            var movedToNextLevel = false
-            
-            if levelCount >= maxLevelCount {
-                maxLevelCount = (maxLevelCount * 2) // In a binary tree, the next level will have at most double the elements from the preivous
-                levelCount = 0 // Reset the node count
-                level += 1 // Move to the next level
-                movedToNextLevel = true
-            }
-            
-            if let leftChild = head?.leftChild {
-                try! queue.enqueue(item: leftChild)
-            }
-            
-            if let rightChild = head?.rightChild {
-                try! queue.enqueue(item: rightChild)
-            }
-            
-            if movedToNextLevel {
-                return (node: head!, height: (level-1))
-            } else {
-                return (node: head!, height: level)
-            }
-            
-        }
-        
-        return nil
-    }    
-}
-
-
 /// Returns an iterator to traverse a tree in post order.
 ///
 /// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase some implementations define an internal structure that would make this code fail.
 /// - Returns: An iterator to traverse a tree in post order.
+/// - Complexity: O(N)
 func postOrderTraversalIterator<Element, T: TraversableBinaryTree>(tree: T) -> AnyIterator<Element> where Element == T.Item {
     
     let stack = StackBasedOnLinkedList<T>()
@@ -131,10 +86,13 @@ func postOrderTraversalIterator<Element, T: TraversableBinaryTree>(tree: T) -> A
     }
 }
 
-/// Returns an iterator to traverse a tree in post order checking for each subtree the right child first, then the left one and finally the root.
+/// Returns an iterator to traverse a tree in post order checking for each
+/// subtree the right child first, then the left one and finally the root.
 ///
-/// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase some implementations define an internal structure that would make this code fail.
+/// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase
+///   some implementations define an internal structure that would make this code fail.
 /// - Returns: An iterator to traverse a tree in post order.
+/// - Complexity: O(N)
 func postOrderRightToLeftTraversalIterator<Element, T: TraversableBinaryTree>(tree: T) -> AnyIterator<Element> where Element == T.Item {
     
     let stack = StackBasedOnLinkedList<T>()
@@ -174,10 +132,13 @@ func postOrderRightToLeftTraversalIterator<Element, T: TraversableBinaryTree>(tr
 }
 
 
-/// Returns an iterator to traverse a tree in post order checking for each subtree the right child first, then the left one and finally the root.
+/// Returns an iterator to traverse a tree in post order checking for each
+/// subtree the right child first, then the left one and finally the root.
 ///
-/// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase some implementations define an internal structure that would make this code fail.
-/// - Returns: An iterator to traverse a tree in post order.
+/// - Parameter tree: Tree to be traversed. The tree must be Traversable becuase
+///   some implementations define an internal structure that would make this code fail.
+/// - Returns: An iterator to traverse a tree in post order. Each returned item includes the height too.
+/// - Complexity: O(N)
 func postOrderRightToLeftTraversalIterator<T: TraversableBinaryTree>(tree: T) -> AnyIterator<(node: T, height: Int)> {
     
     let stack = StackBasedOnLinkedList<T>()
@@ -220,6 +181,59 @@ func postOrderRightToLeftTraversalIterator<T: TraversableBinaryTree>(tree: T) ->
             }
             
         } while(!stack.isEmpty)
+        
+        return nil
+    }
+}
+
+
+
+// MARK: Breadth-first traversals
+
+/// Breadth First Search is an algorithm that visits the nodes in the same
+/// level first before moving on to nodes in levels below.
+///
+/// - Parameter tree: Tree to be traversed
+/// - Returns: An iterator that respects BFS order. Each returned elements contains the height too.
+/// - Complexity: O(N)
+func breadthFirstSearchTraversalIterator<T: TraversableBinaryTree>(tree: T) -> AnyIterator<(node: T, height: Int)> {
+    
+    var queue = SinglyLinkedList<T>()
+    try! queue.enqueue(item: tree)
+    var level: Int = 1 // Start at the root
+    var maxLevelCount: Int = 1 // Level 1 can only have the root
+    var levelCount: Int = 0 // We have not processed any nodes yet
+    
+    return AnyIterator {
+        
+        while queue.count > 0 {
+            
+            let head = queue.dequeue()
+            // Increase the count of processed nodes
+            levelCount += 1
+            var movedToNextLevel = false
+            
+            if levelCount >= maxLevelCount {
+                maxLevelCount = (maxLevelCount * 2) // In a binary tree, the next level will have at most double the elements from the preivous
+                levelCount = 0 // Reset the node count
+                level += 1 // Move to the next level
+                movedToNextLevel = true
+            }
+            
+            if let leftChild = head?.leftChild {
+                try! queue.enqueue(item: leftChild)
+            }
+            
+            if let rightChild = head?.rightChild {
+                try! queue.enqueue(item: rightChild)
+            }
+            
+            if movedToNextLevel {
+                return (node: head!, height: (level-1))
+            } else {
+                return (node: head!, height: level)
+            }
+        }
         
         return nil
     }
