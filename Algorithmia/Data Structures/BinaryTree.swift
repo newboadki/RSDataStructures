@@ -224,17 +224,48 @@ extension BinaryTree {
     /// The default implementation considers empty trees to be not balanced.
     ///
     /// - Returns: True if the tree is balanced.
+    /// - Complexity: time: O(N), where N is the count of elements, space: O(H), where H is the height of the tree.
     func isBalanced() -> Bool {
+        return (self.checkHeight() != nil)
+    }
+    
+    
+    /// Helper method to facilitate efficient implementation of isBalanced.
+    ///
+    /// - Returns: The height of a balance subtree or nil if the subtree is found to be unbalanced.
+    /// - Complexity: time: O(N), where N is the count of elements, space: O(H), where H is the height of the tree.
+    private func checkHeight() -> Int? {
         // We consider empty trees to be not balanced
         guard !self.isEmpty() else {
-            return false
+            return nil
         }
         
-        let leftSubtreeHeight = (self.leftChild?.maximumHeight() ?? 0)
-        let rightSubtreeHeight = (self.rightChild?.maximumHeight() ?? 0)
-        let diffInHeight = abs(leftSubtreeHeight - rightSubtreeHeight)
-        return (diffInHeight == 0) || (diffInHeight == 1)
+        var leftSubtreeHeight: Int? = 0
+        if let leftChild = self.leftChild {
+            if let leftHeight = leftChild.checkHeight() {
+                leftSubtreeHeight = leftHeight
+            } else {
+                return nil
+            }
+        }
+        
+        var rightSubtreeHeight: Int? = 0
+        if let rightChild = self.rightChild {
+            if let rightHeight = rightChild.checkHeight() {
+                rightSubtreeHeight = rightHeight
+            } else {
+                return nil
+            }
+        }
+        
+        let diffInHeight = abs(leftSubtreeHeight! - rightSubtreeHeight!)
+        if (diffInHeight > 1) {
+            return nil
+        } else {
+            return (1 + Swift.max(leftSubtreeHeight!, rightSubtreeHeight!))
+        }
     }
+    
 }
 
 
