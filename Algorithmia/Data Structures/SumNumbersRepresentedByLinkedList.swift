@@ -39,7 +39,7 @@ func sumLeftToRight(l1: SinglyLinkedList<Int>, l2: SinglyLinkedList<Int>) -> Sin
             carriage = false
         }
         
-        sumList.append(node: SinglyLinkedListNode(value: sum))
+        sumList.append(value: sum)
         
         offset += 1
         idx1 = l1.index(l1.startIndex, offsetBy: offset)

@@ -91,15 +91,14 @@ public struct SinglyLinkedList<T>
     
     // MARK: - INITIALIZERS
     
-    /// Creates a list with the given node
+    /// Creates a list with the given node.
+    /// NOTE: This method can break value semantics by accepting a node.
     ///
     /// - Parameter head: First node
     internal init(head: SinglyLinkedListNode<T>)
     {
         self.storage = IndirectStorage()
-        self.storage.head = head
-        let (tail, _) = findTail(in: head)
-        self.storage.tail = tail
+        self.append(node: head)
     }
     
     
@@ -166,11 +165,12 @@ public struct SinglyLinkedList<T>
     }
     
     
-    /// Appends a new node to the list.
+    /// Appends a new node to the list. This method can easily break value semantics. It is left
+    /// for internal use.
     /// - Discussion: If the node to be inserted contains a loop, the node is appended but tail is set to nil.
     ///   This is a private method, therefore this can only happen directly under the control of this class.
     /// - Parameter node: node to be appended. (It can be a list, even contain loops).
-    internal mutating func append(node: SinglyLinkedListNode<T>)
+    private mutating func append(node: SinglyLinkedListNode<T>)
     {
         if self.storage.tail != nil
         {
@@ -189,9 +189,13 @@ public struct SinglyLinkedList<T>
             // This also means that there's no head.
             // Otherwise the state would be inconsistent.
             // This will be checked when adding and deleting nodes.
-            let (tail, _) = findTail(in: node)
             self.storageForWritting.head = node
-            self.storageForWritting.tail = tail
+            if !self.containsLoop() {
+                let (tail, _) = findTail(in: node)
+                self.storageForWritting.tail = tail // There
+            } else {
+                self.storageForWritting.tail = nil
+            }
         }
     }
     
@@ -206,10 +210,11 @@ public struct SinglyLinkedList<T>
     }
     
     
-    /// Adds a new node to the current head.
+    /// Adds a new node to the current head. This method can easily break value semantics. It is left
+    /// for internal use.
     ///
     /// - Parameter node: the node that will be the new head of the list.
-    internal mutating func prepend(node: SinglyLinkedListNode<T>)
+    private mutating func prepend(node: SinglyLinkedListNode<T>)
     {
         let (tailFromNewNode, _) = findTail(in: node)
         tailFromNewNode.next = self.storageForWritting.head
