@@ -32,13 +32,13 @@ open class StackBasedOnLinkedList<T> : Stack
             return nil
         }
 
-        return self.list.deleteItem(at: 0).value
+        return self.list.deleteItem(at: 0)
     }
     
     /// Returns without removing the item at the top of the stack
     func peek() -> Item?
     {
-        return self.list.head?.value
+        return self.list.first
     }
     
     func count() -> Int {

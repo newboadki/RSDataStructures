@@ -32,104 +32,93 @@ class SinglyLinkedListTests: XCTestCase {
     
     func testAppendOneNodeFromEmptyList() {
         var list = SinglyLinkedList<Int>()
-        let n1 = SinglyLinkedListNode<Int>(value: 34)
-        list.append(node: n1)
-        XCTAssertTrue(list.head === n1)
-        XCTAssertTrue(list.tail === n1)
+        list.append(value: 34)
+        XCTAssertTrue(list.first == 34)
         XCTAssertTrue(list.count == 1, "Found \(list.count)")
     }
 
     func testAppendMultipleNodesFromEmptyList() {
         var list = SinglyLinkedList<Int>()
-        let n1 = SinglyLinkedListNode<Int>(value: 34)
-        let n2 = SinglyLinkedListNode<Int>(value: 35)
-        let n3 = SinglyLinkedListNode<Int>(value: 36)
-        n1.next = n2
-        n2.next = n3
-        list.append(node: n1)
-        XCTAssertTrue(list.head === n1)
-        XCTAssertTrue(list.tail === n3)
-        XCTAssertTrue(list.count == 3, "Found \(list.count)")
+        list.append(value: 34)
+        list.append(value: 35)
+        list.append(value: 36)
+        list.append(value: 34)
+        XCTAssertTrue(list.first == 34)
+        let second = list.index(list.startIndex, offsetBy: 1)
+        let third = list.index(list.startIndex, offsetBy: 2)
+        let fouth = list.index(list.startIndex, offsetBy: 3)
+        XCTAssertTrue(list[second] == 35)
+        XCTAssertTrue(list[third] == 36)
+        XCTAssertTrue(list[fouth] == 34)
+        XCTAssertTrue(list.count == 4, "Found \(list.count)")
     }
 
     func testAppendFromNode() {
         let n1 = SinglyLinkedListNode<Int>(value: 34)
-        let n2 = SinglyLinkedListNode<Int>(value: 35)
-        let n3 = SinglyLinkedListNode<Int>(value: 36)
-        let n4 = SinglyLinkedListNode<Int>(value: 37)
         
-        var list = SinglyLinkedList<Int>(head: n1)
-        XCTAssertTrue(list.head === n1)
-        XCTAssertTrue(list.tail === n1)
+        var list = SinglyLinkedList<Int>(head: SinglyLinkedListNode<Int>(value: 34))
+        XCTAssertTrue(list.first == 34)
+        XCTAssertTrue(n1.next == nil)
         XCTAssertTrue(list.count == 1, "Found \(list.count)")
         
-        list.append(node: n2)
-        XCTAssertTrue(list.head === n1)
-        XCTAssertTrue(n1.next === n2)
-        XCTAssertTrue(list.tail === n2)
+        list.append(node: SinglyLinkedListNode<Int>(value: 35))
+        XCTAssertTrue(list.first == 34)
+        XCTAssertTrue(list.last == 35)
         XCTAssertTrue(list.count == 2, "Found \(list.count)")
         
-        list.append(node: n3)
-        XCTAssertTrue(list.head === n1)
-        XCTAssertTrue(n1.next === n2)
-        XCTAssertTrue(n2.next === n3)
-        XCTAssertTrue(list.tail === n3)
+        list.append(node: SinglyLinkedListNode<Int>(value: 36))
+        var second = list.index(list.startIndex, offsetBy: 1)
+        XCTAssertTrue(list.first == 34)
+        XCTAssertTrue(list[second] == 35)
+        XCTAssertTrue(list.last == 36)
         XCTAssertTrue(list.count == 3, "Found \(list.count)")
         
-        list.append(node: n4)
-        XCTAssertTrue(list.head === n1)
-        XCTAssertTrue(n1.next === n2)
-        XCTAssertTrue(n2.next === n3)
-        XCTAssertTrue(n3.next === n4)
-        XCTAssertTrue(list.tail === n4)
+        list.append(node: SinglyLinkedListNode<Int>(value: 37))
+        second = list.index(list.startIndex, offsetBy: 1)
+        let third = list.index(list.startIndex, offsetBy: 2)
+        XCTAssertTrue(list[second] == 35)
+        XCTAssertTrue(list[third] == 36)
+        XCTAssertTrue(list.last == 37)
         XCTAssertTrue(list.count == 4, "Found \(list.count)")
     }
 
     func testDelete() {
-        let n1 = SinglyLinkedListNode<Int>(value: 1)
-        let n2 = SinglyLinkedListNode<Int>(value: 2)
-        let n3 = SinglyLinkedListNode<Int>(value: 3)
-        let n4 = SinglyLinkedListNode<Int>(value: 4)
-        let n5 = SinglyLinkedListNode<Int>(value: 5)
-        
-        var list = SinglyLinkedList<Int>(head: n1)
-        list.append(node: n2)
-        list.append(node: n3)
-        list.append(node: n4)
-        list.append(node: n5)
+        var list = SinglyLinkedList<Int>(head: SinglyLinkedListNode<Int>(value: 1))
+        list.append(node: SinglyLinkedListNode<Int>(value: 2))
+        list.append(node: SinglyLinkedListNode<Int>(value: 3))
+        list.append(node: SinglyLinkedListNode<Int>(value: 4))
+        list.append(node: SinglyLinkedListNode<Int>(value: 5))
         
         list.deleteNode(withValue: 1)
-        XCTAssertTrue(list.head === n2)
-        XCTAssertTrue(n2.next === n3)
-        XCTAssertTrue(n3.next === n4)
-        XCTAssertTrue(n4.next === n5)
-        XCTAssertTrue(list.tail === n5)
+        var second = list.index(list.startIndex, offsetBy: 1)
+        var third = list.index(list.startIndex, offsetBy: 2)
+        XCTAssertTrue(list.first == 2)
+        XCTAssertTrue(list[second] == 3)
+        XCTAssertTrue(list[third] == 4)
+        XCTAssertTrue(list.last == 5)
         XCTAssertTrue(list.count == 4)
         
         list.deleteNode(withValue: 5)
-        XCTAssertTrue(list.head === n2)
-        XCTAssertTrue(n2.next === n3)
-        XCTAssertTrue(n3.next === n4)
-        XCTAssertTrue(n4.next == nil)
-        XCTAssertTrue(list.tail === n4)
+        second = list.index(list.startIndex, offsetBy: 1)
+        third = list.index(list.startIndex, offsetBy: 2)
+        XCTAssertTrue(list.first == 2)
+        XCTAssertTrue(list[second] == 3)
+        XCTAssertTrue(list.last == 4)
         XCTAssertTrue(list.count == 3)
         
         list.deleteNode(withValue: 3)
-        XCTAssertTrue(list.head === n2)
-        XCTAssertTrue(n2.next === n4)
-        XCTAssertTrue(n4.next == nil)
-        XCTAssertTrue(list.tail === n4)
+        XCTAssertTrue(list.first == 2)
+        XCTAssertTrue(list.last == 4)
         XCTAssertTrue(list.count == 2)
 
         list.deleteNode(withValue: 2)
-        XCTAssertTrue(list.head === n4)
-        XCTAssertTrue(n4.next == nil)
-        XCTAssertTrue(list.tail === n4)
+        XCTAssertTrue(list.first == 4)
+        XCTAssertTrue(list.last == 4)
         XCTAssertTrue(list.count == 1)
         
         list.deleteNode(withValue: 4)
-        XCTAssertTrue(list.head == nil)
-        XCTAssertTrue(list.tail == nil)
+        XCTAssertTrue(list.first == nil)
+        XCTAssertTrue(list.last == nil)
         XCTAssertTrue(list.count == 0)
     }
     
@@ -165,32 +154,26 @@ class SinglyLinkedListTests: XCTestCase {
     */
     
     func testDeleteDuplicatesInPlace() {
-        let n1 = SinglyLinkedListNode<Int>(value: 2)
-        let n2 = SinglyLinkedListNode<Int>(value: 2)
-        let n3 = SinglyLinkedListNode<Int>(value: 3)
-        let n4 = SinglyLinkedListNode<Int>(value: 5)
-        let n5 = SinglyLinkedListNode<Int>(value: 2)
-        let n6 = SinglyLinkedListNode<Int>(value: 4)
-        let n7 = SinglyLinkedListNode<Int>(value: 2)
-        let n8 = SinglyLinkedListNode<Int>(value: 5)
-        
-        var list = SinglyLinkedList<Int>(head: n1)
-        list.append(node: n2)
-        list.append(node: n3)
-        list.append(node: n4)
-        list.append(node: n5)
-        list.append(node: n6)
-        list.append(node: n7)
-        list.append(node: n8)
+        var list = SinglyLinkedList<Int>(head: SinglyLinkedListNode<Int>(value: 1))
+        list.append(value: 2)
+        list.append(value: 2)
+        list.append(value: 3)
+        list.append(value: 5)
+        list.append(value: 2)
+        list.append(value: 4)
+        list.append(value: 2)
+        list.append(value: 5)
         
         list.deleteDuplicatesInPlace()
-        XCTAssertTrue(list.head === n1)
-        XCTAssertTrue(n1.next === n3)
-        XCTAssertTrue(n3.next === n4)
-        XCTAssertTrue(n4.next === n6)
-        XCTAssertTrue(n6.next == nil)
-        XCTAssertTrue(list.tail === n6)
-        XCTAssertTrue(list.count == 4)
+        let second = list.index(list.startIndex, offsetBy: 1)
+        let third = list.index(list.startIndex, offsetBy: 2)
+        let fourth = list.index(list.startIndex, offsetBy: 3)
+        XCTAssertTrue(list.first == 1)
+        XCTAssertTrue(list[second] == 2)
+        XCTAssertTrue(list[third] == 3)
+        XCTAssertTrue(list[fourth] == 5)
+        XCTAssertTrue(list.last == 4)
+        XCTAssertTrue(list.count == 5)
     }
     
     func testFindKthToLast() {        
@@ -220,7 +203,7 @@ class SinglyLinkedListTests: XCTestCase {
         let result = string(from: sum)
         XCTAssertTrue(result == "219", "Found \(result)")
     }
-
+    
     func testSumOfNumbersRightToLeft1() {
         /*
          This assumes that the numbers we are summing up are 716 + 592 = 1308
@@ -232,7 +215,7 @@ class SinglyLinkedListTests: XCTestCase {
         let result = string(from: sum)
         XCTAssertTrue(result == "1308", "Found \(result)")
     }
-    
+
     func testSumOfNumbersRightToLeft2() {
         /*
          This assumes that the numbers we are summing up are 716 + 592 = 1308
@@ -244,7 +227,7 @@ class SinglyLinkedListTests: XCTestCase {
         let result = string(from: sum)
         XCTAssertTrue(result == "912", "Found \(result)")
     }
-
+    
     func testContainsLoop() {
         let n1 = SinglyLinkedListNode<Int>(value: 1)
         let n2 = SinglyLinkedListNode<Int>(value: 2)
@@ -264,28 +247,26 @@ class SinglyLinkedListTests: XCTestCase {
         list.append(node: n6)
         list.append(node: n7)
         list.append(node: n8)
-
-        XCTAssertNil(list.tail)
         XCTAssertTrue(list.containsLoop())
     }
-
+    
     func testContainsLoopFalse() {
         let list: SinglyLinkedList<Int> = [1,2,3,4,5,6,7,8]
-        XCTAssertTrue(list.tail?.value == 8, "Found \(String(describing: list.tail?.value))")
+        XCTAssertTrue(list.last == 8, "Found \(String(describing: list.last))")
         XCTAssertFalse(list.containsLoop())
     }
 
     func testConstructorFromArrayLiteralWhenEmpty() {
         let list: SinglyLinkedList<Int> = []
-        XCTAssertTrue(list.head == nil)
-        XCTAssertTrue(list.tail == nil)
+        XCTAssertTrue(list.first == nil)
+        XCTAssertTrue(list.last == nil)
         XCTAssertTrue(list.count == 0, "Found \(list.count)")
     }
 
     func testConstructorFromArrayLiteralWithSingleElement() {
         let list: SinglyLinkedList<Int> = [5]
-        XCTAssertTrue(list.head?.value == 5)
-        XCTAssertTrue(list.tail?.value == 5)
+        XCTAssertTrue(list.first == 5)
+        XCTAssertTrue(list.last == 5)
         XCTAssertTrue(list.count == 1, "Found \(list.count)")
     }
     
@@ -301,7 +282,7 @@ class SinglyLinkedListTests: XCTestCase {
         let result = string(from: list)
         XCTAssertTrue(result == "11224", "Found \(result)")
         XCTAssertTrue(list.count == 5, "Found \(list.count)")
-        XCTAssertTrue(list.tail?.value == 4, "Found \(String(describing: list.tail?.value))")
+        XCTAssertTrue(list.last == 4, "Found \(String(describing: list.last))")
     }
     
     func testPrependValue() {
@@ -316,7 +297,7 @@ class SinglyLinkedListTests: XCTestCase {
         let result = string(from: list)
         XCTAssertTrue(result == "654321", "Found \(result)")
         XCTAssertTrue(list.count == 6, "Found \(list.count)")
-        XCTAssertTrue(list.tail?.value == 1, "Found \(String(describing: list.tail?.value))")
+        XCTAssertTrue(list.last == 1, "Found \(String(describing: list.last))")
     }
 
     func testDeleteHeadInListWithMultipleItems() {
@@ -325,7 +306,7 @@ class SinglyLinkedListTests: XCTestCase {
         let _ = list.deleteItem(at: 0)
         let result = string(from: list)
         XCTAssertTrue(result == "2345678", "Found \(result)")
-        XCTAssertTrue(list.head?.value == 2, "Found \(String(describing: list.head?.value))")
+        XCTAssertTrue(list.first == 2, "Found \(String(describing: list.first))")
         XCTAssertTrue(list.count == 7, "Found \(list.count)")
     }
 
@@ -335,7 +316,7 @@ class SinglyLinkedListTests: XCTestCase {
         let _ = list.deleteItem(at: 7)
         let result = string(from: list)
         XCTAssertTrue(result == "1234567", "Found \(result)")
-        XCTAssertTrue(list.tail?.value == 7, "Found \(String(describing: list.tail?.value))")
+        XCTAssertTrue(list.last == 7, "Found \(String(describing: list.last))")
         XCTAssertTrue(list.count == 7, "Found \(list.count)")
     }
 
@@ -345,8 +326,8 @@ class SinglyLinkedListTests: XCTestCase {
         let _ = list.deleteItem(at: 4)
         let result = string(from: list)
         XCTAssertTrue(result == "1234678", "Found \(result)")
-        XCTAssertTrue(list.head?.value == 1, "Found \(String(describing: list.head?.value))")
-        XCTAssertTrue(list.tail?.value == 8, "Found \(String(describing: list.tail?.value))")
+        XCTAssertTrue(list.first == 1, "Found \(String(describing: list.first))")
+        XCTAssertTrue(list.last == 8, "Found \(String(describing: list.last))")
         XCTAssertTrue(list.count == 7, "Found \(list.count)")
     }
 
@@ -356,8 +337,8 @@ class SinglyLinkedListTests: XCTestCase {
         let _ = list.deleteItem(at: 0)
         let result = string(from: list)
         XCTAssertTrue(result == "", "Found \(result)")
-        XCTAssertTrue(list.head == nil, "Found \(String(describing: list.head))")
-        XCTAssertTrue(list.tail == nil, "Found \(String(describing: list.tail))")
+        XCTAssertTrue(list.first == nil, "Found \(String(describing: list.first))")
+        XCTAssertTrue(list.last == nil, "Found \(String(describing: list.last))")
         XCTAssertTrue(list.count == 0, "Found \(list.count)")
     }
     
@@ -370,13 +351,35 @@ class SinglyLinkedListTests: XCTestCase {
 
     func string(from list: SinglyLinkedList<Int>) -> String {
         var result = ""
-        var current = list.head
-        while current != nil {
-            result += String(describing: (current?.value)!)
-            current = current?.next
+        var iterator = list.makeIterator()
+        while let current = iterator.next() {
+            result += String(describing: current)
         }
         
         return result
+    }
+    
+    func testCopyOnWrite() {
+        var l1: SinglyLinkedList<Int> = [1,2,3,4,5,6,7,8]
+        l1.append(value: 0)
+        var l2 = l1
+        
+        _ = l2.deleteItem(at: 3)
+        XCTAssertTrue(l1.count == 9)
+        XCTAssertTrue(l2.count == 8)
+        
+        _ = l1.deleteItem(at: 0)
+        _ = l1.deleteItem(at: 0)
+        _ = l1.deleteItem(at: 0)
+        _ = l1.deleteItem(at: 0)
+        _ = l1.deleteItem(at: 0)
+        _ = l1.deleteItem(at: 0)
+        _ = l1.deleteItem(at: 0)
+        _ = l1.deleteItem(at: 0)
+        _ = l1.deleteItem(at: 0)
+        
+        XCTAssertTrue(l1.count == 0)
+        XCTAssertTrue(l2.count == 8)
     }
 }
 

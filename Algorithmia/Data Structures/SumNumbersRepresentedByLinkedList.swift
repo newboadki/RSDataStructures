@@ -9,21 +9,25 @@
 import Foundation
 
 struct PartialSum {
-    var node : SinglyLinkedListNode<Int>?
+    var index : Int?
     var carriage : Int
-    
+    var sum: SinglyLinkedList<Int> // list representing the partial sum to be read from left to right
 }
 
 // Assuming they both have the same number of digits (zeros on the shortest's right have been added).
+// This also assumes the numbers are stored in the list in reversed order
 func sumLeftToRight(l1: SinglyLinkedList<Int>, l2: SinglyLinkedList<Int>) -> SinglyLinkedList<Int>
 {
     var carriage = false
-    var n1 = l1.head
-    var n2 = l2.head
+    var offset = 0
+    var idx1 = l1.index(l1.startIndex, offsetBy: offset)
+    var idx2 = l1.index(l2.startIndex, offsetBy: offset)
+    var n1 = l1[idx1]
+    var n2 = l2[idx2]
     var sumList = SinglyLinkedList<Int>()
     
-    while(n1 != nil) {
-        var sum = (n1?.value)! + (n2?.value)!
+    while(offset < l1.count) {
+        var sum = (n1 + n2)
         if (carriage == true) {
             sum += 1
         }
@@ -37,9 +41,15 @@ func sumLeftToRight(l1: SinglyLinkedList<Int>, l2: SinglyLinkedList<Int>) -> Sin
         
         sumList.append(node: SinglyLinkedListNode(value: sum))
         
-        n1 = n1?.next
-        n2 = n2?.next
+        offset += 1
+        idx1 = l1.index(l1.startIndex, offsetBy: offset)
+        idx2 = l1.index(l2.startIndex, offsetBy: offset)
+        if (offset < l1.count) {
+            n1 = l1[idx1]
+            n2 = l2[idx2]
+        }
     }
+        
     
     return sumList
 }
@@ -49,27 +59,27 @@ func sumRightToLeft(l1: SinglyLinkedList<Int>, l2: SinglyLinkedList<Int>) -> Sin
     
     // TODO. Pad with zeros
     
-    let result = sumHelper(n1: l1.head, n2: l2.head)
+    var result = sumHelper(l1: l1, l2: l2, index: 0)
     
     if result.carriage == 1 {
-        let newNode = SinglyLinkedListNode(value: 1)
-        newNode.next = result.node
-        return SinglyLinkedList<Int>(head: newNode)
-    } else {
-        return SinglyLinkedList<Int>(head: result.node!)
+        result.sum.prepend(value: 1)
     }
+    
+    return result.sum
 }
 
-func sumHelper(n1: SinglyLinkedListNode<Int>?, n2: SinglyLinkedListNode<Int>?) -> PartialSum {
+func sumHelper(l1: SinglyLinkedList<Int>,
+               l2: SinglyLinkedList<Int>, index: Int?) -> PartialSum {
     
     // BASE CASE
-    if (n1==nil && n2==nil) {
-        return PartialSum(node: nil, carriage: 0)
+    if (index == l1.count) {
+        return PartialSum(index: nil, carriage: 0, sum: [])
     }
     
-    
-    var result = sumHelper(n1: n1?.next, n2: n2?.next)
-    var sum = n1!.value + n2!.value + result.carriage
+    var result = sumHelper(l1: l1, l2: l2, index: (index! + 1))
+    let n1 = l1[l1.index(l1.startIndex, offsetBy: index!)]
+    let n2 = l2[l2.index(l2.startIndex, offsetBy: index!)]
+    var sum = n1 + n2 + result.carriage    
     
     if (sum >= 10) {
         result.carriage = 1
@@ -78,9 +88,8 @@ func sumHelper(n1: SinglyLinkedListNode<Int>?, n2: SinglyLinkedListNode<Int>?) -
         result.carriage = 0
     }
     
-    let newNode = SinglyLinkedListNode(value: sum)
-    newNode.next = result.node
-    result.node = newNode
-    
+    result.sum.prepend(value: sum)
     return result
 }
+
+

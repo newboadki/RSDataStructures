@@ -9,33 +9,84 @@
 import Foundation
 
 
+/// Helper class to implement copy-on-write
+fileprivate class IndirectStorage<T> {
+    
+    var head: SinglyLinkedListNode<T>?
+    
+    var tail: SinglyLinkedListNode<T>?
+    
+    init(head: SinglyLinkedListNode<T>?, tail: SinglyLinkedListNode<T>?) {
+        self.head = head
+        self.tail = tail
+    }
+    
+    convenience init() {
+        self.init(head: nil, tail: nil)
+    }
+}
+
+
+
 // MARK: - NODE -
+
+/// A node is the building block of a linked list.
+/// It can be used on its own to create linked lists. However users of this class,
+/// will need to manipulate references directly.
 public class SinglyLinkedListNode<T> {
     
-    var value: T
-    var next: SinglyLinkedListNode<T>?
+    /// Data container
+    public var value: T
     
-    init(value: T) {
+    /// Link to the next node
+    public var next: SinglyLinkedListNode<T>?
+    
+    /// Designated initializer
+    ///
+    /// - Parameter value: A value
+    public init(value: T) {
         self.value = value
     }
 }
 
 
+
 // MARK: - LINKED LIST -
 
-/// Data structure to hold a collection of nodes.
+/// Data structure to hold a collection of items.
 /// Each nodes contains a reference to the next node.
 /// The last node does not reference any other node.
-/// FIX-ME: This struct does not keep value semantics
+/// This class implements value semantics based on copy-on-write.
+///
+/// However, the elements contained in the list, will be shallow copied if they
+/// implement reference semantics.
 public struct SinglyLinkedList<T>
 {
     // MARK: - PROPERTIES
     
-    /// First node
-    fileprivate(set) var head: SinglyLinkedListNode<T>?
+    // A level of inderiction, with reference semantics to allow easy
+    // detection of when there are more than one references of the storage.
+    private var storage: IndirectStorage<T>
     
-    /// Last node
-    fileprivate(set) var tail: SinglyLinkedListNode<T>?
+    /// Whenever there's a change that potentially can change the value, this reference to the
+    /// storage should be used to guarantee that a new copy is created and written on.
+    private var storageForWritting: IndirectStorage<T> {
+        
+        mutating get {
+            if !isKnownUniquelyReferenced(&self.storage) {
+                self.storage = self.copyStorage()
+            }
+            return self.storage
+        }
+    }
+    
+    /// Returns the last element in the collection
+    public var last: T? {
+        get {
+            return self.storage.tail?.value
+        }        
+    }
+    
     
     
     // MARK: - INITIALIZERS
@@ -43,45 +94,65 @@ public struct SinglyLinkedList<T>
     /// Creates a list with the given node
     ///
     /// - Parameter head: First node
-    public init(head: SinglyLinkedListNode<T>)
+    internal init(head: SinglyLinkedListNode<T>)
     {
-        self.head = head
+        self.storage = IndirectStorage()
+        self.storage.head = head
         let (tail, _) = findTail(in: head)
-        self.tail = tail
+        self.storage.tail = tail
     }
-
+    
+    
+    /// Creates a list with a single element
+    ///
+    /// - Parameter value: element to populate the list with
+    public init(value: T)
+    {
+        let node = SinglyLinkedListNode<T>(value: value)
+        self.init(head: node)
+    }
+    
+    
     /// Creates an empty list
     public init()
     {
-        self.head = nil
-        self.tail = nil
+        self.storage = IndirectStorage()
     }
-
     
-    /// Appends a new node to the list.
-    /// - Discussion: If the node to be inserted contains a loop, the node is appended but tail is set to nil.
-    /// - Parameter node: node to be appended. (It can be a list, even contain loops).
-    public mutating func append(node: SinglyLinkedListNode<T>)
-    {
-        if let tailNode = self.tail
-        {
-            tailNode.next = node
-            if !self.containsLoop() {
-                let (tail, _) = findTail(in: node)
-                self.tail = tail
-            } else {
-                self.tail = nil
-            }
+    
+    /// Creates a copy of the linked list in a diffent memory location.
+    ///
+    /// - Returns: The copy to a new storage or a reference to the old one if no copy was necessary.
+    private func copyStorage() -> IndirectStorage<T> {
+        // If the list is empty, next time an item will be created, it won't affect
+        // other instances of the list that came from copies derived from value types.
+        // like assignments or parameters
+        guard (self.storage.head != nil) && (self.storage.tail != nil) else {
+            return IndirectStorage(head: nil, tail: nil)
         }
-        else
-        {
-            // This also means that there's no head.
-            // Otherwise the state would be inconsistent.
-            // This will be checked when adding and deleting nodes.
-            let (tail, _) = findTail(in: node)
-            self.head = node
-            self.tail = tail
+        
+        // Create a new position in memory.
+        // Note that we are shallow copying the value. If it was reference type
+        // we just make a copy of the reference.
+        let copiedHead = SinglyLinkedListNode<T>(value: self.storage.head!.value)
+        var previousCopied: SinglyLinkedListNode<T> = copiedHead
+        
+        // Iterate through current list of nodes and copy them.
+        var current: SinglyLinkedListNode<T>? = self.storage.head?.next
+        
+        while (current != nil) {
+            // Create a copy
+            let currentCopy = SinglyLinkedListNode<T>(value: current!.value)
+            
+            // Create links
+            previousCopied.next = currentCopy
+            
+            // Update pointers
+            current = current?.next
+            previousCopied = currentCopy
         }
+        
+        return IndirectStorage(head: copiedHead, tail: previousCopied)
     }
     
     
@@ -95,19 +166,35 @@ public struct SinglyLinkedList<T>
     }
     
     
-    /// Adds a new node to the current head.
-    ///
-    /// - Parameter node: the node that will be the new head of the list.
-    public mutating func prepend(node: SinglyLinkedListNode<T>)
+    /// Appends a new node to the list.
+    /// - Discussion: If the node to be inserted contains a loop, the node is appended but tail is set to nil.
+    ///   This is a private method, therefore this can only happen directly under the control of this class.
+    /// - Parameter node: node to be appended. (It can be a list, even contain loops).
+    internal mutating func append(node: SinglyLinkedListNode<T>)
     {
-        let (tailFromNewNode, _) = findTail(in: node)
-        tailFromNewNode.next = self.head
-        self.head = node
-        
-        if self.tail == nil {
-            self.tail = tailFromNewNode
+        if self.storage.tail != nil
+        {
+            // Copy on write: we are about to modify next a property in
+            // a potentially shared node. Make sure it's new if necessary.
+            self.storageForWritting.tail?.next = node
+            if !self.containsLoop() {
+                let (tail, _) = findTail(in: node)
+                self.storageForWritting.tail = tail // There
+            } else {
+                self.storageForWritting.tail = nil
+            }
+        }
+        else
+        {
+            // This also means that there's no head.
+            // Otherwise the state would be inconsistent.
+            // This will be checked when adding and deleting nodes.
+            let (tail, _) = findTail(in: node)
+            self.storageForWritting.head = node
+            self.storageForWritting.tail = tail
         }
     }
+    
     
     /// Convenience method to prepend a value directly to the list
     ///
@@ -119,12 +206,27 @@ public struct SinglyLinkedList<T>
     }
     
     
-    mutating func deleteItem(at index:Int) -> SinglyLinkedListNode<T>
+    /// Adds a new node to the current head.
+    ///
+    /// - Parameter node: the node that will be the new head of the list.
+    internal mutating func prepend(node: SinglyLinkedListNode<T>)
+    {
+        let (tailFromNewNode, _) = findTail(in: node)
+        tailFromNewNode.next = self.storageForWritting.head
+        self.storageForWritting.head = node
+        
+        if self.storage.tail == nil {
+            self.storageForWritting.tail = tailFromNewNode
+        }
+    }
+    
+    
+    mutating func deleteItem(at index:Int) -> T
     {
         precondition((index >= 0) && (index < self.count))
         
         var previous: SinglyLinkedListNode<T>? = nil
-        var current = self.head
+        var current = self.storageForWritting.head
         var i = 0
         var elementToDelete: SinglyLinkedListNode<T>
         
@@ -136,17 +238,17 @@ public struct SinglyLinkedList<T>
         
         // Current is now the element to delete (at index position.tag)
         elementToDelete = current!
-        if (self.head === current) {
-            self.head = current?.next
+        if (self.storage.head === current) {
+            self.storageForWritting.head = current?.next
         }
         
-        if (self.tail === current) {
-            self.tail = previous
+        if (self.storage.tail === current) {
+            self.storageForWritting.tail = previous
         }
         
         previous?.next = current?.next
         
-        return elementToDelete
+        return elementToDelete.value
     }
     
     /// This is commented out becuase this solution for finding duplicates uses a set, which would
@@ -217,7 +319,7 @@ public struct SinglyLinkedList<T>
     /// - Parameter kthToLast: Reversed ordinal number of the node to fetch.
     public func find(kthToLast: UInt) -> SinglyLinkedListNode<T>?
     {
-        return self.find(kthToLast: kthToLast, startingAt: self.head, count: UInt(self.count))
+        return self.find(kthToLast: kthToLast, startingAt: self.storage.head, count: UInt(self.count))
     }
 
 
@@ -227,10 +329,10 @@ public struct SinglyLinkedList<T>
     public func containsLoop() -> Bool
     {
         /// Advances a node at a time
-        var current = self.head
+        var current = self.storage.head
         
         /// Advances twice as fast
-        var runner = self.head
+        var runner = self.storage.head
         
         while (runner != nil) && (runner?.next != nil) {
         
@@ -253,12 +355,12 @@ extension SinglyLinkedList where T: Comparable
     /// - Parameter v: value of the node to be deleted.
     mutating func deleteNode(withValue v: T) {
         
-        guard self.head != nil else {
+        guard self.storage.head != nil else {
             return
         }
         
         var previous: SinglyLinkedListNode<T>? = nil
-        var current = self.head
+        var current = self.storage.head
         
         while (current != nil) && (current?.value != v) {
             previous = current
@@ -267,12 +369,12 @@ extension SinglyLinkedList where T: Comparable
         
         if let foundNode = current {
             
-            if (self.head === foundNode) {
-                self.head = foundNode.next
+            if (self.storage.head === foundNode) {
+                self.storageForWritting.head = foundNode.next
             }
             
-            if (self.tail === foundNode) {
-                self.tail = previous
+            if (self.storage.tail === foundNode) {
+                self.storage.tail = previous
             }
             
             previous?.next = foundNode.next
@@ -285,7 +387,8 @@ extension SinglyLinkedList where T: Comparable
     /// - Complexity: O(N^2)
     public mutating func deleteDuplicatesInPlace()
     {
-        var current = self.head
+        // Copy on write: this updates self.storage if necessary.
+        var current = self.storageForWritting.head
         
         while (current != nil)
         {
@@ -296,12 +399,12 @@ extension SinglyLinkedList where T: Comparable
             {
                 if (current?.value == next?.value) {
                     
-                    if (self.head === next) {
-                        self.head = next?.next
+                    if (self.storage.head === next) {
+                        self.storage.head = next?.next
                     }
                     
-                    if (self.tail === next) {
-                        self.tail = previous
+                    if (self.storage.tail === next) {
+                        self.storage.tail = previous
                     }
                     
                     // Delete next
@@ -339,7 +442,7 @@ extension SinglyLinkedList : Sequence
 {
     public func makeIterator() -> SinglyLinkedListForwardIterator<T>
     {
-        return SinglyLinkedListForwardIterator(head: self.head)
+        return SinglyLinkedListForwardIterator(head: self.storage.head)
     }
 }
 
@@ -352,13 +455,13 @@ extension SinglyLinkedList : Collection {
     
     public var startIndex: Index {
         get {
-            return SinglyLinkedListIndex<T>(node: self.head, tag: 0)
+            return SinglyLinkedListIndex<T>(node: self.storage.head, tag: 0)
         }
     }
     
     public var endIndex: Index {
         get {
-            if let h = self.head {
+            if let h = self.storage.head {
                 let (_, numberOfElements) = findTail(in: h)
                 return SinglyLinkedListIndex<T>(node: h, tag: numberOfElements)
             } else {
@@ -389,16 +492,15 @@ extension SinglyLinkedList : Queue
     ///
     /// - Returns: The oldest element in the queue. It does not dequeue it.
     func getFirst() -> T? {
-        return self.head?.value
+        return self.storage.head?.value
     }
 
     /// Adds an element to the queue
     ///
     /// - Parameter item: Item to be added
     /// - Throws: There are cases where the operation might fail. For example if there is not enough space.
-    mutating func enqueue(item: T) throws {
-        let node = SinglyLinkedListNode<T>(value: item)
-        self.append(node: node)
+    mutating func enqueue(item: T) throws {        
+        self.append(node: SinglyLinkedListNode<T>(value: item))
     }
     
     /// Dequeues the oldest element in the queue.
@@ -406,13 +508,11 @@ extension SinglyLinkedList : Queue
     /// - Returns: The oldest element in the queue, which gets removed from it.
     mutating func dequeue() -> T?
     {
-        let current = self.head
-        self.head = current?.next
-        if self.head == nil {
-            self.tail = nil
+        guard self.count > 0 else {
+            return nil
         }
         
-        return current?.value
+        return self.deleteItem(at: 0)
     }
 }
 
@@ -427,14 +527,15 @@ extension SinglyLinkedList : ExpressibleByArrayLiteral
         var headSet = false
         var current : SinglyLinkedListNode<T>?
         var numberOfElements = 0
+        self.storage = IndirectStorage()
         
         for element in elements {
             
             numberOfElements += 1
             
             if headSet == false {
-                self.head = SinglyLinkedListNode<T>(value: element)
-                current = self.head
+                self.storage.head = SinglyLinkedListNode<T>(value: element)
+                current = self.storage.head
                 headSet = true
             } else {
                 let newNode = SinglyLinkedListNode<T>(value: element)
@@ -442,7 +543,7 @@ extension SinglyLinkedList : ExpressibleByArrayLiteral
                 current = newNode
             }
         }
-        self.tail = current
+        self.storage.tail = current
     }
 }
 

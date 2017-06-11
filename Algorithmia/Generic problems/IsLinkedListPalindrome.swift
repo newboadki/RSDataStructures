@@ -10,36 +10,40 @@ import Foundation
 
 func isPalindrome<T: Comparable>(list: SinglyLinkedList<T>) -> Bool
 {
-    guard list.head != nil else {
+    guard list.count > 0 else {
         return false
     }
     
-    let result = isPalindromeRecursive(node: list.head, length: UInt(list.count))
+    let result = isPalindromeRecursive(list: list, index: 0, length: UInt(list.count))
+    
     return result.isPalindrome
 }
 
 
 
-func isPalindromeRecursive<T: Comparable>(node: SinglyLinkedListNode<T>?, length: UInt) -> (node: SinglyLinkedListNode<T>?, isPalindrome: Bool)
+func isPalindromeRecursive<T: Comparable>(list: SinglyLinkedList<T>, index: Int, length: UInt) -> (nextIndex: Int, isPalindrome: Bool)
 {
     // BASE CASE
     if (length == 0) {
         // Even number of elements
-        return (node: node, isPalindrome: true)
+        return (nextIndex: index, isPalindrome: true)
         
     } else if (length == 1) {
         // Odd number of elements
-        return (node: node?.next, isPalindrome: true)
+        return (nextIndex: (index+1), isPalindrome: true)
     }
     
     // RECURSIVE STEP
-    var result = isPalindromeRecursive(node: node?.next, length: length - 2)
-    
-    if (node?.value != result.node?.value) {
+    var result = isPalindromeRecursive(list: list, index: (index+1), length: length - 2)
+    let value = list[list.index(list.startIndex, offsetBy:index)]
+    let resultValue = list[list.index(list.startIndex, offsetBy:result.nextIndex)]
+    if (value != resultValue) {
         result.isPalindrome = false
     }
     
-    result.node = result.node?.next
+    result.nextIndex = (result.nextIndex + 1)
     
     return result
 }
+
+
