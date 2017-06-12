@@ -21,11 +21,7 @@
 		001989131ECE30B1001D6214 /* SinglyThreadedBinarySearchTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001989121ECE30B1001D6214 /* SinglyThreadedBinarySearchTreeTests.swift */; };
 		003DB8871DCD30A600B51FCC /* ArrayBasedHeapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB8861DCD30A600B51FCC /* ArrayBasedHeapTests.swift */; };
 		003DB8941DCD3F4800B51FCC /* KeyValuePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB8931DCD3F4800B51FCC /* KeyValuePair.swift */; };
-		00546D691A33981000A043A7 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D681A33981000A043A7 /* main.c */; };
-		00546D711A3398A600A043A7 /* measurement.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D6F1A3398A600A043A7 /* measurement.c */; };
 		00546D7B1A37A06200A043A7 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D791A37A06200A043A7 /* utils.c */; };
-		00546D851A3A3DA300A043A7 /* exchange_sort.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D811A3A3DA300A043A7 /* exchange_sort.c */; };
-		00546D861A3A3DA300A043A7 /* insertion_sort.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D831A3A3DA300A043A7 /* insertion_sort.c */; };
 		007870501EEDAC72002514CB /* IsLinkedListPalindromeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EFE1EB8A98200992C1B /* IsLinkedListPalindromeTests.swift */; };
 		007870511EEDAC90002514CB /* IsLinkedListPalindrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EFC1EB8A53E00992C1B /* IsLinkedListPalindrome.swift */; };
 		0078705C1EEF45BE002514CB /* CollectionStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0078705B1EEF453F002514CB /* CollectionStack.swift */; };
@@ -44,6 +40,11 @@
 		007870781EEF49A2002514CB /* BoundedHeightPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007870741EEF499B002514CB /* BoundedHeightPriorityQueue.swift */; };
 		007870791EEF49A2002514CB /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007870751EEF499B002514CB /* PriorityQueue.swift */; };
 		0078707A1EEF49A2002514CB /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007870761EEF499B002514CB /* Queue.swift */; };
+		007870871EEF4CCF002514CB /* measurement.c in Sources */ = {isa = PBXBuildFile; fileRef = 0078707C1EEF4CB8002514CB /* measurement.c */; };
+		007870881EEF4CCF002514CB /* exchange_sort.c in Sources */ = {isa = PBXBuildFile; fileRef = 0078707F1EEF4CB8002514CB /* exchange_sort.c */; };
+		007870891EEF4CCF002514CB /* insertion_sort.c in Sources */ = {isa = PBXBuildFile; fileRef = 007870811EEF4CB8002514CB /* insertion_sort.c */; };
+		0078708A1EEF4CCF002514CB /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 007870831EEF4CB8002514CB /* main.c */; };
+		0078708B1EEF4CCF002514CB /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 007870851EEF4CB8002514CB /* utils.c */; };
 		00AC08571E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC08561E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift */; };
 		00AC085A1E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC08591E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift */; };
 		00AC085C1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC085B1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift */; };
@@ -100,16 +101,8 @@
 		003DB8881DCD30A600B51FCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		003DB8931DCD3F4800B51FCC /* KeyValuePair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValuePair.swift; sourceTree = "<group>"; };
 		00546D651A33981000A043A7 /* Algorithmia */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Algorithmia; sourceTree = BUILT_PRODUCTS_DIR; };
-		00546D681A33981000A043A7 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		00546D6F1A3398A600A043A7 /* measurement.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = measurement.c; sourceTree = "<group>"; };
-		00546D701A3398A600A043A7 /* measurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = measurement.h; sourceTree = "<group>"; };
-		00546D741A33B4D200A043A7 /* sorting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sorting.h; sourceTree = "<group>"; };
 		00546D791A37A06200A043A7 /* utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
 		00546D7A1A37A06200A043A7 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
-		00546D811A3A3DA300A043A7 /* exchange_sort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = exchange_sort.c; sourceTree = "<group>"; };
-		00546D821A3A3DA300A043A7 /* exchange_sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exchange_sort.h; sourceTree = "<group>"; };
-		00546D831A3A3DA300A043A7 /* insertion_sort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = insertion_sort.c; sourceTree = "<group>"; };
-		00546D841A3A3DA300A043A7 /* insertion_sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = insertion_sort.h; sourceTree = "<group>"; };
 		007870581EEF44DD002514CB /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		007870591EEF453F002514CB /* StackBasedOnLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackBasedOnLinkedList.swift; sourceTree = "<group>"; };
 		0078705A1EEF453F002514CB /* MinMaxStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinMaxStack.swift; sourceTree = "<group>"; };
@@ -126,6 +119,16 @@
 		007870741EEF499B002514CB /* BoundedHeightPriorityQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundedHeightPriorityQueue.swift; sourceTree = "<group>"; };
 		007870751EEF499B002514CB /* PriorityQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
 		007870761EEF499B002514CB /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		0078707C1EEF4CB8002514CB /* measurement.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = measurement.c; sourceTree = "<group>"; };
+		0078707D1EEF4CB8002514CB /* measurement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = measurement.h; sourceTree = "<group>"; };
+		0078707F1EEF4CB8002514CB /* exchange_sort.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = exchange_sort.c; sourceTree = "<group>"; };
+		007870801EEF4CB8002514CB /* exchange_sort.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = exchange_sort.h; sourceTree = "<group>"; };
+		007870811EEF4CB8002514CB /* insertion_sort.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = insertion_sort.c; sourceTree = "<group>"; };
+		007870821EEF4CB8002514CB /* insertion_sort.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = insertion_sort.h; sourceTree = "<group>"; };
+		007870831EEF4CB8002514CB /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		007870841EEF4CB8002514CB /* sorting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sorting.h; sourceTree = "<group>"; };
+		007870851EEF4CB8002514CB /* utils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
+		007870861EEF4CB8002514CB /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		00AC08561E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNumberThatHaveGivenSumOrDiff.swift; sourceTree = "<group>"; };
 		00AC08591E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNumberThatHaveGivenSumTests.swift; sourceTree = "<group>"; };
 		00AC085B1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base_DNumberFromDigits.swift; sourceTree = "<group>"; };
@@ -221,34 +224,12 @@
 			children = (
 				003DB88C1DCD30E400B51FCC /* Data Structures */,
 				00546D781A37A04600A043A7 /* Utils */,
-				00546D731A33B48C00A043A7 /* Sorting */,
-				00546D721A33B48100A043A7 /* Measurement */,
+				0078707B1EEF4CB8002514CB /* Measurament */,
+				0078707E1EEF4CB8002514CB /* Sorting */,
 				00AC08551E9EA85C007B0414 /* Generic problems */,
 				00AECD8A1E9CB705007E8458 /* String-matching */,
 			);
 			path = Algorithmia;
-			sourceTree = "<group>";
-		};
-		00546D721A33B48100A043A7 /* Measurement */ = {
-			isa = PBXGroup;
-			children = (
-				00546D701A3398A600A043A7 /* measurement.h */,
-				00546D6F1A3398A600A043A7 /* measurement.c */,
-			);
-			name = Measurement;
-			sourceTree = "<group>";
-		};
-		00546D731A33B48C00A043A7 /* Sorting */ = {
-			isa = PBXGroup;
-			children = (
-				00546D681A33981000A043A7 /* main.c */,
-				00546D741A33B4D200A043A7 /* sorting.h */,
-				00546D821A3A3DA300A043A7 /* exchange_sort.h */,
-				00546D811A3A3DA300A043A7 /* exchange_sort.c */,
-				00546D841A3A3DA300A043A7 /* insertion_sort.h */,
-				00546D831A3A3DA300A043A7 /* insertion_sort.c */,
-			);
-			name = Sorting;
 			sourceTree = "<group>";
 		};
 		00546D781A37A04600A043A7 /* Utils */ = {
@@ -304,6 +285,30 @@
 				007870761EEF499B002514CB /* Queue.swift */,
 			);
 			path = PriorityQueues;
+			sourceTree = "<group>";
+		};
+		0078707B1EEF4CB8002514CB /* Measurament */ = {
+			isa = PBXGroup;
+			children = (
+				0078707D1EEF4CB8002514CB /* measurement.h */,
+				0078707C1EEF4CB8002514CB /* measurement.c */,
+			);
+			path = Measurament;
+			sourceTree = "<group>";
+		};
+		0078707E1EEF4CB8002514CB /* Sorting */ = {
+			isa = PBXGroup;
+			children = (
+				007870841EEF4CB8002514CB /* sorting.h */,
+				007870801EEF4CB8002514CB /* exchange_sort.h */,
+				0078707F1EEF4CB8002514CB /* exchange_sort.c */,
+				007870821EEF4CB8002514CB /* insertion_sort.h */,
+				007870811EEF4CB8002514CB /* insertion_sort.c */,
+				007870831EEF4CB8002514CB /* main.c */,
+				007870861EEF4CB8002514CB /* utils.h */,
+				007870851EEF4CB8002514CB /* utils.c */,
+			);
+			path = Sorting;
 			sourceTree = "<group>";
 		};
 		00AC08551E9EA85C007B0414 /* Generic problems */ = {
@@ -549,11 +554,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00546D851A3A3DA300A043A7 /* exchange_sort.c in Sources */,
+				0078708A1EEF4CCF002514CB /* main.c in Sources */,
+				007870881EEF4CCF002514CB /* exchange_sort.c in Sources */,
+				007870871EEF4CCF002514CB /* measurement.c in Sources */,
+				0078708B1EEF4CCF002514CB /* utils.c in Sources */,
 				00546D7B1A37A06200A043A7 /* utils.c in Sources */,
-				00546D711A3398A600A043A7 /* measurement.c in Sources */,
-				00546D861A3A3DA300A043A7 /* insertion_sort.c in Sources */,
-				00546D691A33981000A043A7 /* main.c in Sources */,
+				007870891EEF4CCF002514CB /* insertion_sort.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
