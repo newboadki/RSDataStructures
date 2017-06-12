@@ -15,12 +15,28 @@ public protocol KeyValuePair : Comparable {
     associatedtype K : Comparable
     associatedtype V : Comparable
     
+    // Identifier used in many algorithms to search by, order by, etc
     var key : K {get set}
+    
+    // A data container
     var value : V {get set}
     
     
+    /// Initializer
+    ///
+    /// - Parameters:
+    ///   - key: Identifier used in many algorithms to search by, order by, etc.
+    ///   - value: A data container.
     init(key: K, value: V)
     
+    
+    /// Creates a copy
+    ///
+    /// - Abstract: Conformers of this class can be either value or reference types.
+    ///   Some algorithms might need to guarantee that a conformer instance gets copied.
+    ///   This will perform an innecessary in the case of value types.
+    ///   TODO: is there a better way?
+    /// - Returns: A new instance with the old one's values copied.
     func copy() -> Self
 }
 
@@ -62,12 +78,8 @@ extension KeyValuePair {
 struct IntegerPair : KeyValuePair {
     
     // MARK - KeyValuePair protocol
-    //typealias K = Int (Implicit, the compiler can figure out that if this class conforms to the protocol, then the associated types are Int and Int in this case)
-    //typealias V = Int (Implicit)
-    
     var key : Int
     var value : Int
-    
     
     func copy() -> IntegerPair {
         return IntegerPair(key: self.key, value: self.value)
