@@ -214,6 +214,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         child.item = temp
     }
     
+    /// TODO: Tidy up. Reduce duplication. Use Swifts max, min functions.
     private func relevantChildrenToSwap() -> BasicBinaryHeap<T>? {
 
         guard self.numberOfChildren() > 0 else {
