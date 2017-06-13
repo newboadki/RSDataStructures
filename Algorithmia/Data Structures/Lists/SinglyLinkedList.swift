@@ -62,7 +62,7 @@ public class SinglyLinkedListNode<T> {
 /// implement reference semantics.
 public struct SinglyLinkedList<T>
 {
-    // MARK: - PROPERTIES
+    // MARK: PROPERTIES
     
     // A level of inderiction, with reference semantics to allow easy
     // detection of when there are more than one references of the storage.
@@ -89,7 +89,7 @@ public struct SinglyLinkedList<T>
     
     
     
-    // MARK: - INITIALIZERS
+    // MARK: INITIALIZERS
     
     /// Creates a list with the given node.
     /// NOTE: This method can break value semantics by accepting a node.
@@ -119,41 +119,7 @@ public struct SinglyLinkedList<T>
     }
     
     
-    /// Creates a copy of the linked list in a diffent memory location.
-    ///
-    /// - Returns: The copy to a new storage or a reference to the old one if no copy was necessary.
-    private func copyStorage() -> IndirectStorage<T> {
-        // If the list is empty, next time an item will be created, it won't affect
-        // other instances of the list that came from copies derived from value types.
-        // like assignments or parameters
-        guard (self.storage.head != nil) && (self.storage.tail != nil) else {
-            return IndirectStorage(head: nil, tail: nil)
-        }
-        
-        // Create a new position in memory.
-        // Note that we are shallow copying the value. If it was reference type
-        // we just make a copy of the reference.
-        let copiedHead = SinglyLinkedListNode<T>(value: self.storage.head!.value)
-        var previousCopied: SinglyLinkedListNode<T> = copiedHead
-        
-        // Iterate through current list of nodes and copy them.
-        var current: SinglyLinkedListNode<T>? = self.storage.head?.next
-        
-        while (current != nil) {
-            // Create a copy
-            let currentCopy = SinglyLinkedListNode<T>(value: current!.value)
-            
-            // Create links
-            previousCopied.next = currentCopy
-            
-            // Update pointers
-            current = current?.next
-            previousCopied = currentCopy
-        }
-        
-        return IndirectStorage(head: copiedHead, tail: previousCopied)
-    }
-    
+    // MARK: EDITION
     
     /// Convenience method to append a value directly to the list
     ///
@@ -164,6 +130,168 @@ public struct SinglyLinkedList<T>
         self.append(node: node)
     }
     
+    
+    /// Convenience method to prepend a value directly to the list
+    ///
+    /// - Parameter value: value to be added as the new head of the list
+    public mutating func prepend(value: T)
+    {
+        let node = SinglyLinkedListNode<T>(value: value)
+        self.prepend(node: node)
+    }
+    
+    
+    public mutating func deleteItem(at index:Int) -> T
+    {
+        precondition((index >= 0) && (index < self.count))
+        
+        var previous: SinglyLinkedListNode<T>? = nil
+        var current = self.storageForWritting.head
+        var i = 0
+        var elementToDelete: SinglyLinkedListNode<T>
+        
+        while (i < index) {
+            previous = current
+            current = current?.next
+            i += 1
+        }
+        
+        // Current is now the element to delete (at index position.tag)
+        elementToDelete = current!
+        if (self.storage.head === current) {
+            self.storageForWritting.head = current?.next
+        }
+        
+        if (self.storage.tail === current) {
+            self.storageForWritting.tail = previous
+        }
+        
+        previous?.next = current?.next
+        
+        return elementToDelete.value
+    }
+    
+    
+    
+    // MARK: SEARCH
+    
+    /// Returns the node located at the k-th to last position
+    ///
+    /// - Parameter kthToLast: 1 <= k <= N
+    private func find(kthToLast: UInt, startingAt node: SinglyLinkedListNode<T>?, count: UInt) -> SinglyLinkedListNode<T>?
+    {
+        guard kthToLast <= count else {
+            return nil
+        }
+        
+        guard (node != nil) else {
+            return nil
+        }
+        
+        let i = (count - kthToLast)
+        
+        if (i == 0) {
+            return node
+        }
+        
+        return find(kthToLast: kthToLast, startingAt: node?.next, count: (count - 1))
+    }
+    
+    
+    /// Returns the kth-to-last element in the list
+    ///
+    /// - Parameter kthToLast: Reversed ordinal number of the node to fetch.
+    public func find(kthToLast: UInt) -> SinglyLinkedListNode<T>?
+    {
+        return self.find(kthToLast: kthToLast, startingAt: self.storage.head, count: UInt(self.count))
+    }
+
+    
+    
+    // MARK: LOOP DETECTION
+    
+    /// A singly linked list contains a loop if one node references back to a previous node.
+    ///
+    /// - Returns: Whether the linked list contains a loop
+    public func containsLoop() -> Bool
+    {
+        /// Advances a node at a time
+        var current = self.storage.head
+        
+        /// Advances twice as fast
+        var runner = self.storage.head
+        
+        while (runner != nil) && (runner?.next != nil) {
+        
+            current = current?.next
+            runner = runner?.next?.next
+            
+            if runner === current {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    /// This is commented out becuase this solution for finding duplicates uses a set, which would
+    /// contrain type T to be hashable, preventing easy types of Linked lists like List<Int> or List<Float>
+    /// - Complexity: O(N)
+    /// - Abstract: Uses Additional space to keep track of already seen elements
+    /*public mutating func deleteDuplicates()
+    {
+        var visited = Set<T>()
+        var current = self.head
+        var previous: SinglyLinkedListNode<T>? = nil
+        
+        while (current != nil)
+        {
+            if (visited.contains((current?.value)!))
+            {
+                
+                if (self.head === current) {
+                    self.head = current?.next
+                }
+                
+                if (self.tail === current) {
+                    self.tail = previous
+                }
+                
+                // delete current node
+                previous?.next = current?.next
+                // we don't update the previous
+                self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag - 1))
+            }
+            else
+            {
+                visited.insert((current?.value)!)
+                previous = current
+            }
+            current = current?.next
+        }
+    }*/
+}
+
+
+
+// MARK:- Private Methods
+
+private extension SinglyLinkedList {
+    
+    /// Adds a new node to the current head. This method can easily break value semantics. It is left
+    /// for internal use.
+    ///
+    /// - Parameter node: the node that will be the new head of the list.
+    private mutating func prepend(node: SinglyLinkedListNode<T>)
+    {
+        let (tailFromNewNode, _) = findTail(in: node)
+        tailFromNewNode.next = self.storageForWritting.head
+        self.storageForWritting.head = node
+        
+        if self.storage.tail == nil {
+            self.storageForWritting.tail = tailFromNewNode
+        }
+    }
     
     /// Appends a new node to the list. This method can easily break value semantics. It is left
     /// for internal use.
@@ -199,166 +327,52 @@ public struct SinglyLinkedList<T>
         }
     }
     
-    
-    /// Convenience method to prepend a value directly to the list
+    /// Creates a copy of the linked list in a diffent memory location.
     ///
-    /// - Parameter value: value to be added as the new head of the list
-    public mutating func prepend(value: T)
-    {
-        let node = SinglyLinkedListNode<T>(value: value)
-        self.prepend(node: node)
-    }
-    
-    
-    /// Adds a new node to the current head. This method can easily break value semantics. It is left
-    /// for internal use.
-    ///
-    /// - Parameter node: the node that will be the new head of the list.
-    private mutating func prepend(node: SinglyLinkedListNode<T>)
-    {
-        let (tailFromNewNode, _) = findTail(in: node)
-        tailFromNewNode.next = self.storageForWritting.head
-        self.storageForWritting.head = node
-        
-        if self.storage.tail == nil {
-            self.storageForWritting.tail = tailFromNewNode
-        }
-    }
-    
-    
-    mutating func deleteItem(at index:Int) -> T
-    {
-        precondition((index >= 0) && (index < self.count))
-        
-        var previous: SinglyLinkedListNode<T>? = nil
-        var current = self.storageForWritting.head
-        var i = 0
-        var elementToDelete: SinglyLinkedListNode<T>
-        
-        while (i < index) {
-            previous = current
-            current = current?.next
-            i += 1
+    /// - Returns: The copy to a new storage or a reference to the old one if no copy was necessary.
+    private func copyStorage() -> IndirectStorage<T> {
+        // If the list is empty, next time an item will be created, it won't affect
+        // other instances of the list that came from copies derived from value types.
+        // like assignments or parameters
+        guard (self.storage.head != nil) && (self.storage.tail != nil) else {
+            return IndirectStorage(head: nil, tail: nil)
         }
         
-        // Current is now the element to delete (at index position.tag)
-        elementToDelete = current!
-        if (self.storage.head === current) {
-            self.storageForWritting.head = current?.next
-        }
+        // Create a new position in memory.
+        // Note that we are shallow copying the value. If it was reference type
+        // we just make a copy of the reference.
+        let copiedHead = SinglyLinkedListNode<T>(value: self.storage.head!.value)
+        var previousCopied: SinglyLinkedListNode<T> = copiedHead
         
-        if (self.storage.tail === current) {
-            self.storageForWritting.tail = previous
-        }
+        // Iterate through current list of nodes and copy them.
+        var current: SinglyLinkedListNode<T>? = self.storage.head?.next
         
-        previous?.next = current?.next
-        
-        return elementToDelete.value
-    }
-    
-    /// This is commented out becuase this solution for finding duplicates uses a set, which would
-    /// contrain type T to be hashable, preventing easy types of Linked lists like List<Int> or List<Float>
-    /// - Complexity: O(N)
-    /// - Abstract: Uses Additional space to keep track of already seen elements
-    /*
-    public mutating func deleteDuplicates()
-    {
-        var visited = Set<T>()
-        var current = self.head
-        var previous: SinglyLinkedListNode<T>? = nil
-        
-        while (current != nil)
-        {
-            if (visited.contains((current?.value)!))
-            {
-                
-                if (self.head === current) {
-                    self.head = current?.next
-                }
-                
-                if (self.tail === current) {
-                    self.tail = previous
-                }
-                
-                // delete current node
-                previous?.next = current?.next
-                // we don't update the previous
-                self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag - 1))
-            }
-            else
-            {
-                visited.insert((current?.value)!)
-                previous = current
-            }
-            current = current?.next
-        }
-    }
-     */
-    
-    
-    /// Returns the node located at the k-th to last position
-    ///
-    /// - Parameter kthToLast: 1 <= k <= N
-    private func find(kthToLast: UInt, startingAt node: SinglyLinkedListNode<T>?, count: UInt) -> SinglyLinkedListNode<T>?
-    {
-        guard kthToLast <= count else {
-            return nil
-        }
-        
-        guard (node != nil) else {
-            return nil
-        }
-        
-        let i = (count - kthToLast)
-        
-        if (i == 0) {
-            return node
-        }
-        
-        return find(kthToLast: kthToLast, startingAt: node?.next, count: (count - 1))
-    }
-    
-    
-    /// Returns the kth-to-last element in the list
-    ///
-    /// - Parameter kthToLast: Reversed ordinal number of the node to fetch.
-    public func find(kthToLast: UInt) -> SinglyLinkedListNode<T>?
-    {
-        return self.find(kthToLast: kthToLast, startingAt: self.storage.head, count: UInt(self.count))
-    }
-
-
-    /// A singly linked list contains a loop if one node references back to a previous node.
-    ///
-    /// - Returns: Whether the linked list contains a loop
-    public func containsLoop() -> Bool
-    {
-        /// Advances a node at a time
-        var current = self.storage.head
-        
-        /// Advances twice as fast
-        var runner = self.storage.head
-        
-        while (runner != nil) && (runner?.next != nil) {
-        
-            current = current?.next
-            runner = runner?.next?.next
+        while (current != nil) {
+            // Create a copy
+            let currentCopy = SinglyLinkedListNode<T>(value: current!.value)
             
-            if runner === current {
-                return true
-            }
+            // Create links
+            previousCopied.next = currentCopy
+            
+            // Update pointers
+            current = current?.next
+            previousCopied = currentCopy
         }
         
-        return false
+        return IndirectStorage(head: copiedHead, tail: previousCopied)
     }
 }
+
+
+
+// MARK:- Extensions when comparable
 
 extension SinglyLinkedList where T: Comparable
 {
     /// Deletes node containing a given value
     ///
     /// - Parameter v: value of the node to be deleted.
-    mutating func deleteNode(withValue v: T) {
+    public mutating func deleteNode(withValue v: T) {
         
         guard self.storage.head != nil else {
             return
@@ -424,6 +438,9 @@ extension SinglyLinkedList where T: Comparable
 }
 
 
+
+// MARK: - ITERATOR -
+
 public struct SinglyLinkedListForwardIterator<T> : IteratorProtocol {
     
     public typealias Element = T
@@ -440,7 +457,6 @@ public struct SinglyLinkedListForwardIterator<T> : IteratorProtocol {
 
 
 
-
 // MARK: - SEQUENCE -
 
 extension SinglyLinkedList : Sequence
@@ -450,6 +466,7 @@ extension SinglyLinkedList : Sequence
         return SinglyLinkedListForwardIterator(head: self.storage.head)
     }
 }
+
 
 
 // MARK: - COLLECTION -
@@ -487,6 +504,7 @@ extension SinglyLinkedList : Collection {
 }
 
 
+
 // MARK: - QUEUE -
 
 extension SinglyLinkedList : Queue
@@ -520,6 +538,8 @@ extension SinglyLinkedList : Queue
         return self.deleteItem(at: 0)
     }
 }
+
+
 
 // MARK: - EXPRESSIBLE-BY-ARRAY-LITERAL -
 
@@ -570,6 +590,8 @@ public struct SinglyLinkedListIndex<T> : Comparable
     }
 }
 
+
+// MARK: - HELPERS -
 
 func findTail<T>(in node: SinglyLinkedListNode<T>) -> (tail: SinglyLinkedListNode<T>, count: Int)
 {
