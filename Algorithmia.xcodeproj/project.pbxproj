@@ -21,7 +21,6 @@
 		003DB8941DCD3F4800B51FCC /* KeyValuePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB8931DCD3F4800B51FCC /* KeyValuePair.swift */; };
 		00546D7B1A37A06200A043A7 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D791A37A06200A043A7 /* utils.c */; };
 		007870511EEDAC90002514CB /* IsLinkedListPalindrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EFC1EB8A53E00992C1B /* IsLinkedListPalindrome.swift */; };
-		0078705C1EEF45BE002514CB /* CollectionStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0078705B1EEF453F002514CB /* CollectionStack.swift */; };
 		0078705D1EEF45C2002514CB /* MinMaxStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0078705A1EEF453F002514CB /* MinMaxStack.swift */; };
 		0078705E1EEF45C2002514CB /* StackBasedOnLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007870591EEF453F002514CB /* StackBasedOnLinkedList.swift */; };
 		0078705F1EEF45C2002514CB /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007870581EEF44DD002514CB /* Stack.swift */; };
@@ -102,7 +101,6 @@
 		007870581EEF44DD002514CB /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		007870591EEF453F002514CB /* StackBasedOnLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackBasedOnLinkedList.swift; sourceTree = "<group>"; };
 		0078705A1EEF453F002514CB /* MinMaxStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinMaxStack.swift; sourceTree = "<group>"; };
-		0078705B1EEF453F002514CB /* CollectionStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStack.swift; sourceTree = "<group>"; };
 		007870611EEF46CC002514CB /* SinglyLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglyLinkedList.swift; sourceTree = "<group>"; };
 		007870621EEF46CC002514CB /* SumNumbersRepresentedByLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SumNumbersRepresentedByLinkedList.swift; sourceTree = "<group>"; };
 		007870661EEF48F5002514CB /* BasicBinarySearchTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicBinarySearchTree.swift; sourceTree = "<group>"; };
@@ -237,7 +235,6 @@
 		007870571EEF445F002514CB /* Stacks */ = {
 			isa = PBXGroup;
 			children = (
-				0078705B1EEF453F002514CB /* CollectionStack.swift */,
 				0078705A1EEF453F002514CB /* MinMaxStack.swift */,
 				007870591EEF453F002514CB /* StackBasedOnLinkedList.swift */,
 				007870581EEF44DD002514CB /* Stack.swift */,
@@ -530,7 +527,6 @@
 				007870711EEF48FA002514CB /* TreeTraversals.swift in Sources */,
 				00BBA4E31EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift in Sources */,
 				0078709B1EF00B72002514CB /* IsLinkedListPalindromeTests.swift in Sources */,
-				0078705C1EEF45BE002514CB /* CollectionStack.swift in Sources */,
 				007870781EEF49A2002514CB /* BoundedHeightPriorityQueue.swift in Sources */,
 				007870511EEDAC90002514CB /* IsLinkedListPalindrome.swift in Sources */,
 				00BBA4E11EA63A1200E26C3A /* BoyerMooreAlgorithm.swift in Sources */,
