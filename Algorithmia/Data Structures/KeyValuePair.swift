@@ -88,7 +88,6 @@ struct IntegerPair : KeyValuePair {
 
 
 
-
 // An alternative design would have been to use a genric type
 struct GenericKeyValuePair<K:Comparable, V:Comparable>  {
     var key : K

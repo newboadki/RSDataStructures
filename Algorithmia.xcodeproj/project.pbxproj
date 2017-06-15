@@ -51,6 +51,8 @@
 		007870A21EF00B72002514CB /* BasicBinarySearchTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007870981EF00B68002514CB /* BasicBinarySearchTreeTests.swift */; };
 		007870A31EF00B72002514CB /* RedBlackBinarySearchTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007870991EF00B68002514CB /* RedBlackBinarySearchTreeTests.swift */; };
 		007870A41EF00B72002514CB /* SinglyThreadedBinarySearchTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0078709A1EF00B68002514CB /* SinglyThreadedBinarySearchTreeTests.swift */; };
+		008AD4041EF14F9E004A2590 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008AD4031EF14F9E004A2590 /* Graph.swift */; };
+		008AD4061EF152E2004A2590 /* AdjacencyListGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008AD4051EF152E2004A2590 /* AdjacencyListGraph.swift */; };
 		00AC08571E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC08561E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift */; };
 		00AC085A1E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC08591E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift */; };
 		00AC085C1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC085B1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift */; };
@@ -133,6 +135,8 @@
 		007870981EF00B68002514CB /* BasicBinarySearchTreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicBinarySearchTreeTests.swift; sourceTree = "<group>"; };
 		007870991EF00B68002514CB /* RedBlackBinarySearchTreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedBlackBinarySearchTreeTests.swift; sourceTree = "<group>"; };
 		0078709A1EF00B68002514CB /* SinglyThreadedBinarySearchTreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglyThreadedBinarySearchTreeTests.swift; sourceTree = "<group>"; };
+		008AD4031EF14F9E004A2590 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
+		008AD4051EF152E2004A2590 /* AdjacencyListGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjacencyListGraph.swift; sourceTree = "<group>"; };
 		00AC08561E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNumberThatHaveGivenSumOrDiff.swift; sourceTree = "<group>"; };
 		00AC08591E9EB191007B0414 /* FindNumberThatHaveGivenSumTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNumberThatHaveGivenSumTests.swift; sourceTree = "<group>"; };
 		00AC085B1E9F5EAD007B0414 /* Base_DNumberFromDigits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base_DNumberFromDigits.swift; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 			children = (
 				007870571EEF445F002514CB /* Stacks */,
 				007870601EEF46CC002514CB /* Lists */,
+				008AD4021EF14F3C004A2590 /* Graphs */,
 				007870651EEF48F5002514CB /* Trees */,
 				007870721EEF499B002514CB /* PriorityQueues */,
 				003DB8931DCD3F4800B51FCC /* KeyValuePair.swift */,
@@ -346,6 +351,15 @@
 				0078709A1EF00B68002514CB /* SinglyThreadedBinarySearchTreeTests.swift */,
 			);
 			path = Trees;
+			sourceTree = "<group>";
+		};
+		008AD4021EF14F3C004A2590 /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				008AD4031EF14F9E004A2590 /* Graph.swift */,
+				008AD4051EF152E2004A2590 /* AdjacencyListGraph.swift */,
+			);
+			path = Graphs;
 			sourceTree = "<group>";
 		};
 		00AC08551E9EA85C007B0414 /* Generic problems */ = {
@@ -522,6 +536,7 @@
 				0078705F1EEF45C2002514CB /* Stack.swift in Sources */,
 				0078709D1EF00B72002514CB /* ArrayBasedHeapTests.swift in Sources */,
 				0017C9D41EB068AB00E5E749 /* IsPermutationOfPalindromeTests.swift in Sources */,
+				008AD4041EF14F9E004A2590 /* Graph.swift in Sources */,
 				00AECD8C1E9CB745007E8458 /* FindAllPermutations.swift in Sources */,
 				00AC08571E9EA8BA007B0414 /* FindNumberThatHaveGivenSumOrDiff.swift in Sources */,
 				007870711EEF48FA002514CB /* TreeTraversals.swift in Sources */,
@@ -533,6 +548,7 @@
 				00140EE91EB49BE300992C1B /* SmallDifferenceTests.swift in Sources */,
 				0078709E1EF00B72002514CB /* BoundedHeightPriorityQueueTests.swift in Sources */,
 				0078706C1EEF48FA002514CB /* BasicBinarySearchTree.swift in Sources */,
+				008AD4061EF152E2004A2590 /* AdjacencyListGraph.swift in Sources */,
 				0078705D1EEF45C2002514CB /* MinMaxStack.swift in Sources */,
 				0017C9CC1EACF84C00E5E749 /* AreCharactersUniqueTests.swift in Sources */,
 				007870701EEF48FA002514CB /* SinglyThreadedBinarySearchTree.swift in Sources */,
