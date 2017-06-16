@@ -46,7 +46,9 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph wher
     
     
     init(vertices: [VertexInfo], edges: [(VertexInfo, VertexInfo)], directed: Bool) {
-        self.vertices = vertices
+        self.vertices = vertices.sorted(by: { (p1, p2) -> Bool in
+            p1.key < p2.key
+        })
         self.edges = edges
         self.directed = true
         self.adjacencyList = AdjacencyListGraph.adjacencyList(fromVertices: vertices, andEdges: edges)
@@ -84,4 +86,18 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph wher
 }
 
 
+//// MARK: IntegerIndexableGraph
+extension AdjacencyListGraph {
+    
+    
+    /// Finds a vertex with the given index as its key
+    ///
+    /// - Parameter index: index to search for
+    /// - Returns: a vertex with the sought index or nil if not found
+    /// - Complexity: O(1)
+    func vertex(withIndex index: Int) -> Vertex? {
+        return self.vertices[index]
+    }
+    
+}
 

@@ -59,7 +59,31 @@ extension Graph {
     }
 }
 
-protocol IntegerIndexableGraph: Graph where Vertex.K == Int {    
+protocol IntegerIndexableGraph: Graph where Vertex.K == Int {
+    
+    /// Finds a vertex with the given index as its key
+    ///
+    /// - Parameter index: index to search for
+    /// - Returns: a vertex with the sought index or nil if not found
+    /// - Complexity: Default implementation offers O(N), where N is the number of vertex in the graph. Concrete implemetations
+    ///   can improve this time complexity given their knowledge of the internals of the data structure.
+    func vertex(withIndex index: Int) -> Vertex?
+}
+
+extension IntegerIndexableGraph {
+    
+    /// Finds a vertex with the given index as its key
+    ///
+    /// - Parameter index: index to search for
+    /// - Returns: a vertex with the sought index or nil if not found
+    /// - Complexity: O(N), where N is the number of vertex in the graph. Concrete implemetations
+    ///   can improve this time complexity given their knowledge of the internals of the data structure.
+    func vertex(withIndex index: Int) -> Vertex? {
+        let findings = self.vertices.filter { (vertex) -> Bool in
+            return vertex.key == index
+        }
+        return findings.first
+    }
 }
 
 /// TODO: Merge TraversableGraph and TraversableBinaryTree protocols
