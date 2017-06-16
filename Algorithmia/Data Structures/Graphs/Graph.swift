@@ -149,42 +149,42 @@ extension IntegerIndexableGraph {
         
         while let current = explorationStack.peek() {
             switch status[current.key] {
-            case .discovered:
-                // Discovered means that the node has been added to the explorationStack as part of
-                // its parent exploring it's children.
-                // We need to explore discovered vertices
-                for adjacent in graph.adjacentVertices(of: current.key) {
-                    
-                    if (status[adjacent.key] != .processed) && (status[adjacent.key] != .undiscovered) {
-                        // Cycle found. Topological sorting will only work on DAGs.
-                        return false
+                case .discovered:
+                    // Discovered means that the node has been added to the explorationStack as part of
+                    // its parent exploring it's children.
+                    // We need to explore discovered vertices
+                    for adjacent in graph.adjacentVertices(of: current.key) {
+                        
+                        if (status[adjacent.key] != .processed) && (status[adjacent.key] != .undiscovered) {
+                            // Cycle found. Topological sorting will only work on DAGs.
+                            return false
+                        }
+                        
+                        if (status[adjacent.key] != .processed) && (status[adjacent.key] != .explored) {
+                            status[adjacent.key] = .discovered
+                            explorationStack.push(item: adjacent)
+                        }
                     }
-                    
-                    if (status[adjacent.key] != .processed) && (status[adjacent.key] != .explored) {
-                        status[adjacent.key] = .discovered
-                        explorationStack.push(item: adjacent)
-                    }
-                }
-                status[current.key] = .explored
-                break
+                    status[current.key] = .explored
+                    break
                 
-            case .explored:
-                // A vertex is explored when all its adjacent nodes have been processed.
-                // We find explored vertices the second time we come back after finishing the children.
-                status[current.key] = .processed
-                _ = explorationStack.pop()
-                stack.push(item: current)
-                break
+                case .explored:
+                    // A vertex is explored when all its adjacent nodes have been processed.
+                    // We find explored vertices the second time we come back after finishing the children.
+                    status[current.key] = .processed
+                    _ = explorationStack.pop()
+                    stack.push(item: current)
+                    break
                 
-            case .processed:
-                // Because we iterate, we add things to the stack, that might be re-added through
-                // a different path if a cycle is found. by the time we find the vertex again,
-                // the status should be processed and there's nothing to do other than removing it.
-                _ = explorationStack.pop()
-                break
+                case .processed:
+                    // Because we iterate, we add things to the stack, that might be re-added through
+                    // a different path if a cycle is found. by the time we find the vertex again,
+                    // the status should be processed and there's nothing to do other than removing it.
+                    _ = explorationStack.pop()
+                    break
                 
-            default:
-                break
+                default:
+                    break
             }
         }
         return true
