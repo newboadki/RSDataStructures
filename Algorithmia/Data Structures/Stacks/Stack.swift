@@ -8,15 +8,16 @@
 
 import Foundation
 
-protocol Stack {
+protocol Stack /*, Sequence */{
     
     associatedtype Item
     
+    
     var isEmpty: Bool {get}
     
-    mutating func push(item: Item)
+    func push(item: Item)
     
-    mutating func pop() -> Item?
+    func pop() -> Item?
     
     func peek() -> Item?
     

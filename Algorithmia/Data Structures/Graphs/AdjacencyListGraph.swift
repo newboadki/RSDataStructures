@@ -26,7 +26,7 @@ class EdgeNode<VertexKeyInfo: KeyValuePair> {
 ///
 /// This implementaiton assumes that vertices are identified with Integers, this is to be able
 /// to efficiently index them.
-struct AdjacencyListGraph<VertexInfo: KeyValuePair> : Graph where VertexInfo.K == Int {
+struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph where VertexInfo.K == Int {
     
     // MARK: Graph protocol
     
@@ -44,6 +44,13 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : Graph where VertexInfo.K =
     /// Adjancency info for all vertices
     private var adjacencyList: [SinglyLinkedList<EdgeNode<VertexInfo>>]
     
+    
+    init(vertices: [VertexInfo], edges: [(VertexInfo, VertexInfo)], directed: Bool) {
+        self.vertices = vertices
+        self.edges = edges
+        self.directed = true
+        self.adjacencyList = AdjacencyListGraph.adjacencyList(fromVertices: vertices, andEdges: edges)
+    }
     
     /// Given a vertex v, its adjacent vertices are those such that:
     /// - Have an edge connecting them in undirected graphs.
@@ -63,6 +70,17 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : Graph where VertexInfo.K =
     }
     
     // MARK: Implementation
+    
+    private static func adjacencyList(fromVertices:[VertexInfo], andEdges:[(VertexInfo, VertexInfo)]) -> [SinglyLinkedList<EdgeNode<VertexInfo>>] {
+        var array = [SinglyLinkedList<EdgeNode<VertexInfo>>](repeating: SinglyLinkedList<EdgeNode<VertexInfo>>(), count: fromVertices.count)
+        
+        for edge in andEdges {            
+            let edgeNode = EdgeNode<VertexInfo>(destinationVertexKey: edge.1)
+            array[edge.0.key].append(value: edgeNode)
+        }
+        
+        return array
+    }
 }
 
 

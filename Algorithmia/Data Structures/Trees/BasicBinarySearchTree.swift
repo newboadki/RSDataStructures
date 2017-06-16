@@ -17,7 +17,7 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     typealias Item = Element
     
     
-    public var parent :BasicBinarySearchTree<Element>?
+    public weak var parent :BasicBinarySearchTree<Element>?
     
     public var leftChild :BasicBinarySearchTree<Element>?
     

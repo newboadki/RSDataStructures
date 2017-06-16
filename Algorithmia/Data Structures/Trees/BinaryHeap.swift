@@ -14,7 +14,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     typealias Item = T
     
     /// Reference to the left subtree
-    var parent: BasicBinaryHeap?
+    weak var parent: BasicBinaryHeap?
     
     /// Reference to the left subtree
     var leftChild: BasicBinaryHeap?

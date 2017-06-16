@@ -18,7 +18,7 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
     
     typealias Item = T
     
-    var parent : SinglyThreadedBinarySearchTree<T>?
+    weak var parent : SinglyThreadedBinarySearchTree<T>?
     
     var leftChild : SinglyThreadedBinarySearchTree<T>?
     
