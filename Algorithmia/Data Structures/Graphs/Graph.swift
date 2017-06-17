@@ -13,23 +13,24 @@ import Foundation
 protocol Graph {
     
     associatedtype Vertex: KeyValuePair
+    associatedtype Weight: Comparable
+    
     
     /// Array of vertices
     var vertices: [Vertex] {get}
     
+    /// Number of vertices in the graph
     var vertexCount: Int {get}
     
     /// Connetions between the vertices
-    var edges: [(Vertex, Vertex)] {get}
+    var edges: [(from: Vertex, to: Vertex, weight: Weight)] {get}
     
+    /// Number of edges in the graph
     var edgeCount: Int {get}
     
     /// In a directed graph, connections between vertices have a direction,
     /// making (a -> b) different from (b -> a)
     var directed: Bool {get}
-    
-    
-    
     
     
     /// Given a vertex v, its adjacent vertices are those such that:
@@ -40,6 +41,7 @@ protocol Graph {
     /// - Returns: An array of edges.
     /// - Complexity: O(N), where N is v's degree.
     func adjacentVertices(of vertex: Vertex.K) -> [Vertex]
+        
 }
 
 extension Graph {
@@ -68,6 +70,9 @@ enum VertexExplorationStatus {
 }
 
 
+/// This is a convenience graph that guarantees vertex' keys will be integers.
+/// This restriction allows easy and efficient implementations. There are other ways to achieve
+/// it without constraining the type of the key. However we define it for simplicity.
 protocol IntegerIndexableGraph: Graph where Vertex.K == Int {
     
     /// Finds a vertex with the given index as its key

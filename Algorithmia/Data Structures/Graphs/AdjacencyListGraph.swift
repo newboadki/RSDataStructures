@@ -8,14 +8,19 @@
 
 import Foundation
 
-class EdgeNode<VertexKeyInfo: KeyValuePair> {
+
+struct EdgeNode<VertexKeyInfo: KeyValuePair, Weight: Comparable> {
     
     /// Identifier of the
     var destination: VertexKeyInfo
     
+    /// Cost of traversing to the destination from the current node.
+    /// In an adjacency list this comes defined by a position in the array of vertices.
+    var weight: Weight
     
-    init(destinationVertexKey: VertexKeyInfo) {
+    init(destinationVertexKey: VertexKeyInfo, weight: Weight) {
         self.destination = destinationVertexKey
+        self.weight = weight
     }
 }
 
@@ -26,26 +31,25 @@ class EdgeNode<VertexKeyInfo: KeyValuePair> {
 ///
 /// This implementaiton assumes that vertices are identified with Integers, this is to be able
 /// to efficiently index them.
-struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph where VertexInfo.K == Int {
-    
-    // MARK: Graph protocol
+struct AdjacencyListGraph<VertexInfo: KeyValuePair, W: Comparable> : IntegerIndexableGraph where VertexInfo.K == Int {
     
     typealias Vertex = VertexInfo
+    typealias Weight = W
     
     
     public var vertices: [VertexInfo]
     
-    public var edges: [(VertexInfo, VertexInfo)]
+    public var edges: [(from: VertexInfo, to: VertexInfo, weight: W)]
     
     public var directed: Bool
     
     private(set) var maxCountOfVertices = 1000
     
     /// Adjancency info for all vertices
-    private var adjacencyList: [SinglyLinkedList<EdgeNode<VertexInfo>>]
+    private var adjacencyList: [SinglyLinkedList<EdgeNode<VertexInfo, W>>]
     
     
-    init(vertices: [VertexInfo], edges: [(VertexInfo, VertexInfo)], directed: Bool) {
+    init(vertices: [VertexInfo], edges: [(VertexInfo, VertexInfo, W)], directed: Bool) {
         self.vertices = vertices.sorted(by: { (p1, p2) -> Bool in
             p1.key < p2.key
         })
@@ -53,6 +57,7 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph wher
         self.directed = true
         self.adjacencyList = AdjacencyListGraph.adjacencyList(fromVertices: vertices, andEdges: edges)
     }
+    
     
     /// Given a vertex v, its adjacent vertices are those such that:
     /// - Have an edge connecting them in undirected graphs.
@@ -71,13 +76,12 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph wher
         return vertices
     }
     
-    // MARK: Implementation
     
-    private static func adjacencyList(fromVertices:[VertexInfo], andEdges:[(VertexInfo, VertexInfo)]) -> [SinglyLinkedList<EdgeNode<VertexInfo>>] {
-        var array = [SinglyLinkedList<EdgeNode<VertexInfo>>](repeating: SinglyLinkedList<EdgeNode<VertexInfo>>(), count: fromVertices.count)
+    private static func adjacencyList(fromVertices:[VertexInfo], andEdges:[(from: VertexInfo, to: VertexInfo, weight: W)]) -> [SinglyLinkedList<EdgeNode<VertexInfo, W>>] {
+        var array = [SinglyLinkedList<EdgeNode<VertexInfo, W>>](repeating: SinglyLinkedList<EdgeNode<VertexInfo, W>>(), count: fromVertices.count)
         
         for edge in andEdges {            
-            let edgeNode = EdgeNode<VertexInfo>(destinationVertexKey: edge.1)
+            let edgeNode = EdgeNode<VertexInfo, W>(destinationVertexKey: edge.to, weight: edge.weight)
             array[edge.0.key].append(value: edgeNode)
         }
         
