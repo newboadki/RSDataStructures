@@ -17,14 +17,11 @@ class IterativeTopologiacalSortingTests: XCTestCase {
                      (p(1),p(3)),
                      (p(3),p(4)),
                      (p(3),p(5))]
-        
-        let expectation = [0,1,3,4,5,2]
         let g = AdjacencyListGraph<IntegerPair>(vertices: vertices, edges:edges, directed: true)
         let result = g.iterativeTopologicalSort(graph: g)
-        var resultKeys = [Int]()
-        while let item = result?.pop() {
-            resultKeys.append(item.key)
-        }
+        
+        let expectation = [0,1,3,4,5,2]
+        let resultKeys = array(fromStack: result!)
         XCTAssertTrue(resultKeys == expectation)
     }
     
@@ -52,13 +49,10 @@ class IterativeTopologiacalSortingTests: XCTestCase {
                      (p(7),p(6))]
         
         let g = AdjacencyListGraph<IntegerPair>(vertices: vertices, edges:edges, directed: true)
-        let expectation = [8,7,6,0,1,3,4,5,2]
         let result = g.iterativeTopologicalSort(graph: g)
-        var resultKeys = [Int]()
-        while let item = result?.pop() {
-            resultKeys.append(item.key)
-        }
         
+        let expectation = [8,7,6,0,1,3,4,5,2]
+        let resultKeys = array(fromStack: result!)
         XCTAssertTrue(resultKeys == expectation)
     }
     
@@ -73,15 +67,11 @@ class RecursiveTopologiacalSortingTests: XCTestCase {
                      (p(1),p(3)),
                      (p(3),p(4)),
                      (p(3),p(5))]
-        
-        let expectation = [0,2,1,3,5,4]
         let g = AdjacencyListGraph<IntegerPair>(vertices: vertices, edges:edges, directed: true)
         let result = g.recursiveTopologicalSort(graph: g)
-        var resultKeys = [Int]()
-        while let item = result?.pop() {
-            resultKeys.append(item.key)
-        }
         
+        let expectation = [0,2,1,3,5,4]
+        let resultKeys = array(fromStack: result!)
         XCTAssertTrue(resultKeys == expectation)
     }
     
@@ -110,14 +100,20 @@ class RecursiveTopologiacalSortingTests: XCTestCase {
                      (p(7),p(6))]
         
         let g = AdjacencyListGraph<IntegerPair>(vertices: vertices, edges:edges, directed: true)
-        let expectation = [8,7,6,0,2,1,3,5,4]
         let result = g.recursiveTopologicalSort(graph: g)
-        var resultKeys = [Int]()
-        while let item = result?.pop() {
-            resultKeys.append(item.key)
-        }
         
+        let expectation = [8,7,6,0,2,1,3,5,4]
+        let resultKeys = array(fromStack: result!)
         XCTAssertTrue(resultKeys == expectation)
     }
 }
 
+func array<S: Stack, E: KeyValuePair>(fromStack: S) -> [Int] where S.Item == E, E.K == Int {
+    
+    var resultKeys = [Int]()
+    while let item = fromStack.pop() {
+        resultKeys.append(item.key)
+    }
+    
+    return resultKeys
+}
