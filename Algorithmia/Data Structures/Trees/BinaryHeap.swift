@@ -88,7 +88,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     ///   - rightChild: reference to the right subtree
     ///   - value: item contained in the tree node.
     ///   - nodeIndirectStorage: Data structure with direct access to the nodes.
-    private init(value: T,
+    private init(value: T?,
                 parent: BasicBinaryHeap?,
                 leftChild: BasicBinaryHeap?,
                 rightChild: BasicBinaryHeap?,
@@ -100,7 +100,9 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         self.count = 1
         self.type = type
         self.directAccessToNodes = nodeIndirectStorage
-        self.directAccessToNodes[value.key] = self
+        if let v = value {
+            self.directAccessToNodes[v.key] = self
+        }
     }
     
     
@@ -118,13 +120,6 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         }        
     }
     
-    func minimum() -> BasicBinaryHeap<T>? {
-        return self.top()
-    }
-    
-    func maximum() -> BasicBinaryHeap<T>? {
-        return self.top()
-    }
     
     /// Removes and returns the top element of the heap.
     /// Depending on the type of the heap, this will be the
@@ -173,7 +168,151 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         
         return top
     }
+    
+    
+    /// Updates the priority of the element with the passed key.
+    ///
+    /// - Parameter key: the current priority.
+    /// - Parameter newKey: the new priority.
+    /// - Complexity: O(Log(N)).
+    public func update(key:T.K, to newKey: T.K) {
+        if let node = self.directAccessToNodes[key] {
+            node.item!.key = newKey
+            let newRef = node.bubbleUp()
+            self.directAccessToNodes.removeValue(forKey: key)
+            self.directAccessToNodes[newKey] = newRef
+        }
+    }
+}
 
+
+
+// MARK: Private methods
+
+extension BasicBinaryHeap {
+    
+    /// Restores the heap invariant. Starts at the current node and goes up.
+    ///
+    /// - Returns: the node where the bubbling stopped.
+    private func bubbleUp() -> BasicBinaryHeap<T> {
+        
+        var current: BasicBinaryHeap<T>? = self
+        
+        while /* Not at the root */(current?.parent != nil) &&
+            /* Doesn't conserve heap property */(!self.heapPropertiesAreKept(parent: current!.parent, child: current!, type: self.type)) {
+                
+                // If we got in, we know there's a parent.
+                swapItems(parent: current!.parent!, child: current!)
+                self.directAccessToNodes.directAccessToNodes[current!.item!.key] = current!
+                current = current!.parent
+        }
+        
+        return current!
+    }
+    
+    
+    /// Restores the heap invariant. Starts at the current node and goes down.
+    ///
+    /// - Returns: the node where the bubbling stopped.
+    private func bubbleDown() -> BasicBinaryHeap<T> {
+        
+        var current: BasicBinaryHeap<T>? = self
+        
+        while let c = current,
+            let childToSwap = c.relevantChildrenToSwap(),
+            /* Not a leaf */(c.numberOfChildren() > 0) &&
+                /* Doesn't conserves heap property */(!self.heapPropertiesAreKept(parent: c, child: childToSwap, type: self.type)) {
+                    
+                    // If we got in, we know there's a parent.
+                    swapItems(parent: c, child: childToSwap)
+                    self.directAccessToNodes.directAccessToNodes[c.item!.key] = c
+                    current = childToSwap
+        }
+        
+        return current!
+    }
+    
+    private func heapPropertiesAreKept(parent: BasicBinaryHeap<T>?, child: BasicBinaryHeap<T>, type: PriorityQueueType) -> Bool {
+        
+        if let p = parent {
+            switch type {
+            case .min:
+                return p.item! < child.item!
+            case .max:
+                return p.item! > child.item!
+            }
+        } else {
+            return true
+        }
+    }
+    
+    private func swapItems(parent: BasicBinaryHeap<T>, child: BasicBinaryHeap<T>) {
+        let temp = parent.item
+        parent.item = child.item
+        child.item = temp
+    }
+    
+    /// TODO: Tidy up. Reduce duplication. Use Swifts max, min functions.
+    private func relevantChildrenToSwap() -> BasicBinaryHeap<T>? {
+        
+        guard self.numberOfChildren() > 0 else {
+            return nil
+        }
+        
+        if self.numberOfChildren() == 1 {
+            if let leftChild = self.leftChild {
+                switch type {
+                case .min:
+                    return (self.item! > leftChild.item!) ? leftChild : nil
+                case .max:
+                    return self.item! < leftChild.item! ? leftChild : nil
+                }
+                
+            } else {
+                switch type {
+                case .min:
+                    return (self.item! > self.rightChild!.item!) ? rightChild : nil
+                case .max:
+                    return self.item! < self.rightChild!.item! ? rightChild : nil
+                }
+                
+            }
+        } else {
+            switch type {
+            case .min:
+                let minChild = BasicBinaryHeap.minBetween(n1: self.leftChild!, n2: self.rightChild!)
+                return (self.item! > minChild.item!) ? minChild : nil
+            case .max:
+                let maxChild = BasicBinaryHeap.maxBetween(n1: self.leftChild!, n2: self.rightChild!)
+                return self.item! < maxChild.item! ? maxChild : nil
+            }
+        }
+    }
+    
+    private static func minBetween(n1: BasicBinaryHeap<T>, n2: BasicBinaryHeap<T>) -> BasicBinaryHeap<T> {
+        
+        if n1.item! < n2.item! {
+            return n1
+        } else {
+            return n2
+        }
+        
+    }
+    
+    private static func maxBetween(n1: BasicBinaryHeap<T>, n2: BasicBinaryHeap<T>) -> BasicBinaryHeap<T> {
+        
+        if n1.item! > n2.item! {
+            return n1
+        } else {
+            return n2
+        }
+    }
+}
+
+
+// MARK: BinaryTree
+
+extension BasicBinaryHeap {
     
     /// Finds a node in the tree with the given key
     ///
@@ -225,167 +364,57 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     }
     
     
-    /// Updates the priority of the element with the passed key.
+    func minimum() -> BasicBinaryHeap<T>? {
+        return self.top()
+    }
+    
+    
+    func maximum() -> BasicBinaryHeap<T>? {
+        return self.top()
+    }
+}
+
+
+
+// MARK: Priority Queue
+
+extension BasicBinaryHeap {
+    
+    /// Convenience initializer
     ///
-    /// - Parameter key: the current priority.
-    /// - Parameter newKey: the new priority.
-    /// - Complexity: O(Log(N)).
-    public func update(key:T.K, to newKey: T.K) {
-        if let node = self.directAccessToNodes[key] {
-            node.item!.key = newKey
-            let newRef = node.bubbleUp()
-            self.directAccessToNodes.removeValue(forKey: key)
-            self.directAccessToNodes[newKey] = newRef
-        }
+    /// - Parameters:
+    ///   - type: relative order of elements in the heap.
+    convenience init(type: PriorityQueueType) {
+        self.init(value: nil,
+                  parent: nil,
+                  leftChild: nil,
+                  rightChild: nil,
+                  type: type,
+                  nodeIndirectStorage: NodeDirectAccecssIndirectStorage<Item>())
     }
     
-    
-    /// Restores the heap invariant. Starts at the current node and goes up.
-    ///
-    /// - Returns: the node where the bubbling stopped.
-    private func bubbleUp() -> BasicBinaryHeap<T> {
-    
-        var current: BasicBinaryHeap<T>? = self
-        
-        while /* Not at the root */(current?.parent != nil) &&
-            /* Doesn't conserve heap property */(!self.heapPropertiesAreKept(parent: current!.parent, child: current!, type: self.type)) {
-                
-                // If we got in, we know there's a parent.
-                swapItems(parent: current!.parent!, child: current!)
-                self.directAccessToNodes.directAccessToNodes[current!.item!.key] = current!
-                current = current!.parent
-        }
-        
-        return current!
-    }
-    
-    
-    /// Restores the heap invariant. Starts at the current node and goes down.
-    ///
-    /// - Returns: the node where the bubbling stopped.
-    private func bubbleDown() -> BasicBinaryHeap<T> {
-
-        var current: BasicBinaryHeap<T>? = self
-        
-        while let c = current,
-              let childToSwap = c.relevantChildrenToSwap(),
-            /* Not a leaf */(c.numberOfChildren() > 0) &&
-            /* Doesn't conserves heap property */(!self.heapPropertiesAreKept(parent: c, child: childToSwap, type: self.type)) {
-                
-                // If we got in, we know there's a parent.
-                swapItems(parent: c, child: childToSwap)
-                self.directAccessToNodes.directAccessToNodes[c.item!.key] = c
-                current = childToSwap
-        }
-        
-        return current!
-    }
-    
-    private func heapPropertiesAreKept(parent: BasicBinaryHeap<T>?, child: BasicBinaryHeap<T>, type: PriorityQueueType) -> Bool {
-        
-        if let p = parent {
-            switch type {
-            case .min:
-                return p.item! < child.item!
-            case .max:
-                return p.item! > child.item!
-            }
-        } else {
-            return true
-        }
-    }
-    
-    private func swapItems(parent: BasicBinaryHeap<T>, child: BasicBinaryHeap<T>) {
-        let temp = parent.item
-        parent.item = child.item
-        child.item = temp
-    }
-    
-    /// TODO: Tidy up. Reduce duplication. Use Swifts max, min functions.
-    private func relevantChildrenToSwap() -> BasicBinaryHeap<T>? {
-
-        guard self.numberOfChildren() > 0 else {
-            return nil
-        }
-        
-        if self.numberOfChildren() == 1 {
-            if let leftChild = self.leftChild {
-                switch type {
-                    case .min:
-                        return (self.item! > leftChild.item!) ? leftChild : nil
-                    case .max:
-                        return self.item! < leftChild.item! ? leftChild : nil
-                }
-
-            } else {
-                switch type {
-                case .min:
-                    return (self.item! > self.rightChild!.item!) ? rightChild : nil
-                case .max:
-                    return self.item! < self.rightChild!.item! ? rightChild : nil
-                }
-                
-            }
-        } else {
-            switch type {
-                case .min:
-                    let minChild = BasicBinaryHeap.minBetween(n1: self.leftChild!, n2: self.rightChild!)
-                    return (self.item! > minChild.item!) ? minChild : nil
-                case .max:
-                    let maxChild = BasicBinaryHeap.maxBetween(n1: self.leftChild!, n2: self.rightChild!)
-                    return self.item! < maxChild.item! ? maxChild : nil
-            }
-        }
-    }
-    
-    private static func minBetween(n1: BasicBinaryHeap<T>, n2: BasicBinaryHeap<T>) -> BasicBinaryHeap<T> {
-        
-        if n1.item! < n2.item! {
-            return n1
-        } else {
-            return n2
-        }
-        
-    }
-
-    private static func maxBetween(n1: BasicBinaryHeap<T>, n2: BasicBinaryHeap<T>) -> BasicBinaryHeap<T> {
-        
-        if n1.item! > n2.item! {
-            return n1
-        } else {
-            return n2
-        }
-    }
-
-    
-    // MARK: PRIORITY QUEUE
     
     /// Dequeues the oldest element in the queue.
     ///
     /// - Returns: The oldest element in the queue, which gets removed from it.
-    func dequeue() -> T? {
+    func dequeue() -> Item? {
         return self.extractTop()?.item
     }
+    
     
     /// Returns the oldest element in the queue.
     ///
     /// - Returns: The oldest element in the queue. It does not dequeue it.
-    func getFirst() -> T? {
+    func getFirst() -> Item? {
         return self.top()?.item
     }
+    
     
     /// Adds an element to the queue
     ///
     /// - Parameter item: Item to be added
     /// - Throws: There are cases where the operation might fail. For example if there is not enough space.
-    func enqueue(item: T) throws {
+    func enqueue(item: Item) throws {
         self.insert(item: item)
     }
-    
-    init(type: PriorityQueueType) {
-        self.type = type
-        self.directAccessToNodes = NodeDirectAccecssIndirectStorage<T>()
-    }
 }
-
-
