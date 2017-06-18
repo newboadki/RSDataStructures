@@ -12,7 +12,7 @@
 /// stored contain a value, but are ordered or retrieved according to a key.
 public protocol KeyValuePair : Comparable {
     
-    associatedtype K : Comparable
+    associatedtype K : Hashable, Comparable
     associatedtype V : Comparable
     
     // Identifier used in many algorithms to search by, order by, etc

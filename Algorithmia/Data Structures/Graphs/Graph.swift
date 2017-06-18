@@ -41,7 +41,9 @@ protocol Graph {
     /// - Returns: An array of edges.
     /// - Complexity: O(N), where N is v's degree.
     func adjacentVertices(of vertex: Vertex.K) -> [Vertex]
-        
+    
+    /// Default implementation follows Dijkstra algorithm
+    //func shortestPath(from: Vertex, to: Vertex) -> [Vertex]
 }
 
 extension Graph {
@@ -59,6 +61,12 @@ extension Graph {
         }
         
     }
+    
+    /// Default implementation follows Dijkstra algorithm
+//    func shortestPath(from: Vertex, to: Vertex) -> [Vertex] {
+//        
+//    }
+    
 }
 
 
