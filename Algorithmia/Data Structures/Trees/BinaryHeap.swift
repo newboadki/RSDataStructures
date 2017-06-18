@@ -10,6 +10,20 @@ import Foundation
 
 private class NodeDirectAccecssIndirectStorage<T:KeyValuePair> {
     var directAccessToNodes: Dictionary<T.K, BasicBinaryHeap<T>> = [:]
+    
+    public subscript(position: T.K) -> BasicBinaryHeap<T>? {
+        get {
+            return self.directAccessToNodes[position]
+        }
+        
+        set {
+            self.directAccessToNodes[position] = newValue
+        }
+    }
+    
+    public func removeValue(forKey key: T.K) {
+        self.directAccessToNodes.removeValue(forKey: key)
+    }
 }
 
 final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, TraversableBinaryTree, PriorityQueue {
@@ -86,7 +100,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         self.count = 1
         self.type = type
         self.directAccessToNodes = nodeIndirectStorage
-        self.directAccessToNodes.directAccessToNodes[value.key] = self
+        self.directAccessToNodes[value.key] = self
     }
     
     
@@ -151,11 +165,11 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         // There won't be an item when deleting the root.
         // The root node stays, but the item is nilled out.
         if let item = lastNodeToBeSwapped.item {
-            self.directAccessToNodes.directAccessToNodes[item.key] = lastNodeToBeSwapped
+            self.directAccessToNodes[item.key] = lastNodeToBeSwapped
         }
         
         // Delete it from the direct access map
-        self.directAccessToNodes.directAccessToNodes.removeValue(forKey: top.item!.key)
+        self.directAccessToNodes.removeValue(forKey: top.item!.key)
         
         return top
     }
@@ -207,18 +221,28 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         
         // Bubble up to restore properties of a heap
         let insertedNode = newNode.bubbleUp()
-        self.directAccessToNodes.directAccessToNodes[insertedNode.item!.key] = insertedNode
+        self.directAccessToNodes[insertedNode.item!.key] = insertedNode
     }
     
+    
+    /// Updates the priority of the element with the passed key.
+    ///
+    /// - Parameter key: the current priority.
+    /// - Parameter newKey: the new priority.
+    /// - Complexity: O(Log(N)).
     public func update(key:T.K, to newKey: T.K) {
-        if let node = self.directAccessToNodes.directAccessToNodes[key] {
+        if let node = self.directAccessToNodes[key] {
             node.item!.key = newKey
             let newRef = node.bubbleUp()
-            self.directAccessToNodes.directAccessToNodes.removeValue(forKey: key)
-            self.directAccessToNodes.directAccessToNodes[newKey] = newRef
+            self.directAccessToNodes.removeValue(forKey: key)
+            self.directAccessToNodes[newKey] = newRef
         }
     }
     
+    
+    /// Restores the heap invariant. Starts at the current node and goes up.
+    ///
+    /// - Returns: the node where the bubbling stopped.
     private func bubbleUp() -> BasicBinaryHeap<T> {
     
         var current: BasicBinaryHeap<T>? = self
@@ -234,7 +258,11 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         
         return current!
     }
-
+    
+    
+    /// Restores the heap invariant. Starts at the current node and goes down.
+    ///
+    /// - Returns: the node where the bubbling stopped.
     private func bubbleDown() -> BasicBinaryHeap<T> {
 
         var current: BasicBinaryHeap<T>? = self
