@@ -31,11 +31,40 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     /// The number of nodes in the tree
     var count: Int = 0
     
+    /// Defines the relative order of the nodes in the heap
     var type: PriorityQueueType = .min
-
+    
+    /// A traversal strategy
     var iterator: AnyIterator<T>?
     
+    /// Data structure to guarantee direct access to the elements in the tree
+    /// to help with certain tasks such as updating the priority of an element.
+    ///
+    /// We use an indirect storage (reference type wrapper) to allow that
+    /// all nodes point to the same structure.
     private var directAccessToNodes: NodeDirectAccecssIndirectStorage<T>
+    
+    
+    /// Convenience initializer
+    ///
+    /// - Parameters:
+    ///   - parent: reference to the parent node
+    ///   - leftChild: reference to the  left subtree
+    ///   - rightChild: reference to the right subtree
+    ///   - value: item contained in the tree node.
+    public convenience init(value: T,
+                parent: BasicBinaryHeap?,
+                leftChild: BasicBinaryHeap?,
+                rightChild: BasicBinaryHeap?,
+                type: PriorityQueueType) {
+        self.init(value: value,
+                  parent: parent,
+                  leftChild: leftChild,
+                  rightChild: rightChild,
+                  type: type,
+                  nodeIndirectStorage:NodeDirectAccecssIndirectStorage<T>())
+    }
+    
     
     /// Designated initializer
     ///
@@ -44,20 +73,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     ///   - leftChild: reference to the  left subtree
     ///   - rightChild: reference to the right subtree
     ///   - value: item contained in the tree node.
-    public init(value: T,
-                parent: BasicBinaryHeap?,
-                leftChild: BasicBinaryHeap?,
-                rightChild: BasicBinaryHeap?,
-                type: PriorityQueueType) {
-        self.leftChild = leftChild
-        self.rightChild = rightChild
-        self.item = value
-        self.count = 1
-        self.type = type
-        self.directAccessToNodes = NodeDirectAccecssIndirectStorage<T>()
-        self.directAccessToNodes.directAccessToNodes[value.key] = self
-    }
-    
+    ///   - nodeIndirectStorage: Data structure with direct access to the nodes.
     private init(value: T,
                 parent: BasicBinaryHeap?,
                 leftChild: BasicBinaryHeap?,
