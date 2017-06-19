@@ -277,3 +277,7 @@ func keysFromIteration(tree: SinglyThreadedBinarySearchTree<IntegerPair>) -> (ke
 func p(_ key:Int) -> IntegerPair {
     return IntegerPair(key: key, value: 0)
 }
+
+func p(_ key:Int, _ value: Int) -> IntegerPair {
+    return IntegerPair(key: key, value: value)
+}

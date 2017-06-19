@@ -13,7 +13,6 @@ import Foundation
 protocol Graph {
     
     associatedtype Vertex: KeyValuePair
-    associatedtype Weight: Comparable
     
     
     /// Array of vertices
@@ -23,7 +22,7 @@ protocol Graph {
     var vertexCount: Int {get}
     
     /// Connetions between the vertices
-    var edges: [(from: Vertex, to: Vertex, weight: Weight)] {get}
+    var edges: [(from: Vertex, to: Vertex, weight: Int)] {get}
     
     /// Number of edges in the graph
     var edgeCount: Int {get}
@@ -42,8 +41,7 @@ protocol Graph {
     /// - Complexity: O(N), where N is v's degree.
     func adjacentVertices(of vertex: Vertex.K) -> [Vertex]
     
-    /// Default implementation follows Dijkstra algorithm
-    //func shortestPath(from: Vertex, to: Vertex) -> [Vertex]
+    func weight(from: Vertex.K, to: Vertex.K) -> Int?
 }
 
 extension Graph {
@@ -61,12 +59,6 @@ extension Graph {
         }
         
     }
-    
-    /// Default implementation follows Dijkstra algorithm
-//    func shortestPath(from: Vertex, to: Vertex) -> [Vertex] {
-//        
-//    }
-    
 }
 
 
@@ -81,7 +73,7 @@ enum VertexExplorationStatus {
 /// This is a convenience graph that guarantees vertex' keys will be integers.
 /// This restriction allows easy and efficient implementations. There are other ways to achieve
 /// it without constraining the type of the key. However we define it for simplicity.
-protocol IntegerIndexableGraph: Graph where Vertex.K == Int {
+protocol IntegerIndexableGraph: Graph where Vertex.K == Int, Vertex.V == Int {
     
     /// Finds a vertex with the given index as its key
     ///
@@ -104,6 +96,14 @@ protocol IntegerIndexableGraph: Graph where Vertex.K == Int {
     /// - Parameter graph: graph to be traversed
     /// - Returns: a stack containing a topological sorting according to the implicit sorting of the vertices
     func recursiveTopologicalSort<G: IntegerIndexableGraph>(graph: G) -> StackBasedOnLinkedList<G.Vertex>?
+    
+    
+    /// Default implementation follows Dijkstra algorithm
+    func shortestPath(from: Vertex, to: Vertex,
+                      minPaths:inout Dictionary<Vertex.K, Int>,
+                      parent: inout Dictionary<Vertex.K, Vertex.K>,
+                      priorityQueue: BasicBinaryHeap<Vertex>,
+                      result: inout [Vertex.K])
 }
 
 extension IntegerIndexableGraph {
@@ -257,6 +257,66 @@ extension IntegerIndexableGraph {
         return true
     }
     
+    
+    /// Default implementation follows Dijkstra algorithm
+    /// TODO: Conceptually, this belongs to the Graph protocol, it's not necessary for the Keys to be integers for a graph to be able to implement
+    /// Dijkstra's shortest path algorithm. It is here as a simplification, because we would need:
+    /// - a) the weight to be KayValuePair.K so that we could update the priority queue with the result of a summing up keys.
+    /// - b) define a '+' operator on the KeyValuePair.K
+    // The graph assumes that a vertex's KEY is the IDENTIFIER of the vertex (0, 1, 2, 3....vertices.count)
+    // This algorithm uses a priority queue, and the queue uses KeyValuePairs. However the meaning is:
+    //    - the queue-element's KEY is the PRIORITY (a path's aggregated weight)
+    //    - the queue-element's VALUE is the IDENTIFIER of the vertex
+    // -> graph-element.KEY == queue-element.VALUE (VERTEX IDENTIFIER)
+    // -> graph-element.VALUE == queue-element.KEY (PRIORITY)
+    
+    
+    /// Default implementation follows Dijkstra algorithm.
+    ///
+    /// - Parameters:
+    ///   - from: Origin of the path
+    ///   - to: Destination of the path
+    ///   - minPaths: Data structure to keep the minimum distances found.
+    ///   - parent: Data structure to keep track of the predecesors of any given node in the min path.
+    ///   - priorityQueue: data structure to efficiently retrieve and update the vertex with the current minimum distance.
+    ///   - result: data structure to return the keys of teh vertices in the minimum path.
+    /// - Important: Conceptually, this belongs to the Graph protocol, it's not necessary for the Keys to be
+    ///   integers for a graph to be able to implement Dijkstra's shortest path algorithm. It is here as a
+    ///   simplification, because we would need:
+    ///   - a) the weight to be KayValuePair.K so that we could update the priority queue with the result of a summing up keys.
+    ///   - b) define a '+' operator on the KeyValuePair.K
+    ///   The graph assumes that a vertex's KEY is the IDENTIFIER of the vertex (0, 1, 2, 3....vertices.count)
+    ///   This algorithm uses a priority queue, and the queue uses KeyValuePairs. However the meaning is:
+    ///    - the queue-element's KEY is the PRIORITY (a path's aggregated weight)
+    ///    - the queue-element's VALUE is the IDENTIFIER of the vertex
+    ///    => graph-element.KEY == queue-element.VALUE (VERTEX IDENTIFIER)
+    ///    => graph-element.VALUE == queue-element.KEY (PRIORITY)
+    func shortestPath(from: Vertex, to: Vertex,
+                      minPaths:inout Dictionary<Vertex.K, Int>,
+                      parent: inout Dictionary<Vertex.K, Vertex.K>,
+                      priorityQueue: BasicBinaryHeap<Vertex>,
+                      result: inout [Vertex.K]) {
+        
+        // Algorithm
+        while let current = priorityQueue.dequeue() {
+            for adjacent in self.adjacentVertices(of: current.value) {
+                let min = Swift.min(minPaths[adjacent.key]!, (minPaths[current.value]! + self.weight(from:current.value, to: adjacent.key)!))
+                if min != minPaths[adjacent.key] {
+                    minPaths[adjacent.key] = min
+                    priorityQueue.updatePriority(ofValue: adjacent.key, to: min)
+                    parent[adjacent.key] = current.value
+                }
+            }
+        }
+        
+        // Build the minium path
+        var current: Vertex.K = to.key
+        while current != from.key {
+            result.append(current)
+            current = parent[current]!
+        }
+        result.append(from.key)
+    }
 }
 
 /// TODO: Merge TraversableGraph and TraversableBinaryTree protocols

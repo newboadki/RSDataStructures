@@ -60,6 +60,7 @@
 		00AC085E1E9F5F9C007B0414 /* Base_DNumberFromDigitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC085D1E9F5F9C007B0414 /* Base_DNumberFromDigitsTests.swift */; };
 		00AC08601EA0CC3A007B0414 /* RabinKarpAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC085F1EA0CC3A007B0414 /* RabinKarpAlgorithm.swift */; };
 		00AC08621EA135C0007B0414 /* RabinKarpAlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AC08611EA135C0007B0414 /* RabinKarpAlgorithmTests.swift */; };
+		00ADA00B1EF6C50300AF030B /* AdjacencyListGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ADA00A1EF6C50300AF030B /* AdjacencyListGraphTests.swift */; };
 		00AECD8C1E9CB745007E8458 /* FindAllPermutations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AECD8B1E9CB745007E8458 /* FindAllPermutations.swift */; };
 		00AECD901E9E7D7D007E8458 /* FindAllPermutationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AECD8F1E9E7D7D007E8458 /* FindAllPermutationTests.swift */; };
 		00BBA4DE1EA638F600E26C3A /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4DD1EA638F600E26C3A /* String+Extensions.swift */; };
@@ -145,6 +146,7 @@
 		00AC085D1E9F5F9C007B0414 /* Base_DNumberFromDigitsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base_DNumberFromDigitsTests.swift; sourceTree = "<group>"; };
 		00AC085F1EA0CC3A007B0414 /* RabinKarpAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RabinKarpAlgorithm.swift; sourceTree = "<group>"; };
 		00AC08611EA135C0007B0414 /* RabinKarpAlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RabinKarpAlgorithmTests.swift; sourceTree = "<group>"; };
+		00ADA00A1EF6C50300AF030B /* AdjacencyListGraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjacencyListGraphTests.swift; sourceTree = "<group>"; };
 		00AECD8B1E9CB745007E8458 /* FindAllPermutations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindAllPermutations.swift; sourceTree = "<group>"; };
 		00AECD8F1E9E7D7D007E8458 /* FindAllPermutationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindAllPermutationTests.swift; sourceTree = "<group>"; };
 		00BBA4DB1EA4049200E26C3A /* BoyerMooreAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoyerMooreAlgorithm.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 			isa = PBXGroup;
 			children = (
 				008AD40B1EF2AAFA004A2590 /* TopologicalSortingTests.swift */,
+				00ADA00A1EF6C50300AF030B /* AdjacencyListGraphTests.swift */,
 			);
 			path = Graphs;
 			sourceTree = "<group>";
@@ -567,6 +570,7 @@
 				007870631EEF46D2002514CB /* SumNumbersRepresentedByLinkedList.swift in Sources */,
 				00AC08601EA0CC3A007B0414 /* RabinKarpAlgorithm.swift in Sources */,
 				00AC08621EA135C0007B0414 /* RabinKarpAlgorithmTests.swift in Sources */,
+				00ADA00B1EF6C50300AF030B /* AdjacencyListGraphTests.swift in Sources */,
 				00140EF11EB5E18A00992C1B /* MatrixRotationTests.swift in Sources */,
 				003DB8941DCD3F4800B51FCC /* KeyValuePair.swift in Sources */,
 				00AC085E1E9F5F9C007B0414 /* Base_DNumberFromDigitsTests.swift in Sources */,

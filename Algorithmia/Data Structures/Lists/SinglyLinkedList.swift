@@ -205,7 +205,7 @@ public struct SinglyLinkedList<T>
     {
         return self.find(kthToLast: kthToLast, startingAt: self.storage.head, count: UInt(self.count))
     }
-
+    
     
     
     // MARK: LOOP DETECTION
@@ -590,6 +590,17 @@ public struct SinglyLinkedListIndex<T> : Comparable
     }
 }
 
+
+extension SinglyLinkedList where T : KeyValuePair {
+    
+    public func find(elementWithKey key: T.K) -> T? {        
+        let searchResults = self.filter { (keyValuePair) -> Bool in
+            return keyValuePair.key == key
+        }
+        
+        return searchResults.first
+    }
+}
 
 // MARK: - HELPERS -
 

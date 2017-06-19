@@ -223,28 +223,28 @@ class BasicBinaryMaxHeapTests: XCTestCase {
 class BasicBinaryHeapUpdateTests: XCTestCase {
     
     func testUpdateThatDoesNotCauseBubbling() {
-        let heap = BasicBinaryHeap<IntegerPair>(value: p(5), parent: nil, leftChild: nil, rightChild: nil, type:.max)
-        heap.insert(item: p(3))
-        heap.insert(item: p(4))
-        heap.insert(item: p(6))
-        heap.insert(item: p(8))
-        heap.insert(item: p(1))
+        let heap = BasicBinaryHeap<IntegerPair>(value: p(5, 1), parent: nil, leftChild: nil, rightChild: nil, type:.max)
+        heap.insert(item: p(3, 2))
+        heap.insert(item: p(4, 3))
+        heap.insert(item: p(6, 4))
+        heap.insert(item: p(8, 5))
+        heap.insert(item: p(1, 6))
         
         // Node with key 1 has key 4 as parent. We set the new value to
         // continue to keep the heap property < 4.
-        heap.update(key: 3, to: 2)
+        heap.updatePriority(ofValue: 2, to: 2)
         
         // Node with key 5 has key 6 as parent. We set the new value to
         // continue to keep the heap property < 6.
-        heap.update(key: 1, to: 3)
+        heap.updatePriority(ofValue: 6, to: 3)
         
         // Node with key 6 has key 8 as parent. We set the new value to
         // continue to keep the heap property < 8.
-        heap.update(key: 6, to: 7)
+        heap.updatePriority(ofValue: 4, to: 7)
         
         // Node with key 8 is the root. We set the new value to
-        // continue to keep the heap property >= 8.
-        heap.update(key: 8, to: 9)
+        // continue to keep the heap property >= 8.        
+        heap.updatePriority(ofValue: 5, to: 9)
         
         var keys = [Int]()
         while let top = heap.extractTop() {
@@ -256,28 +256,28 @@ class BasicBinaryHeapUpdateTests: XCTestCase {
     }
     
     func testUpdateThatCausesBubbling() {
-        let heap = BasicBinaryHeap<IntegerPair>(value: p(5), parent: nil, leftChild: nil, rightChild: nil, type:.max)
-        heap.insert(item: p(3))
-        heap.insert(item: p(4))
-        heap.insert(item: p(6))
-        heap.insert(item: p(8))
-        heap.insert(item: p(1))
+        let heap = BasicBinaryHeap<IntegerPair>(value: p(5, 1), parent: nil, leftChild: nil, rightChild: nil, type:.max)
+        heap.insert(item: p(3, 2))
+        heap.insert(item: p(4, 3))
+        heap.insert(item: p(6, 4))
+        heap.insert(item: p(8, 5))
+        heap.insert(item: p(1, 6))
         
         // Node with key 1 has key 4 as parent. We set the new value to
         // continue to keep the heap property < 4.
-        heap.update(key: 3, to: 10)
+        heap.updatePriority(ofValue: 2, to: 10)
         
         // Node with key 5 has key 6 as parent. We set the new value to
         // continue to keep the heap property < 6.
-        heap.update(key: 1, to: 9)
+        heap.updatePriority(ofValue: 6, to: 9)
         
         // Node with key 6 has key 8 as parent. We set the new value to
         // continue to keep the heap property < 8.
-        heap.update(key: 6, to: 7)
+        heap.updatePriority(ofValue: 4, to: 7)
         
         // Node with key 8 is the root. We set the new value to
         // continue to keep the heap property >= 8.
-        heap.update(key: 10, to: 11)
+        heap.updatePriority(ofValue: 2, to: 11)
         
         var keys = [Int]()
         while let top = heap.extractTop() {

@@ -8,7 +8,10 @@
 
 import Foundation
 
-
+/// An edge node and a position in the array 'adjacencyList' represent an edge (a -> b)
+/// where:
+///   - the origin vertex's KEY comes determined by the index in 'adjacencyList'
+///   - and the destination vertex's KEY is defined by EdgeNode.destination.KEY
 struct EdgeNode<VertexKeyInfo: KeyValuePair, Weight: Comparable> {
     
     /// Identifier of the
@@ -18,6 +21,12 @@ struct EdgeNode<VertexKeyInfo: KeyValuePair, Weight: Comparable> {
     /// In an adjacency list this comes defined by a position in the array of vertices.
     var weight: Weight
     
+    
+    /// Designated initializer
+    ///
+    /// - Parameters:
+    ///   - destinationVertexKey: destination vertex.
+    ///   - weight: cost associated with traversing this edge.
     init(destinationVertexKey: VertexKeyInfo, weight: Weight) {
         self.destination = destinationVertexKey
         self.weight = weight
@@ -25,31 +34,42 @@ struct EdgeNode<VertexKeyInfo: KeyValuePair, Weight: Comparable> {
 }
 
 
+
 /// This implementation of a graph uses a linked list to keep adjacency information.
 /// Finding the first adjacent node of a given vertex takes O(1)
 /// Iterating through its neighbours takes O(N)
 ///
 /// This implementaiton assumes that vertices are identified with Integers, this is to be able
-/// to efficiently index them.
-struct AdjacencyListGraph<VertexInfo: KeyValuePair, W: Comparable> : IntegerIndexableGraph where VertexInfo.K == Int {
+/// to efficiently and conviniently index them.
+struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph where VertexInfo.K == Int, VertexInfo.V == Int {    
     
     typealias Vertex = VertexInfo
-    typealias Weight = W
     
     
+    /// Vertices with which the graph was initialized
     public var vertices: [VertexInfo]
     
-    public var edges: [(from: VertexInfo, to: VertexInfo, weight: W)]
+    /// Edges with which the graph was initialized
+    public var edges: [(from: VertexInfo, to: VertexInfo, weight: Int)]
     
+    /// This is a convenience variable, since a directed gaph is really
+    /// implemented here if (a->b) exists but (b->a) does not.
     public var directed: Bool
     
+    /// TODO: Not in use.
     private(set) var maxCountOfVertices = 1000
     
     /// Adjancency info for all vertices
-    private var adjacencyList: [SinglyLinkedList<EdgeNode<VertexInfo, W>>]
+    private var adjacencyList: [SinglyLinkedList<EdgeNode<VertexInfo, Int>>]
     
     
-    init(vertices: [VertexInfo], edges: [(VertexInfo, VertexInfo, W)], directed: Bool) {
+    /// Designated Initializer
+    ///
+    /// - Parameters:
+    ///   - vertices: Array of vertices.
+    ///   - edges: Connections between vertices.
+    ///   - directed: wether the edges have a direction of traversal.
+    init(vertices: [VertexInfo], edges: [(VertexInfo, VertexInfo, Int)], directed: Bool) {
         self.vertices = vertices.sorted(by: { (p1, p2) -> Bool in
             p1.key < p2.key
         })
@@ -66,9 +86,10 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair, W: Comparable> : IntegerInde
     /// - Parameter vertex: Origin vertex.
     /// - Returns: An array of edges.
     /// - Complexity: O(N), where N is v's degree.
-    func adjacentVertices(of vertex: Int) -> [VertexInfo] {        
+    func adjacentVertices(of vertexIndex: Int) -> [VertexInfo] {
         var vertices = [VertexInfo]()
-        let list = self.adjacencyList[vertex]
+        let list = self.adjacencyList[vertexIndex]
+        
         for adjNode in list {
             vertices.append(adjNode.destination)
         }
@@ -77,12 +98,39 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair, W: Comparable> : IntegerInde
     }
     
     
-    private static func adjacencyList(fromVertices:[VertexInfo], andEdges:[(from: VertexInfo, to: VertexInfo, weight: W)]) -> [SinglyLinkedList<EdgeNode<VertexInfo, W>>] {
-        var array = [SinglyLinkedList<EdgeNode<VertexInfo, W>>](repeating: SinglyLinkedList<EdgeNode<VertexInfo, W>>(), count: fromVertices.count)
+    /// Cost associated with traversing an edge between two vertices.
+    ///
+    /// - Parameters:
+    ///   - from: Key of the origin vertex
+    ///   - to: Key of the destination vertex
+    /// - Returns: the cost of traversing the edge joining from and to vertices.
+    public func weight(from: Vertex.K, to: Vertex.K) -> Int? {
+        let fromVertexAdjacencyList = self.adjacencyList[from]
+        let searchResults = fromVertexAdjacencyList.filter { (edgeNode) -> Bool in
+            return edgeNode.destination.key == to
+        }
+        return searchResults.first?.weight
+    }
+}
+
+
+
+// MARK: Private methods
+
+extension AdjacencyListGraph {
+    
+    /// Helper method to populate the internal data structures of an adjacency list graph.
+    ///
+    /// - Parameters:
+    ///   - vertices: array of vertices in the graph
+    ///   - edges: array of edges in the graph
+    /// - Returns: array of linked lists (adjacency list).
+    private static func adjacencyList(fromVertices vertices:[VertexInfo], andEdges edges:[(from: VertexInfo, to: VertexInfo, weight: Int)]) -> [SinglyLinkedList<EdgeNode<VertexInfo, Int>>] {
+        var array = [SinglyLinkedList<EdgeNode<VertexInfo, Int>>](repeating: SinglyLinkedList<EdgeNode<VertexInfo, Int>>(), count: vertices.count)
         
-        for edge in andEdges {            
-            let edgeNode = EdgeNode<VertexInfo, W>(destinationVertexKey: edge.to, weight: edge.weight)
-            array[edge.0.key].append(value: edgeNode)
+        for edge in edges {
+            let edgeNode = EdgeNode<VertexInfo, Int>(destinationVertexKey: edge.to, weight: edge.weight)
+            array[edge.from.key].append(value: edgeNode)
         }
         
         return array
@@ -90,9 +138,10 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair, W: Comparable> : IntegerInde
 }
 
 
+
 //// MARK: IntegerIndexableGraph
+
 extension AdjacencyListGraph {
-    
     
     /// Finds a vertex with the given index as its key
     ///
@@ -102,6 +151,5 @@ extension AdjacencyListGraph {
     func vertex(withIndex index: Int) -> Vertex? {
         return self.vertices[index]
     }
-    
 }
 

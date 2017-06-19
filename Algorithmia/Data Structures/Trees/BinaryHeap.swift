@@ -8,10 +8,10 @@
 
 import Foundation
 
-private class NodeDirectAccecssIndirectStorage<T:KeyValuePair> {
-    var directAccessToNodes: Dictionary<T.K, BasicBinaryHeap<T>> = [:]
+private class NodeDirectAccecssIndirectStorage<T: KeyValuePair> {
+    var directAccessToNodes: Dictionary<T.V, BasicBinaryHeap<T>> = [:]
     
-    public subscript(position: T.K) -> BasicBinaryHeap<T>? {
+    public subscript(position: T.V) -> BasicBinaryHeap<T>? {
         get {
             return self.directAccessToNodes[position]
         }
@@ -21,11 +21,15 @@ private class NodeDirectAccecssIndirectStorage<T:KeyValuePair> {
         }
     }
     
-    public func removeValue(forKey key: T.K) {
-        self.directAccessToNodes.removeValue(forKey: key)
+    public func removeValue(forKey value: T.V) {
+        self.directAccessToNodes.removeValue(forKey: value)
     }
 }
 
+/// This class can function as a priority head that stores key-value pairs maintaining their relative order.
+/// The order of the elements is based on the key, which is considered the priority.
+/// It is possible to update the priority of an element already in the queue. This will be done by using the value
+/// as the token to fetch. It reads, update the priority of the element with value V to the new priority K.
 final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, TraversableBinaryTree, PriorityQueue {
     
     typealias Item = T
@@ -101,7 +105,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         self.type = type
         self.directAccessToNodes = nodeIndirectStorage
         if let v = value {
-            self.directAccessToNodes[v.key] = self
+            self.directAccessToNodes[v.value] = self
         }
     }
     
@@ -160,11 +164,11 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
         // There won't be an item when deleting the root.
         // The root node stays, but the item is nilled out.
         if let item = lastNodeToBeSwapped.item {
-            self.directAccessToNodes[item.key] = lastNodeToBeSwapped
+            self.directAccessToNodes[item.value] = lastNodeToBeSwapped
         }
         
         // Delete it from the direct access map
-        self.directAccessToNodes.removeValue(forKey: top.item!.key)
+        self.directAccessToNodes.removeValue(forKey: top.item!.value)
         
         return top
     }
@@ -175,16 +179,19 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
     /// - Parameter key: the current priority.
     /// - Parameter newKey: the new priority.
     /// - Complexity: O(Log(N)).
-    public func update(key:T.K, to newKey: T.K) {
-        if let node = self.directAccessToNodes[key] {
-            node.item!.key = newKey
-            let newRef = node.bubbleUp()
-            self.directAccessToNodes.removeValue(forKey: key)
-            self.directAccessToNodes[newKey] = newRef
+    public func updatePriority(ofValue value:T.V, to newPriority: T.K) {
+        if let node = self.directAccessToNodes[value] {
+            node.item!.key = newPriority
+            var newRef = node.bubbleUp()
+            
+            if (node === newRef) {
+                // It means we didn't buble up. Bubble down then
+                newRef = node.bubbleDown()
+            }
+            self.directAccessToNodes[value] = newRef
         }
     }
 }
-
 
 
 // MARK: Private methods
@@ -203,7 +210,7 @@ extension BasicBinaryHeap {
                 
                 // If we got in, we know there's a parent.
                 swapItems(parent: current!.parent!, child: current!)
-                self.directAccessToNodes.directAccessToNodes[current!.item!.key] = current!
+                self.directAccessToNodes.directAccessToNodes[current!.item!.value] = current!
                 current = current!.parent
         }
         
@@ -225,7 +232,7 @@ extension BasicBinaryHeap {
                     
                     // If we got in, we know there's a parent.
                     swapItems(parent: c, child: childToSwap)
-                    self.directAccessToNodes.directAccessToNodes[c.item!.key] = c
+                    self.directAccessToNodes.directAccessToNodes[c.item!.value] = c
                     current = childToSwap
         }
         
@@ -360,7 +367,7 @@ extension BasicBinaryHeap {
         
         // Bubble up to restore properties of a heap
         let insertedNode = newNode.bubbleUp()
-        self.directAccessToNodes[insertedNode.item!.key] = insertedNode
+        self.directAccessToNodes[insertedNode.item!.value] = insertedNode
     }
     
     
