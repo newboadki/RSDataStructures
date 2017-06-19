@@ -13,6 +13,7 @@ import Foundation
 protocol Graph {
     
     associatedtype Vertex: KeyValuePair
+    associatedtype Weight: Comparable /* Operator '+' should be defined for type Weight */
     
     
     /// Array of vertices
@@ -22,7 +23,7 @@ protocol Graph {
     var vertexCount: Int {get}
     
     /// Connetions between the vertices
-    var edges: [(from: Vertex, to: Vertex, weight: Int)] {get}
+    var edges: [(from: Vertex, to: Vertex, weight: Weight)] {get}
     
     /// Number of edges in the graph
     var edgeCount: Int {get}
@@ -41,8 +42,28 @@ protocol Graph {
     /// - Complexity: O(N), where N is v's degree.
     func adjacentVertices(of vertex: Vertex.K) -> [Vertex]
     
-    func weight(from: Vertex.K, to: Vertex.K) -> Int?
+    
+    /// Finds a vertex with the given index as its key
+    ///
+    /// - Parameter index: index to search for
+    /// - Returns: a vertex with the sought index or nil if not found
+    /// - Complexity: Default implementation offers O(N), where N is the number of vertex in the graph. Concrete implemetations
+    ///   can improve this time complexity given their knowledge of the internals of the data structure.
+    func vertex(withIndex index: Vertex.K) -> Vertex?
+    
+    
+    /// Cost associated with traversing the edge joining vertices identified by keys from and to.
+    ///
+    /// - Parameters:
+    ///   - from: origin vertex
+    ///   - to: destination vertex
+    /// - Returns: The cost of the traversal.
+    func weight(from: Vertex.K, to: Vertex.K) -> Weight?
 }
+
+
+
+// MARK: Basic default implementations
 
 extension Graph {
     
@@ -59,6 +80,19 @@ extension Graph {
         }
         
     }
+    
+    /// Finds a vertex with the given index as its key
+    ///
+    /// - Parameter index: index to search for
+    /// - Returns: a vertex with the sought index or nil if not found
+    /// - Complexity: O(N), where N is the number of vertex in the graph. Concrete implemetations
+    ///   can improve this time complexity given their knowledge of the internals of the data structure.
+    func vertex(withIndex index: Vertex.K) -> Vertex? {
+        let findings = self.vertices.filter { (vertex) -> Bool in
+            return vertex.key == index
+        }
+        return findings.first
+    }
 }
 
 
@@ -73,16 +107,7 @@ enum VertexExplorationStatus {
 /// This is a convenience graph that guarantees vertex' keys will be integers.
 /// This restriction allows easy and efficient implementations. There are other ways to achieve
 /// it without constraining the type of the key. However we define it for simplicity.
-protocol IntegerIndexableGraph: Graph where Vertex.K == Int, Vertex.V == Int {
-    
-    /// Finds a vertex with the given index as its key
-    ///
-    /// - Parameter index: index to search for
-    /// - Returns: a vertex with the sought index or nil if not found
-    /// - Complexity: Default implementation offers O(N), where N is the number of vertex in the graph. Concrete implemetations
-    ///   can improve this time complexity given their knowledge of the internals of the data structure.
-    func vertex(withIndex index: Int) -> Vertex?
-    
+protocol IntegerIndexableGraph: Graph where Vertex.K == Int, Vertex.V == Int, Weight == Int {
     
     /// Returns a stack containing a topological sorting according to the implicit sorting of the vertices
     ///
@@ -106,20 +131,11 @@ protocol IntegerIndexableGraph: Graph where Vertex.K == Int, Vertex.V == Int {
                       result: inout [Vertex.K])
 }
 
+
+
+// MARK: Topological sorting algorithms
+
 extension IntegerIndexableGraph {
-    
-    /// Finds a vertex with the given index as its key
-    ///
-    /// - Parameter index: index to search for
-    /// - Returns: a vertex with the sought index or nil if not found
-    /// - Complexity: O(N), where N is the number of vertex in the graph. Concrete implemetations
-    ///   can improve this time complexity given their knowledge of the internals of the data structure.
-    func vertex(withIndex index: Int) -> Vertex? {
-        let findings = self.vertices.filter { (vertex) -> Bool in
-            return vertex.key == index
-        }
-        return findings.first
-    }
     
     /// Returns a stack containing a topological sorting according to the implicit sorting of the vertices
     ///
@@ -256,20 +272,13 @@ extension IntegerIndexableGraph {
         stack.push(item: initialVertex)
         return true
     }
-    
-    
-    /// Default implementation follows Dijkstra algorithm
-    /// TODO: Conceptually, this belongs to the Graph protocol, it's not necessary for the Keys to be integers for a graph to be able to implement
-    /// Dijkstra's shortest path algorithm. It is here as a simplification, because we would need:
-    /// - a) the weight to be KayValuePair.K so that we could update the priority queue with the result of a summing up keys.
-    /// - b) define a '+' operator on the KeyValuePair.K
-    // The graph assumes that a vertex's KEY is the IDENTIFIER of the vertex (0, 1, 2, 3....vertices.count)
-    // This algorithm uses a priority queue, and the queue uses KeyValuePairs. However the meaning is:
-    //    - the queue-element's KEY is the PRIORITY (a path's aggregated weight)
-    //    - the queue-element's VALUE is the IDENTIFIER of the vertex
-    // -> graph-element.KEY == queue-element.VALUE (VERTEX IDENTIFIER)
-    // -> graph-element.VALUE == queue-element.KEY (PRIORITY)
-    
+}
+
+
+
+// MARK: Shortest path algorithms
+
+extension IntegerIndexableGraph {
     
     /// Default implementation follows Dijkstra algorithm.
     ///
@@ -318,25 +327,3 @@ extension IntegerIndexableGraph {
         result.append(from.key)
     }
 }
-
-/// TODO: Merge TraversableGraph and TraversableBinaryTree protocols
-protocol TraversableGraph : Graph, Sequence {
-    
-    var iterator : AnyIterator<Vertex>? {get set}
-}
-
-
-/*extension TraversableGraph {
-    
-    public func makeIterator() -> AnyIterator<Vertex> {
-        if let existingIterator = self.iterator {
-            return existingIterator
-        } else {
-            return self.defaultIterator()
-        }
-    }
-
-    fileprivate func defaultIterator() -> AnyIterator<Vertex> {
-        
-    }
-}*/
