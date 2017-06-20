@@ -318,7 +318,7 @@ extension IntegerIndexableGraph {
             }
         }
         
-        // Build the minium path
+        // Build the minimum path
         var current: Vertex.K = to.key
         while current != from.key {
             result.append(current)
