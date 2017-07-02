@@ -23,23 +23,15 @@ int64_t qs_partition(int64_t *input, int64_t start, int64_t end);
 void bubble_sort_knuth(int64_t *input, int64_t length)
 {
     
-    int64_t highest_not_order_index = length; // Highest index for which the record is not know to be in its final position
+    int64_t highest_not_order_index = length; // Highest index for which the record is not known to be in its final position
     int64_t last_swapped_index = INT64_MAX; // Everytime we find an unordered element
 
-    
-    
-    for (int i=0; i<length; i++)
-    {
-        printf("Comparing %d\n", i);
-    }
-    
     while (last_swapped_index > 0)
     {
         int64_t j = 0;
         
         while (j < (highest_not_order_index - 1))
         {
-            //printf("Comparing %lld, %lld", input[j], input[j+1]);
             if (input[j] > input[j+1])
             {
                 swap(input, j, j+1);
@@ -50,16 +42,12 @@ void bubble_sort_knuth(int64_t *input, int64_t length)
         
         highest_not_order_index = last_swapped_index;
         
-
         if (last_swapped_index == INT64_MAX)
         {
             // No swaps, terminate
             last_swapped_index = 0;
         }
     }
-    
-    
-    
 }
 
 
@@ -137,7 +125,7 @@ void init_queue(int64_t *array, int64_t *input, int64_t start, int64_t end)
 }
 
 
-/* Quick sort*/
+/* Quick sort */
 void quick_sort(int64_t *input, int64_t length, int64_t start, int64_t end)
 {
     if (start < end)
@@ -151,7 +139,7 @@ void quick_sort(int64_t *input, int64_t length, int64_t start, int64_t end)
 
 int64_t qs_partition(int64_t *input, int64_t start, int64_t end)
 {
-    int64_t firsthigh = start; // Index of the first element that is bigger than the
+    int64_t firsthigh = start; // Index of the first element that is bigger than the pivot.
     int64_t pivot_index = end;
     
     for (int64_t i = start; i<end; i++)

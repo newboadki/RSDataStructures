@@ -19,7 +19,6 @@
 		0017C9D41EB068AB00E5E749 /* IsPermutationOfPalindromeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C9D31EB068AB00E5E749 /* IsPermutationOfPalindromeTests.swift */; };
 		0017C9D61EB31B9C00E5E749 /* SmallDifference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C9D51EB31B9C00E5E749 /* SmallDifference.swift */; };
 		003DB8941DCD3F4800B51FCC /* KeyValuePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003DB8931DCD3F4800B51FCC /* KeyValuePair.swift */; };
-		00546D7B1A37A06200A043A7 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 00546D791A37A06200A043A7 /* utils.c */; };
 		007870511EEDAC90002514CB /* IsLinkedListPalindrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00140EFC1EB8A53E00992C1B /* IsLinkedListPalindrome.swift */; };
 		0078705D1EEF45C2002514CB /* MinMaxStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0078705A1EEF453F002514CB /* MinMaxStack.swift */; };
 		0078705E1EEF45C2002514CB /* StackBasedOnLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007870591EEF453F002514CB /* StackBasedOnLinkedList.swift */; };
@@ -68,6 +67,7 @@
 		00BBA4E11EA63A1200E26C3A /* BoyerMooreAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4DB1EA4049200E26C3A /* BoyerMooreAlgorithm.swift */; };
 		00BBA4E31EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */; };
 		00BBA4E51EACF10800E26C3A /* AreCharactersUnique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */; };
+		00D59FBA1F01A71F00220897 /* BucketSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D59FB91F01A71F00220897 /* BucketSort.swift */; };
 		00E466131EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466121EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift */; };
 /* End PBXBuildFile section */
 
@@ -100,8 +100,6 @@
 		003DB8881DCD30A600B51FCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		003DB8931DCD3F4800B51FCC /* KeyValuePair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValuePair.swift; sourceTree = "<group>"; };
 		00546D651A33981000A043A7 /* Algorithmia */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Algorithmia; sourceTree = BUILT_PRODUCTS_DIR; };
-		00546D791A37A06200A043A7 /* utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
-		00546D7A1A37A06200A043A7 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		007870581EEF44DD002514CB /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		007870591EEF453F002514CB /* StackBasedOnLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackBasedOnLinkedList.swift; sourceTree = "<group>"; };
 		0078705A1EEF453F002514CB /* MinMaxStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinMaxStack.swift; sourceTree = "<group>"; };
@@ -154,6 +152,7 @@
 		00BBA4DF1EA639DA00E26C3A /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoyerMooreAlgorithmTests.swift; sourceTree = "<group>"; };
 		00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreCharactersUnique.swift; sourceTree = "<group>"; };
+		00D59FB91F01A71F00220897 /* BucketSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketSort.swift; sourceTree = "<group>"; };
 		00E466121EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleProtocolsWithAssociatedTypes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -233,8 +232,8 @@
 		00546D781A37A04600A043A7 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				00546D7A1A37A06200A043A7 /* utils.h */,
-				00546D791A37A06200A043A7 /* utils.c */,
+				007870861EEF4CB8002514CB /* utils.h */,
+				007870851EEF4CB8002514CB /* utils.c */,
 				00BBA4DD1EA638F600E26C3A /* String+Extensions.swift */,
 				00BBA4DF1EA639DA00E26C3A /* Int+Extensions.swift */,
 			);
@@ -301,9 +300,8 @@
 				0078707F1EEF4CB8002514CB /* exchange_sort.c */,
 				007870821EEF4CB8002514CB /* insertion_sort.h */,
 				007870811EEF4CB8002514CB /* insertion_sort.c */,
+				00D59FB91F01A71F00220897 /* BucketSort.swift */,
 				007870831EEF4CB8002514CB /* main.c */,
-				007870861EEF4CB8002514CB /* utils.h */,
-				007870851EEF4CB8002514CB /* utils.c */,
 			);
 			path = Sorting;
 			sourceTree = "<group>";
@@ -543,6 +541,7 @@
 				007870A41EF00B72002514CB /* SinglyThreadedBinarySearchTreeTests.swift in Sources */,
 				00BBA4E51EACF10800E26C3A /* AreCharactersUnique.swift in Sources */,
 				0017C9D61EB31B9C00E5E749 /* SmallDifference.swift in Sources */,
+				00D59FBA1F01A71F00220897 /* BucketSort.swift in Sources */,
 				00140EF51EB61D3D00992C1B /* StringRotationTests.swift in Sources */,
 				007870A31EF00B72002514CB /* RedBlackBinarySearchTreeTests.swift in Sources */,
 				007870791EEF49A2002514CB /* PriorityQueue.swift in Sources */,
@@ -586,7 +585,6 @@
 				007870881EEF4CCF002514CB /* exchange_sort.c in Sources */,
 				007870871EEF4CCF002514CB /* measurement.c in Sources */,
 				0078708B1EEF4CCF002514CB /* utils.c in Sources */,
-				00546D7B1A37A06200A043A7 /* utils.c in Sources */,
 				007870891EEF4CCF002514CB /* insertion_sort.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
