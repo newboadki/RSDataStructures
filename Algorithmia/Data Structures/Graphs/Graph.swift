@@ -38,9 +38,9 @@ protocol Graph {
     /// - Have a outgoing edge from v to the other vertix.
     ///
     /// - Parameter vertex: Origin vertex.
-    /// - Returns: An array of edges.
+    /// - Returns: An array of edges. Or nil if the vertex does not exist in the graph.
     /// - Complexity: O(N), where N is v's degree.
-    func adjacentVertices(of vertex: Vertex.K) -> [Vertex]
+    func adjacentVertices(of vertex: Vertex.K) -> [Vertex]?
     
     
     /// Finds a vertex with the given index as its key
@@ -59,6 +59,14 @@ protocol Graph {
     ///   - to: destination vertex
     /// - Returns: The cost of the traversal.
     func weight(from: Vertex.K, to: Vertex.K) -> Weight?
+    
+    
+    /// Creates connections between origin and destination vertices
+    ///
+    /// - Parameters:
+    ///   - originVertex: The origin of the edge
+    ///   - destinationVertices: List of destination vertices
+    func addEdges(from originVertex: Vertex, to destinationVertices: [(Vertex, Weight)])
 }
 
 
@@ -145,7 +153,8 @@ extension IntegerIndexableGraph {
         
         var status = [VertexExplorationStatus](repeating: .undiscovered, count: graph.vertices.count)
         let stack = StackBasedOnLinkedList<G.Vertex>()
-        
+      
+        // We repeat the algorightm for each undiscovered node, because the graph could be disconnected.
         for i in 0..<graph.vertexCount {
             if status[i] == .undiscovered {
                 let success = iterativeTopologicalSortSingleNode(graph: graph, initialVertex: graph.vertex(withIndex: i)!, stack: stack, status: &status)
@@ -164,6 +173,8 @@ extension IntegerIndexableGraph {
     /// - Parameters:
     ///   - graph: The graph to traverse
     ///   - initialVertex: The indeces of the vertices must be numbered from 0 to (graph.vertexCount - 1)
+    ///   - stack: this will contain the results of a topological sort starting at the initialVertex
+    ///   - status: each node can be .undiscovered, .discovered, .explored and .processed
     /// - Returns: A boolean indicating the success of the operation. False can mean that it's not a DAG or that loops where found.
     func iterativeTopologicalSortSingleNode<G: IntegerIndexableGraph, S: Stack>(graph: G, initialVertex: G.Vertex, stack: S, status: inout [VertexExplorationStatus]) -> Bool where S.Item == G.Vertex {
         
@@ -182,16 +193,19 @@ extension IntegerIndexableGraph {
                     // Discovered means that the node has been added to the explorationStack as part of
                     // its parent exploring it's children.
                     // We need to explore discovered vertices
-                    for adjacent in graph.adjacentVertices(of: current.key) {
-                        
-                        if (status[adjacent.key] != .processed) && (status[adjacent.key] != .undiscovered) {
-                            // Cycle found. Topological sorting will only work on DAGs.
-                            return false
-                        }
-                        
-                        if (status[adjacent.key] != .processed) && (status[adjacent.key] != .explored) {
-                            status[adjacent.key] = .discovered
-                            explorationStack.push(item: adjacent)
+                    let adjacentVertices = self.adjacentVertices(of: current.key)
+                    if  adjacentVertices != nil {
+                        for adjacent in adjacentVertices! {
+                            if (status[adjacent.key] != .processed) && (status[adjacent.key] != .undiscovered) {
+                                // Cycle found. Topological sorting will only work on DAGs.
+                                return false
+                            }
+                            
+                            if (status[adjacent.key] != .processed) && (status[adjacent.key] != .explored) {
+                                status[adjacent.key] = .discovered
+                                let v = adjacent as! G.Vertex
+                                explorationStack.push(item: v)
+                            }
                         }
                     }
                     status[current.key] = .explored
@@ -228,7 +242,8 @@ extension IntegerIndexableGraph {
         
         var status = [VertexExplorationStatus](repeating: .undiscovered, count: graph.vertices.count)
         let stack = StackBasedOnLinkedList<G.Vertex>()
-        
+      
+        // We repeat the algorightm for each undiscovered node, because the graph could be disconnected.
         for i in 0..<graph.vertexCount {
             if status[i] == .undiscovered {
                 let success = recursiveTopologicalSortSingleNode(graph: graph, initialVertex: graph.vertex(withIndex: i)!, stack: stack, status: &status)
@@ -247,27 +262,29 @@ extension IntegerIndexableGraph {
     /// - Parameters:
     ///   - graph: The graph to traverse
     ///   - initialVertex: The indeces of the vertices must be numbered from 0 to (graph.vertexCount - 1)
+    ///   - stack: this will contain the results of a topological sort starting at the initialVertex
+    ///   - status: each node can be .undiscovered, .discovered, .explored and .processed
     /// - Returns: A topological sorting of the graph. Nil if the graph is not directed or contains cycles.
     func recursiveTopologicalSortSingleNode<G: IntegerIndexableGraph, S: Stack>(graph: G, initialVertex: G.Vertex, stack: S, status: inout [VertexExplorationStatus]) -> Bool where S.Item == G.Vertex {
         
         status[initialVertex.key] = .discovered
         
-        
-        for adjacent in graph.adjacentVertices(of: initialVertex.key) {
-            
-            if status[adjacent.key] == .discovered && status[adjacent.key] != .processed {
-                // Cycle found. Topological sorting will only work on DAGs.
-                return false
-            }
-            
-            if (status[adjacent.key] != .discovered) && status[adjacent.key] != .processed {
-                let success = recursiveTopologicalSortSingleNode(graph: graph, initialVertex: adjacent, stack: stack, status: &status)
-                if success == false {
+        if let adjacentVertices = graph.adjacentVertices(of: initialVertex.key) {
+            for adjacent in adjacentVertices {
+                
+                if status[adjacent.key] == .discovered && status[adjacent.key] != .processed {
+                    // Cycle found. Topological sorting will only work on DAGs.
                     return false
+                }
+                
+                if (status[adjacent.key] != .discovered) && status[adjacent.key] != .processed {
+                    let success = recursiveTopologicalSortSingleNode(graph: graph, initialVertex: adjacent, stack: stack, status: &status)
+                    if success == false {
+                        return false
+                    }
                 }
             }
         }
-        
         status[initialVertex.key] = .processed
         stack.push(item: initialVertex)
         return true
@@ -308,12 +325,14 @@ extension IntegerIndexableGraph {
         
         // Algorithm
         while let current = priorityQueue.dequeue() {
-            for adjacent in self.adjacentVertices(of: current.value) {
-                let min = Swift.min(minPaths[adjacent.key]!, (minPaths[current.value]! + self.weight(from:current.value, to: adjacent.key)!))
-                if min != minPaths[adjacent.key] {
-                    minPaths[adjacent.key] = min
-                    priorityQueue.updatePriority(ofValue: adjacent.key, to: min)
-                    parent[adjacent.key] = current.value
+            if let adjacentVertices = self.adjacentVertices(of: current.value) {
+                for adjacent in adjacentVertices {
+                    let min = Swift.min(minPaths[adjacent.key]!, (minPaths[current.value]! + self.weight(from:current.value, to: adjacent.key)!))
+                    if min != minPaths[adjacent.key] {
+                        minPaths[adjacent.key] = min
+                        priorityQueue.updatePriority(ofValue: adjacent.key, to: min)
+                        parent[adjacent.key] = current.value
+                    }
                 }
             }
         }

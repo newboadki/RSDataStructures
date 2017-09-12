@@ -84,19 +84,3 @@ struct IntegerPair : KeyValuePair {
         return IntegerPair(key: self.key, value: self.value)
     }
 }
-
-
-
-// An alternative design would have been to use a genric type
-struct GenericKeyValuePair<K:Comparable, V:Comparable>  {
-    var key : K
-    var value : V
-}
-
-// If we wanted this to force key and value to have the same type then:
-struct GenericKeyValuePairWithSameType<T:Comparable>  {
-    var key : T
-    var value : T
-}
-
-

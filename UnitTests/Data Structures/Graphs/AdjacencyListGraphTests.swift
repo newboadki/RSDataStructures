@@ -10,7 +10,7 @@ import XCTest
 
 class AdjacencyListGraphTests: XCTestCase {
     
-    func testValidTopologicalSorting() {
+    func testShortestPath() {
         let vertices = [p(0),p(1),p(2),p(3),p(4),p(5)]
         let edges = [(from: p(0), to: p(1), weight: 10),
                      (from: p(0), to: p(2), weight: 6),

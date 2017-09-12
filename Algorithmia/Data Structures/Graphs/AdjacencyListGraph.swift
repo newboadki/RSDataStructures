@@ -41,7 +41,7 @@ struct EdgeNode<VertexKeyInfo: KeyValuePair, Weight: Comparable> {
 ///
 /// This implementaiton assumes that vertices are identified with Integers, this is to be able
 /// to efficiently and conviniently index them.
-struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph where VertexInfo.K == Int, VertexInfo.V == Int {    
+struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph where VertexInfo.K == Int, VertexInfo.V == Int {
     
     typealias Vertex = VertexInfo
     
@@ -60,7 +60,8 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph wher
     private(set) var maxCountOfVertices = 1000
     
     /// Adjancency info for all vertices
-    private var adjacencyList: [SinglyLinkedList<EdgeNode<VertexInfo, Int>>]
+    private var adjacencyList: Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<Vertex, Int>>>
+    
     
     
     /// Designated Initializer
@@ -86,9 +87,12 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph wher
     /// - Parameter vertex: Origin vertex.
     /// - Returns: An array of edges.
     /// - Complexity: O(N), where N is v's degree.
-    func adjacentVertices(of vertexIndex: Int) -> [VertexInfo] {
-        var vertices = [VertexInfo]()
-        let list = self.adjacencyList[vertexIndex]
+    func adjacentVertices(of vertexIndex: Vertex.K) -> [Vertex]? {
+        var vertices = [Vertex]()
+        
+        guard let list = self.adjacencyList[vertexIndex] else {
+            return nil
+        }
         
         for adjNode in list {
             vertices.append(adjNode.destination)
@@ -106,10 +110,24 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph wher
     /// - Returns: the cost of traversing the edge joining from and to vertices.
     public func weight(from: Vertex.K, to: Vertex.K) -> Int? {
         let fromVertexAdjacencyList = self.adjacencyList[from]
-        let searchResults = fromVertexAdjacencyList.filter { (edgeNode) -> Bool in
+        let searchResults = fromVertexAdjacencyList?.filter { (edgeNode) -> Bool in
             return edgeNode.destination.key == to
         }
-        return searchResults.first?.weight
+        return searchResults?.first?.weight
+    }
+    
+    /// Creates connections between origin and destination vertices
+    ///
+    /// - Parameters:
+    ///   - originVertex: The origin of the edge
+    ///   - destinationVertices: List of destination vertices
+    /// - Important: This method does not check for duplicates
+    public func addEdges(from originVertex: Vertex, to destinationVertices: [(Vertex, Weight)]) {
+        var list = self.adjacencyList[originVertex.key]
+        for destination in destinationVertices {
+            let node: EdgeNode<VertexInfo, Int> = EdgeNode(destinationVertexKey: destination.0, weight: destination.1)
+            list?.append(value: node)// Add support for optional weights
+        }
     }
 }
 
@@ -125,15 +143,23 @@ extension AdjacencyListGraph {
     ///   - vertices: array of vertices in the graph
     ///   - edges: array of edges in the graph
     /// - Returns: array of linked lists (adjacency list).
-    private static func adjacencyList(fromVertices vertices:[VertexInfo], andEdges edges:[(from: VertexInfo, to: VertexInfo, weight: Int)]) -> [SinglyLinkedList<EdgeNode<VertexInfo, Int>>] {
-        var array = [SinglyLinkedList<EdgeNode<VertexInfo, Int>>](repeating: SinglyLinkedList<EdgeNode<VertexInfo, Int>>(), count: vertices.count)
+    private static func adjacencyList(fromVertices vertices:[VertexInfo], andEdges edges:[(from: VertexInfo, to: VertexInfo, weight: Int)]) -> Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Int>>> {
+        
+        var hash = Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Int>>>()
         
         for edge in edges {
-            let edgeNode = EdgeNode<VertexInfo, Int>(destinationVertexKey: edge.to, weight: edge.weight)
-            array[edge.from.key].append(value: edgeNode)
+            let fromKey = edge.from.key
+            var linkedList = hash[fromKey]
+            let destinationNode = EdgeNode(destinationVertexKey: edge.to, weight: edge.weight)
+            if linkedList != nil {
+                linkedList!.append(value: destinationNode)
+            } else {
+                linkedList = SinglyLinkedList<EdgeNode<VertexInfo, Int>>(value: destinationNode)
+            }
+            hash[fromKey] = linkedList
         }
         
-        return array
+        return hash
     }
 }
 

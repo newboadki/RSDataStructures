@@ -234,42 +234,6 @@ public struct SinglyLinkedList<T>
         return false
     }
     
-    /// This is commented out becuase this solution for finding duplicates uses a set, which would
-    /// contrain type T to be hashable, preventing easy types of Linked lists like List<Int> or List<Float>
-    /// - Complexity: O(N)
-    /// - Abstract: Uses Additional space to keep track of already seen elements
-    /*public mutating func deleteDuplicates()
-    {
-        var visited = Set<T>()
-        var current = self.head
-        var previous: SinglyLinkedListNode<T>? = nil
-        
-        while (current != nil)
-        {
-            if (visited.contains((current?.value)!))
-            {
-                
-                if (self.head === current) {
-                    self.head = current?.next
-                }
-                
-                if (self.tail === current) {
-                    self.tail = previous
-                }
-                
-                // delete current node
-                previous?.next = current?.next
-                // we don't update the previous
-                self.endIndex = SinglyLinkedListIndex<T>(node: nil, tag: (self.endIndex.tag - 1))
-            }
-            else
-            {
-                visited.insert((current?.value)!)
-                previous = current
-            }
-            current = current?.next
-        }
-    }*/
 }
 
 
