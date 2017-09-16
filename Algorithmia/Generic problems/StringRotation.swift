@@ -28,7 +28,7 @@ extension String {
                 
                 if (k == 0 || k == -1)  {
                     let stringIndex = self.index(self.startIndex, offsetBy: i+1)
-                    return s2.contains(self.substring(from: stringIndex))
+                    return s2.contains(self[stringIndex...])
                 } else {
                     break
                 }
