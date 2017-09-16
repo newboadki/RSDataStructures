@@ -19,7 +19,7 @@ class AdjacencyListGraphTests: XCTestCase {
                      (from: p(3), to: p(4), weight: 20),
                      (from: p(3), to: p(5), weight: 2),
                      (from: p(4), to: p(5), weight: 20)]
-        let g = AdjacencyListGraph<IntegerPair>(vertices: vertices, edges:edges, directed: true)
+        let g = AdjacencyListGraph<IntegerPair, Int>(vertices: vertices, edges:edges, directed: true)
         let pq = BasicBinaryHeap<IntegerPair>(type: .min)
         var minPaths = [0: 0,
                         1: 999,
@@ -50,4 +50,38 @@ class AdjacencyListGraphTests: XCTestCase {
         XCTAssertTrue(result == expectation)
     }
     
+    func testAddEgdesIntType() {
+        let vertices = [p(5), p(17), p(3)]
+        let edges = [(IntegerPair, IntegerPair, Int)]()
+        var g = AdjacencyListGraph<IntegerPair, Int>(vertices: vertices, edges:edges, directed: true)
+        g.addEdges(from: p(17), to: [(p(5), 100)])
+        let v5_adjacents = g.adjacentVertices(of: 5)
+        let v17_adjacents = g.adjacentVertices(of: 17)
+        let v3_adjacents = g.adjacentVertices(of: 3)
+        
+        XCTAssertTrue(v17_adjacents?.count == 1)
+        XCTAssertTrue((v17_adjacents?.contains(p(5)))!)
+        XCTAssertNil(v5_adjacents)
+        XCTAssertNil(v3_adjacents)
+    }
+    
+    func testAddEgdesStringType() {
+        let vertices = [s("5"), s("17"), s("3")]
+        let edges = [(StringKeyedPair, StringKeyedPair, Int)]()
+        var g = AdjacencyListGraph<StringKeyedPair, Int>(vertices: vertices, edges:edges, directed: true)
+        g.addEdges(from: s("17"), to: [(s("5"), 100)])
+        let v5_adjacents = g.adjacentVertices(of: "5")
+        let v17_adjacents = g.adjacentVertices(of: "17")
+        let v3_adjacents = g.adjacentVertices(of: "3")
+        
+        XCTAssertTrue(v17_adjacents?.count == 1)
+        XCTAssertTrue((v17_adjacents?.contains(s("5")))!)
+        XCTAssertNil(v5_adjacents)
+        XCTAssertNil(v3_adjacents)
+    }
+
+}
+
+func s(_ key:String) -> StringKeyedPair {
+    return StringKeyedPair(key: key, value: 0)
 }

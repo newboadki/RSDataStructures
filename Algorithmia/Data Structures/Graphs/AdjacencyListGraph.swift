@@ -41,16 +41,17 @@ struct EdgeNode<VertexKeyInfo: KeyValuePair, Weight: Comparable> {
 ///
 /// This implementaiton assumes that vertices are identified with Integers, this is to be able
 /// to efficiently and conviniently index them.
-struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph where VertexInfo.K == Int, VertexInfo.V == Int {
-    
+struct AdjacencyListGraph<VertexInfo: KeyValuePair, WeightType: Summable> : Graph {
+        
     typealias Vertex = VertexInfo
+    typealias Weight = WeightType
     
     
     /// Vertices with which the graph was initialized
     public var vertices: [VertexInfo]
     
     /// Edges with which the graph was initialized
-    public var edges: [(from: VertexInfo, to: VertexInfo, weight: Int)]
+    public var edges: [(from: VertexInfo, to: VertexInfo, weight: Weight)]
     
     /// This is a convenience variable, since a directed gaph is really
     /// implemented here if (a->b) exists but (b->a) does not.
@@ -60,7 +61,7 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph wher
     private(set) var maxCountOfVertices = 1000
     
     /// Adjancency info for all vertices
-    private var adjacencyList: Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<Vertex, Int>>>
+    private var adjacencyList: Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<Vertex, Weight>>>
     
     
     
@@ -70,7 +71,7 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph wher
     ///   - vertices: Array of vertices.
     ///   - edges: Connections between vertices.
     ///   - directed: wether the edges have a direction of traversal.
-    init(vertices: [VertexInfo], edges: [(VertexInfo, VertexInfo, Int)], directed: Bool) {
+    init(vertices: [VertexInfo], edges: [(VertexInfo, VertexInfo, Weight)], directed: Bool) {
         self.vertices = vertices.sorted(by: { (p1, p2) -> Bool in
             p1.key < p2.key
         })
@@ -108,7 +109,7 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph wher
     ///   - from: Key of the origin vertex
     ///   - to: Key of the destination vertex
     /// - Returns: the cost of traversing the edge joining from and to vertices.
-    public func weight(from: Vertex.K, to: Vertex.K) -> Int? {
+    public func weight(from: Vertex.K, to: Vertex.K) -> Weight? {
         let fromVertexAdjacencyList = self.adjacencyList[from]
         let searchResults = fromVertexAdjacencyList?.filter { (edgeNode) -> Bool in
             return edgeNode.destination.key == to
@@ -116,17 +117,18 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair> : IntegerIndexableGraph wher
         return searchResults?.first?.weight
     }
     
+    
     /// Creates connections between origin and destination vertices
     ///
     /// - Parameters:
     ///   - originVertex: The origin of the edge
     ///   - destinationVertices: List of destination vertices
     /// - Important: This method does not check for duplicates
-    public func addEdges(from originVertex: Vertex, to destinationVertices: [(Vertex, Weight)]) {
-        var list = self.adjacencyList[originVertex.key]
+    public mutating func addEdges(from originVertex: Vertex, to destinationVertices: [(Vertex, Weight)]) {
+        
         for destination in destinationVertices {
-            let node: EdgeNode<VertexInfo, Int> = EdgeNode(destinationVertexKey: destination.0, weight: destination.1)
-            list?.append(value: node)// Add support for optional weights
+            AdjacencyListGraph.addEdge(from: originVertex, to: destination.0, with: destination.1, inDictionary: &self.adjacencyList)
+            self.edges.append((from: originVertex, to: destination.0, weight: destination.1))
         }
     }
 }
@@ -143,23 +145,33 @@ extension AdjacencyListGraph {
     ///   - vertices: array of vertices in the graph
     ///   - edges: array of edges in the graph
     /// - Returns: array of linked lists (adjacency list).
-    private static func adjacencyList(fromVertices vertices:[VertexInfo], andEdges edges:[(from: VertexInfo, to: VertexInfo, weight: Int)]) -> Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Int>>> {
+    private static func adjacencyList(fromVertices vertices:[VertexInfo], andEdges edges:[(from: VertexInfo, to: VertexInfo, weight: Weight)]) -> Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Weight>>> {
         
-        var hash = Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Int>>>()
+        var hash = Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Weight>>>()
         
         for edge in edges {
-            let fromKey = edge.from.key
-            var linkedList = hash[fromKey]
-            let destinationNode = EdgeNode(destinationVertexKey: edge.to, weight: edge.weight)
-            if linkedList != nil {
-                linkedList!.append(value: destinationNode)
-            } else {
-                linkedList = SinglyLinkedList<EdgeNode<VertexInfo, Int>>(value: destinationNode)
-            }
-            hash[fromKey] = linkedList
+            AdjacencyListGraph.addEdge(from: edge.from, to: edge.to, with: edge.weight, inDictionary: &hash)
         }
         
         return hash
+    }
+    
+    /// Creates a connection between two vertices, creating the list if necessary and a node in the list.
+    ///
+    /// - Parameters:
+    ///   - from: Origin vertex
+    ///   - to: Destination vertex
+    ///   - weight: Edge's weight
+    ///   - hash: inout dictionary of adjancecy to modify    
+    private static func addEdge(from origin: Vertex, to destination: Vertex, with weight: Weight, inDictionary hash: inout Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Weight>>>) {
+        var linkedList = hash[origin.key]
+        let destinationNode = EdgeNode(destinationVertexKey: destination, weight: weight)
+        if linkedList != nil {
+            linkedList!.append(value: destinationNode)
+        } else {
+            linkedList = SinglyLinkedList<EdgeNode<VertexInfo, Weight>>(value: destinationNode)
+        }
+        hash[origin.key] = linkedList
     }
 }
 

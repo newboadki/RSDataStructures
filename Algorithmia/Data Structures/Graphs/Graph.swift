@@ -8,13 +8,24 @@
 
 import Foundation
 
+/// Conformers of this type support the summation mathematic operation
+protocol Summable : Comparable {
+    static func +(lhs: Self, rhs: Self) -> Self
+}
+
+/// Represents the state of exploration of a graph vertex.
+enum VertexExplorationStatus {
+    case undiscovered
+    case discovered
+    case explored
+    case processed
+}
 
 /// A graph G = (V, E)  is a set of vertices V and set of connections between vertices, called edges.
 protocol Graph {
     
     associatedtype Vertex: KeyValuePair
-    associatedtype Weight: Comparable /* Operator '+' should be defined for type Weight */
-    
+    associatedtype Weight: Summable /* Operator '+' should be defined for type Weight */
     
     /// Array of vertices
     var vertices: [Vertex] {get}
@@ -66,7 +77,21 @@ protocol Graph {
     /// - Parameters:
     ///   - originVertex: The origin of the edge
     ///   - destinationVertices: List of destination vertices
-    func addEdges(from originVertex: Vertex, to destinationVertices: [(Vertex, Weight)])
+    mutating func addEdges(from originVertex: Vertex, to destinationVertices: [(Vertex, Weight)])
+    
+    
+    /// Returns a stack containing a topological sorting according to the implicit sorting of the vertices
+    ///
+    /// - Parameter graph: graph to be traversed
+    /// - Returns: a stack containing a topological sorting according to the implicit sorting of the vertices
+    func iterativeTopologicalSort(graph: Self) -> StackBasedOnLinkedList<Self.Vertex>?
+    
+    
+    /// Returns a stack containing a topological sorting according to the implicit sorting of the vertices
+    ///
+    /// - Parameter graph: graph to be traversed
+    /// - Returns: a stack containing a topological sorting according to the implicit sorting of the vertices
+    func recursiveTopologicalSort(graph: Self) -> StackBasedOnLinkedList<Self.Vertex>?    
 }
 
 
@@ -101,63 +126,23 @@ extension Graph {
         }
         return findings.first
     }
-}
-
-
-enum VertexExplorationStatus {
-    case undiscovered
-    case discovered
-    case explored
-    case processed
-}
-
-
-/// This is a convenience graph that guarantees vertex' keys will be integers.
-/// This restriction allows easy and efficient implementations. There are other ways to achieve
-/// it without constraining the type of the key. However we define it for simplicity.
-protocol IntegerIndexableGraph: Graph where Vertex.K == Int, Vertex.V == Int, Weight == Int {
     
     /// Returns a stack containing a topological sorting according to the implicit sorting of the vertices
     ///
     /// - Parameter graph: graph to be traversed
     /// - Returns: a stack containing a topological sorting according to the implicit sorting of the vertices
-    func iterativeTopologicalSort<G: IntegerIndexableGraph>(graph: G) -> StackBasedOnLinkedList<G.Vertex>?
-    
-    
-    /// Returns a stack containing a topological sorting according to the implicit sorting of the vertices
-    ///
-    /// - Parameter graph: graph to be traversed
-    /// - Returns: a stack containing a topological sorting according to the implicit sorting of the vertices
-    func recursiveTopologicalSort<G: IntegerIndexableGraph>(graph: G) -> StackBasedOnLinkedList<G.Vertex>?
-    
-    
-    /// Default implementation follows Dijkstra algorithm
-    func shortestPath(from: Vertex, to: Vertex,
-                      minPaths:inout Dictionary<Vertex.K, Int>,
-                      parent: inout Dictionary<Vertex.K, Vertex.K>,
-                      priorityQueue: BasicBinaryHeap<Vertex>,
-                      result: inout [Vertex.K])
-}
-
-
-
-// MARK: Topological sorting algorithms
-
-extension IntegerIndexableGraph {
-    
-    /// Returns a stack containing a topological sorting according to the implicit sorting of the vertices
-    ///
-    /// - Parameter graph: graph to be traversed
-    /// - Returns: a stack containing a topological sorting according to the implicit sorting of the vertices
-    func iterativeTopologicalSort<G: IntegerIndexableGraph>(graph: G) -> StackBasedOnLinkedList<G.Vertex>? {
+    func iterativeTopologicalSort(graph: Self) -> StackBasedOnLinkedList<Self.Vertex>? {
         
-        var status = [VertexExplorationStatus](repeating: .undiscovered, count: graph.vertices.count)
-        let stack = StackBasedOnLinkedList<G.Vertex>()
-      
+        var status = Dictionary<Self.Vertex.K, VertexExplorationStatus>()
+        status.populate(keys: graph.vertices.map({ (vertex) -> Vertex.K in
+            vertex.key
+        }), repeating: .undiscovered)
+        let stack = StackBasedOnLinkedList<Self.Vertex>()
+        
         // We repeat the algorightm for each undiscovered node, because the graph could be disconnected.
-        for i in 0..<graph.vertexCount {
-            if status[i] == .undiscovered {
-                let success = iterativeTopologicalSortSingleNode(graph: graph, initialVertex: graph.vertex(withIndex: i)!, stack: stack, status: &status)
+        for vertex in graph.vertices {
+            if status[vertex.key] == .undiscovered {
+                let success = iterativeTopologicalSortSingleNode(graph: graph, initialVertex: graph.vertex(withIndex: vertex.key)!, stack: stack, status: &status)
                 if !success {
                     return nil
                 }
@@ -176,58 +161,57 @@ extension IntegerIndexableGraph {
     ///   - stack: this will contain the results of a topological sort starting at the initialVertex
     ///   - status: each node can be .undiscovered, .discovered, .explored and .processed
     /// - Returns: A boolean indicating the success of the operation. False can mean that it's not a DAG or that loops where found.
-    func iterativeTopologicalSortSingleNode<G: IntegerIndexableGraph, S: Stack>(graph: G, initialVertex: G.Vertex, stack: S, status: inout [VertexExplorationStatus]) -> Bool where S.Item == G.Vertex {
+    func iterativeTopologicalSortSingleNode<S: Stack>(graph: Self, initialVertex: Self.Vertex, stack: S, status: inout Dictionary<Self.Vertex.K, VertexExplorationStatus>) -> Bool where S.Item == Self.Vertex {
         
         guard graph.directed == true else {
             return false
         }
         
-        let explorationStack = StackBasedOnLinkedList<G.Vertex>()
+        let explorationStack = StackBasedOnLinkedList<Self.Vertex>()
         
         status[initialVertex.key] = .discovered
         explorationStack.push(item: initialVertex)
         
-        while let current = explorationStack.peek() {
-            switch status[current.key] {
-                case .discovered:
-                    // Discovered means that the node has been added to the explorationStack as part of
-                    // its parent exploring it's children.
-                    // We need to explore discovered vertices
-                    let adjacentVertices = self.adjacentVertices(of: current.key)
-                    if  adjacentVertices != nil {
-                        for adjacent in adjacentVertices! {
-                            if (status[adjacent.key] != .processed) && (status[adjacent.key] != .undiscovered) {
-                                // Cycle found. Topological sorting will only work on DAGs.
-                                return false
-                            }
-                            
-                            if (status[adjacent.key] != .processed) && (status[adjacent.key] != .explored) {
-                                status[adjacent.key] = .discovered
-                                let v = adjacent as! G.Vertex
-                                explorationStack.push(item: v)
-                            }
+        while let current = explorationStack.peek(), let state = status[current.key] {
+            switch state {
+            case .discovered:
+                // Discovered means that the node has been added to the explorationStack as part of
+                // its parent exploring it's children.
+                // We need to explore discovered vertices
+                let adjacentVertices = self.adjacentVertices(of: current.key)
+                if  adjacentVertices != nil {
+                    for adjacent in adjacentVertices! {
+                        if (status[adjacent.key] != .processed) && (status[adjacent.key] != .undiscovered) {
+                            // Cycle found. Topological sorting will only work on DAGs.
+                            return false
+                        }
+                        
+                        if (status[adjacent.key] != .processed) && (status[adjacent.key] != .explored) {
+                            status[adjacent.key] = .discovered
+                            explorationStack.push(item: adjacent)
                         }
                     }
-                    status[current.key] = .explored
-                    break
+                }
+                status[current.key] = .explored
+                break
                 
-                case .explored:
-                    // A vertex is explored when all its adjacent nodes have been processed.
-                    // We find explored vertices the second time we come back after finishing the children.
-                    status[current.key] = .processed
-                    _ = explorationStack.pop()
-                    stack.push(item: current)
-                    break
+            case .explored:
+                // A vertex is explored when all its adjacent nodes have been processed.
+                // We find explored vertices the second time we come back after finishing the children.
+                status[current.key] = .processed
+                _ = explorationStack.pop()
+                stack.push(item: current)
+                break
                 
-                case .processed:
-                    // Because we iterate, we add things to the stack, that might be re-added through
-                    // a different path if a cycle is found. by the time we find the vertex again,
-                    // the status should be processed and there's nothing to do other than removing it.
-                    _ = explorationStack.pop()
-                    break
+            case .processed:
+                // Because we iterate, we add things to the stack, that might be re-added through
+                // a different path if a cycle is found. by the time we find the vertex again,
+                // the status should be processed and there's nothing to do other than removing it.
+                _ = explorationStack.pop()
+                break
                 
-                default:
-                    break
+            default:
+                break
             }
         }
         return true
@@ -238,15 +222,18 @@ extension IntegerIndexableGraph {
     ///
     /// - Parameter graph: graph to be traversed
     /// - Returns: a stack containing a topological sorting according to the implicit sorting of the vertices
-    func recursiveTopologicalSort<G: IntegerIndexableGraph>(graph: G) -> StackBasedOnLinkedList<G.Vertex>? {
+    func recursiveTopologicalSort(graph: Self) -> StackBasedOnLinkedList<Self.Vertex>? {
         
-        var status = [VertexExplorationStatus](repeating: .undiscovered, count: graph.vertices.count)
-        let stack = StackBasedOnLinkedList<G.Vertex>()
-      
+        var status = Dictionary<Self.Vertex.K, VertexExplorationStatus>()
+        status.populate(keys: graph.vertices.map({ (vertex) -> Vertex.K in
+            vertex.key
+        }), repeating: .undiscovered)
+        let stack = StackBasedOnLinkedList<Self.Vertex>()
+        
         // We repeat the algorightm for each undiscovered node, because the graph could be disconnected.
-        for i in 0..<graph.vertexCount {
-            if status[i] == .undiscovered {
-                let success = recursiveTopologicalSortSingleNode(graph: graph, initialVertex: graph.vertex(withIndex: i)!, stack: stack, status: &status)
+        for vertex in graph.vertices {
+            if status[vertex.key] == .undiscovered {
+                let success = recursiveTopologicalSortSingleNode(graph: graph, initialVertex: graph.vertex(withIndex: vertex.key)!, stack: stack, status: &status)
                 if !success {
                     return nil
                 }
@@ -265,7 +252,7 @@ extension IntegerIndexableGraph {
     ///   - stack: this will contain the results of a topological sort starting at the initialVertex
     ///   - status: each node can be .undiscovered, .discovered, .explored and .processed
     /// - Returns: A topological sorting of the graph. Nil if the graph is not directed or contains cycles.
-    func recursiveTopologicalSortSingleNode<G: IntegerIndexableGraph, S: Stack>(graph: G, initialVertex: G.Vertex, stack: S, status: inout [VertexExplorationStatus]) -> Bool where S.Item == G.Vertex {
+    func recursiveTopologicalSortSingleNode<S: Stack>(graph: Self, initialVertex: Self.Vertex, stack: S, status: inout Dictionary<Self.Vertex.K, VertexExplorationStatus>) -> Bool where S.Item == Self.Vertex {
         
         status[initialVertex.key] = .discovered
         
@@ -291,11 +278,7 @@ extension IntegerIndexableGraph {
     }
 }
 
-
-
-// MARK: Shortest path algorithms
-
-extension IntegerIndexableGraph {
+extension Graph where Vertex.K == Vertex.V, Vertex.K == Weight {
     
     /// Default implementation follows Dijkstra algorithm.
     ///
@@ -317,11 +300,11 @@ extension IntegerIndexableGraph {
     ///    - the queue-element's VALUE is the IDENTIFIER of the vertex
     ///    => graph-element.KEY == queue-element.VALUE (VERTEX IDENTIFIER)
     ///    => graph-element.VALUE == queue-element.KEY (PRIORITY)
-    func shortestPath(from: Vertex, to: Vertex,
-                      minPaths:inout Dictionary<Vertex.K, Int>,
-                      parent: inout Dictionary<Vertex.K, Vertex.K>,
-                      priorityQueue: BasicBinaryHeap<Vertex>,
-                      result: inout [Vertex.K]) {
+    func shortestPath(from: Self.Vertex, to: Self.Vertex,
+                      minPaths:inout Dictionary<Self.Vertex.K, Weight>,
+                      parent: inout Dictionary<Self.Vertex.K, Self.Vertex.K>,
+                      priorityQueue: BasicBinaryHeap<Self.Vertex>,
+                      result: inout [Self.Vertex.K]) {
         
         // Algorithm
         while let current = priorityQueue.dequeue() {
@@ -346,3 +329,15 @@ extension IntegerIndexableGraph {
         result.append(from.key)
     }
 }
+
+
+
+extension Dictionary {
+    
+    mutating func populate(keys: [Key], repeating value: Value) {
+        for key in keys {
+            self[key] = value
+        }
+    }
+}
+

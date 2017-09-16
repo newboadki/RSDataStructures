@@ -69,18 +69,3 @@ extension KeyValuePair {
         return lhs.key > rhs.key
     }
 }
-
-
-
-/// Concrete impletation of a KeyValuePair where  both the key and the value
-/// are Integers.
-struct IntegerPair : KeyValuePair {
-    
-    // MARK - KeyValuePair protocol
-    var key : Int
-    var value : Int
-    
-    func copy() -> IntegerPair {
-        return IntegerPair(key: self.key, value: self.value)
-    }
-}

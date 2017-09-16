@@ -17,7 +17,7 @@ class IterativeTopologiacalSortingTests: XCTestCase {
                      (from: p(1), to: p(3), weight: 0),
                      (from: p(3), to: p(4), weight: 0),
                      (from: p(3), to: p(5), weight: 0)]
-        let g = AdjacencyListGraph<IntegerPair>(vertices: vertices, edges:edges, directed: true)
+        let g = AdjacencyListGraph<IntegerPair, Int>(vertices: vertices, edges:edges, directed: true)
         let result = g.iterativeTopologicalSort(graph: g)
         
         let expectation = [0,1,3,4,5,2]
@@ -34,7 +34,7 @@ class IterativeTopologiacalSortingTests: XCTestCase {
                      (from: p(3), to: p(5), weight: 0),
                      (from: p(3), to: p(0), weight: 0)]
         
-        let g = AdjacencyListGraph<IntegerPair>(vertices: vertices, edges:edges, directed: true)
+        let g = AdjacencyListGraph<IntegerPair, Int>(vertices: vertices, edges:edges, directed: true)
         let result = g.iterativeTopologicalSort(graph: g)
         XCTAssertNil(result)
     }
@@ -47,7 +47,7 @@ class IterativeTopologiacalSortingTests: XCTestCase {
                      (from: p(3), to: p(4), weight: 0),
                      (from: p(3), to: p(5), weight: 0),
                      (from: p(7), to: p(6), weight: 0)]
-        let g = AdjacencyListGraph<IntegerPair>(vertices: vertices, edges:edges, directed: true)
+        let g = AdjacencyListGraph<IntegerPair, Int>(vertices: vertices, edges:edges, directed: true)
         let result = g.iterativeTopologicalSort(graph: g)
         
         let expectation = [8,7,6,0,1,3,4,5,2]
@@ -66,7 +66,7 @@ class RecursiveTopologiacalSortingTests: XCTestCase {
                      (from: p(1), to: p(3), weight: 0),
                      (from: p(3), to: p(4), weight: 0),
                      (from: p(3), to: p(5), weight: 0)]
-        let g = AdjacencyListGraph<IntegerPair>(vertices: vertices, edges:edges, directed: true)
+        let g = AdjacencyListGraph<IntegerPair, Int>(vertices: vertices, edges:edges, directed: true)
         let result = g.recursiveTopologicalSort(graph: g)
         
         let expectation = [0,2,1,3,5,4]
@@ -83,7 +83,7 @@ class RecursiveTopologiacalSortingTests: XCTestCase {
                      (from: p(3), to: p(5), weight: 0),
                      (from: p(3), to: p(0), weight: 0)]
         
-        let g = AdjacencyListGraph<IntegerPair>(vertices: vertices, edges:edges, directed: true)
+        let g = AdjacencyListGraph<IntegerPair, Int>(vertices: vertices, edges:edges, directed: true)
         let result = g.recursiveTopologicalSort(graph: g)
         
         XCTAssertNil(result)
@@ -97,7 +97,7 @@ class RecursiveTopologiacalSortingTests: XCTestCase {
                      (from: p(3), to: p(4), weight: 0),
                      (from: p(3), to: p(5), weight: 0),
                      (from: p(7), to: p(6), weight: 0)]
-        let g = AdjacencyListGraph<IntegerPair>(vertices: vertices, edges:edges, directed: true)
+        let g = AdjacencyListGraph<IntegerPair, Int>(vertices: vertices, edges:edges, directed: true)
         let result = g.recursiveTopologicalSort(graph: g)
         
         let expectation = [8,7,6,0,2,1,3,5,4]
