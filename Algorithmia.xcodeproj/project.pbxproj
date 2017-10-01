@@ -67,7 +67,6 @@
 		00BBA4E11EA63A1200E26C3A /* BoyerMooreAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4DB1EA4049200E26C3A /* BoyerMooreAlgorithm.swift */; };
 		00BBA4E31EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */; };
 		00BBA4E51EACF10800E26C3A /* AreCharactersUnique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */; };
-		00D59FBA1F01A71F00220897 /* BucketSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D59FB91F01A71F00220897 /* BucketSort.swift */; };
 		00DE02481F6CFA86000C5B0E /* Int+Summable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DE02471F6CFA86000C5B0E /* Int+Summable.swift */; };
 		00DE024A1F6D0A50000C5B0E /* KeyValuePairsConcreteTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DE02491F6D0A50000C5B0E /* KeyValuePairsConcreteTypes.swift */; };
 		00E466131EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E466121EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift */; };
@@ -154,7 +153,6 @@
 		00BBA4DF1EA639DA00E26C3A /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		00BBA4E21EA63CC800E26C3A /* BoyerMooreAlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoyerMooreAlgorithmTests.swift; sourceTree = "<group>"; };
 		00BBA4E41EACF10800E26C3A /* AreCharactersUnique.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreCharactersUnique.swift; sourceTree = "<group>"; };
-		00D59FB91F01A71F00220897 /* BucketSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketSort.swift; sourceTree = "<group>"; };
 		00DE02471F6CFA86000C5B0E /* Int+Summable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Summable.swift"; sourceTree = "<group>"; };
 		00DE02491F6D0A50000C5B0E /* KeyValuePairsConcreteTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValuePairsConcreteTypes.swift; sourceTree = "<group>"; };
 		00E466121EBE5FF9009BFD2C /* SampleProtocolsWithAssociatedTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleProtocolsWithAssociatedTypes.swift; sourceTree = "<group>"; };
@@ -305,7 +303,6 @@
 				0078707F1EEF4CB8002514CB /* exchange_sort.c */,
 				007870821EEF4CB8002514CB /* insertion_sort.h */,
 				007870811EEF4CB8002514CB /* insertion_sort.c */,
-				00D59FB91F01A71F00220897 /* BucketSort.swift */,
 				007870831EEF4CB8002514CB /* main.c */,
 			);
 			path = Sorting;
@@ -549,7 +546,6 @@
 				007870A41EF00B72002514CB /* SinglyThreadedBinarySearchTreeTests.swift in Sources */,
 				00BBA4E51EACF10800E26C3A /* AreCharactersUnique.swift in Sources */,
 				0017C9D61EB31B9C00E5E749 /* SmallDifference.swift in Sources */,
-				00D59FBA1F01A71F00220897 /* BucketSort.swift in Sources */,
 				00140EF51EB61D3D00992C1B /* StringRotationTests.swift in Sources */,
 				007870A31EF00B72002514CB /* RedBlackBinarySearchTreeTests.swift in Sources */,
 				007870791EEF49A2002514CB /* PriorityQueue.swift in Sources */,

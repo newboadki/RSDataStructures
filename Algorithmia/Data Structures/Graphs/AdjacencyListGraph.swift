@@ -81,6 +81,16 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair, WeightType: Summable> : Grap
     }
     
     
+    /// Convenience initializer
+    /// Creates an empty graph
+    init() {
+        self.edges = [(from: VertexInfo, to: VertexInfo, weight: Weight)]()
+        self.vertices = [VertexInfo]()
+        self.adjacencyList = Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Weight>>>()
+        self.directed = false
+    }
+    
+    
     /// Given a vertex v, its adjacent vertices are those such that:
     /// - Have an edge connecting them in undirected graphs.
     /// - Have a outgoing edge from v to the other vertix.
