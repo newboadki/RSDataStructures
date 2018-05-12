@@ -9,7 +9,7 @@
 import Foundation
 
 
-/// Binary trees are connected acyclic graphs with each node have 0 to 2 nodes.
+/// Binary trees are connected acyclic graphs with each node having between 0 to 2 nodes.
 protocol BinaryTree : Equatable {
     
     associatedtype Item : KeyValuePair
