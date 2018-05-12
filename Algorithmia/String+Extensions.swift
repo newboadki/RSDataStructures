@@ -32,8 +32,8 @@ extension String {
     }
     
     func character(at index: Int) -> Character {
-        let stringIndex = self.characters.index(self.startIndex, offsetBy: index)
-        return self.characters[stringIndex]
+        let stringIndex = self.index(self.startIndex, offsetBy: index)
+        return self[stringIndex]
     }
     
     mutating func insert(at index: Int, value: Character) {

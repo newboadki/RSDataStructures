@@ -10,8 +10,8 @@ import Foundation
 
 func differentBy0Or1(s1: String, s2: String) -> Bool {
     
-    let l1 = s1.characters.count
-    let l2 = s2.characters.count
+    let l1 = s1.count
+    let l2 = s2.count
     
     if (abs(l1 - l2) > 1) {
         return false
@@ -23,7 +23,7 @@ func differentBy0Or1(s1: String, s2: String) -> Bool {
     var largerIndex = 0
     var foundDiff = false
     
-    while (shorterIndex < shorter.characters.count && largerIndex < larger.characters.count) {
+    while (shorterIndex < shorter.count && largerIndex < larger.count) {
         
         if (shorter.unicodeScalarValue(at: shorterIndex) != larger.unicodeScalarValue(at: largerIndex)) {
             if (foundDiff) {

@@ -11,8 +11,8 @@ import Foundation
 func findOccurrences(of pattern: String, in text: String, base: Int, primeNumber q: Int) -> [Int] {
     
     var occurrences = [Int]()
-    let n = text.characters.count
-    let m = pattern.characters.count
+    let n = text.count
+    let m = pattern.count
     
     guard (m <= n) else {
         return [Int]()
@@ -52,7 +52,7 @@ func findOccurrences(of pattern: String, in text: String, base: Int, primeNumber
 }
 
 func check(pattern: String, text: String, start: Int) -> Bool {
-    let m = pattern.characters.count
+    let m = pattern.count
     var result = true
     
     for i in 0...(m - 1) {

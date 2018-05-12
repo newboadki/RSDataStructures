@@ -13,13 +13,13 @@ extension String {
     
     func isRotation(of s2: String) -> Bool {
         
-        guard (self.characters.count == s2.characters.count) else {
+        guard (self.count == s2.count) else {
             return false
         }
         
-        for i in 0..<self.characters.count {
-            if (self.unicodeScalarValue(at: i) == s2.unicodeScalarValue(at: s2.characters.count-1)) {
-                let offset = (self.characters.count - 1 - i)
+        for i in 0..<self.count {
+            if (self.unicodeScalarValue(at: i) == s2.unicodeScalarValue(at: s2.count-1)) {
+                let offset = (self.count - 1 - i)
                 var k = i-1
                 
                 while (k >= 0) && (self.unicodeScalarValue(at: k) == s2.unicodeScalarValue(at: k+offset)) {

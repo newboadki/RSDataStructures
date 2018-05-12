@@ -11,13 +11,13 @@ import Foundation
 func areCharactersUnique(string: String) -> Bool {
 
     // We assume that the string uses ASCII encoding (vocabulary has 128 characters)
-    guard string.characters.count <= 128  else {
+    guard string.count <= 128  else {
         return false
     }
     
     var bitVector: Int = 0
     
-    for i in 0..<string.characters.count {
+    for i in 0..<string.count {
         
         let value = string.unicodeScalarValue(at: i) - "a".unicodeScalarValue(at: 0)
         let mask = (1 << value)

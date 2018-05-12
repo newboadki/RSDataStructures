@@ -19,7 +19,7 @@ func isPermutationOfPalindrome(str: String) -> Bool {
     // Counts the number of times
     var oddCount: Int = 0
     
-    for c in str.characters {
+    for c in str {
         
         
         if let charCount = h[c] {
@@ -48,7 +48,7 @@ func isPermutationOfPalindrome2(str: String) -> Bool {
     // A bit in a position i starting from the right means that the character with scalar value 'i' has ocurred an event amount of times
     var evenFrequenciesVector: Int = 0
     
-    for i in 0..<str.characters.count {
+    for i in 0..<str.count {
         let value = str.unicodeScalarValue(at: i) - "a".unicodeScalarValue(at: 0) // Simplification to reduce the size the int, so that we dont need more than 1 int
         let mask = (1 << value)
         if ((evenFrequenciesVector & mask) == 0 ) {

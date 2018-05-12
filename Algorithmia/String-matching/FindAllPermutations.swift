@@ -20,10 +20,10 @@ import Foundation
 func findAllPermutations(of pattern: String, in text: String) -> [Int] {
     
     // Size of the Text
-    let n = text.characters.count
+    let n = text.count
     
     // Size of the pattern
-    let m = pattern.characters.count
+    let m = pattern.count
     
     // Array where to store the results
     var occurrences = [Int]()
@@ -56,16 +56,16 @@ fileprivate func calculateFrequenciesOfCharacters(in string: String, startIndex:
         return nil
     }
     
-    guard (endIndex < string.characters.count) else {
+    guard (endIndex < string.count) else {
         return nil
     }
     
-    guard (startIndex < string.characters.count) else {
+    guard (startIndex < string.count) else {
         return nil
     }
     
     var frequencies = Dictionary<Character, Int>()
-    let characters = string.characters
+    let characters = string
     let startStringIndex = characters.index(string.startIndex, offsetBy: startIndex)
     let endStringIndex = characters.index(string.startIndex, offsetBy: endIndex)
     
@@ -79,13 +79,13 @@ fileprivate func calculateFrequenciesOfCharacters(in string: String, startIndex:
 
 fileprivate func updateCharacterFrequencies(dictionary: inout Dictionary<Character, Int>, string: String, startIndex: Int, windowLength: Int) {
     
-    let characters = string.characters
+    let characters = string
     let previousIndex = characters.index(string.startIndex, offsetBy: (startIndex - 1))
-    let previousCharacter = string.characters[previousIndex]
+    let previousCharacter = string[previousIndex]
     updateFrequency(of: previousCharacter, in: &dictionary, operationType: .decrement)
     
     let nextIndex = characters.index(string.startIndex, offsetBy: (startIndex + windowLength - 1))
-    let nextCharacter = string.characters[nextIndex]
+    let nextCharacter = string[nextIndex]
     updateFrequency(of: nextCharacter, in: &dictionary, operationType: .increment)
 }
 

@@ -16,8 +16,8 @@ struct BoyerMooreAlgorithm {
         
         // 1. Calculate skip table
         var right = BoyerMooreAlgorithm.skipTable(of: pattern, in: text, vocabularyRadix: vocabularyRadix)
-        let n = text.characters.count
-        let m = pattern.characters.count
+        let n = text.count
+        let m = pattern.count
         
         // 2. Check for easy negatives
         guard (n >= m) else {
@@ -56,7 +56,7 @@ struct BoyerMooreAlgorithm {
     /// - Returns: <#return value description#>
     static func skipTable(of pattern: String, in text: String, vocabularyRadix: Int) -> [Int] {
         var skipTable = Array<Int>(repeating: -1, count: vocabularyRadix)
-        let m = pattern.characters.count
+        let m = pattern.count
         
         for i in 0..<m {
             let index = pattern.unicodeScalarValue(at: i)
@@ -74,8 +74,8 @@ struct BoyerMooreAlgorithm {
         
         // 1. Calculate skip table
         var right = BoyerMooreAlgorithm.skipTable(of: pattern, in: text, vocabularyRadix: vocabularyRadix)
-        let n = text.characters.count
-        let m = pattern.characters.count
+        let n = text.count
+        let m = pattern.count
         
         // 2. Check for easy negatives
         guard (n >= m) else {
