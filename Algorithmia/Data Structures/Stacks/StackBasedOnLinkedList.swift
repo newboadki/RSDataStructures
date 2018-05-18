@@ -8,25 +8,29 @@
 
 import Foundation
 
-open class StackBasedOnLinkedList<T> : Stack
+public class StackBasedOnLinkedList<T> : Stack
 {
-    typealias Item = T
+    public typealias Item = T
     
     /// Internal data structure
-    internal var list = SinglyLinkedList<T>()
+    private var list = SinglyLinkedList<T>()
 
+    public init()
+    {
+        
+    }
     
     /// Adds a new element in Last In First Out order
     ///
     /// - Parameter item: new element to be added
-    func push(item: Item)
+    public func push(item: Item)
     {
         self.list.prepend(value: item)
     }
     
     
     /// Removes and returns the item at the top of the stack
-    func pop() -> Item?
+    public func pop() -> Item?
     {
         guard (self.list.count > 0) else {
             return nil
@@ -36,12 +40,12 @@ open class StackBasedOnLinkedList<T> : Stack
     }
     
     /// Returns without removing the item at the top of the stack
-    func peek() -> Item?
+    public func peek() -> Item?
     {
         return self.list.first
     }
     
-    func count() -> Int {
+    public func count() -> Int {
         return self.list.count
     }
 }

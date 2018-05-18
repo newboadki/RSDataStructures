@@ -10,7 +10,7 @@ import Foundation
 
 
 /// Binary trees are connected acyclic graphs with each node having between 0 to 2 nodes.
-protocol BinaryTree : Equatable {
+public protocol BinaryTree : Equatable {
     
     associatedtype Item : KeyValuePair
     
@@ -125,7 +125,7 @@ extension BinaryTree {
     /// - Parameter tree: The tree to be traversed.
     /// - Returns: An array of arrays, ech of which contains the keys of the nodes that make up the path.
     /// - Complexity: O(N * log_2(N)). As a very basic explanation, each path has log_2(N) nodes (at worst, in a perfect binary tree). There are N leaves. The cost of printing all paths is #(paths) * cost(printing_a_path) => N * log_2(N).
-    func pathsFromRootToLeaves<C: Comparable, T: BinaryTree>(tree: T?) -> [[C]] {
+    public func pathsFromRootToLeaves<C: Comparable, T: BinaryTree>(tree: T?) -> [[C]] {
         
         /// Enumerates the keys in a path to create the array that represents that path
         ///
@@ -185,7 +185,7 @@ extension BinaryTree {
     /// - Returns: The legth of the longest root to leaf path
     /// - Complexity: O(N).
     /// - Discussion: The height of the root is considered to be 1.
-    func maximumHeight() -> Int {
+    public func maximumHeight() -> Int {
         
         // Consider empty trees
         guard !self.isEmpty() else {
@@ -208,7 +208,7 @@ extension BinaryTree {
     /// number from 0 to 2 children, both inclusive.
     ///
     /// - Returns: The number of children nodes.
-    func numberOfChildren() -> Int {
+    public func numberOfChildren() -> Int {
         if self.leftChild != nil && self.rightChild != nil {
             return 2
         } else if (self.leftChild != nil) || (self.rightChild != nil) {
@@ -221,7 +221,7 @@ extension BinaryTree {
     /// A tree is said to be empty if the root's node does not contain a value and does not have any children.
     ///
     /// - Returns: true if the tree is empty.
-    func isEmpty() -> Bool {
+    public func isEmpty() -> Bool {
         return (self.item == nil) && (self.numberOfChildren() == 0)
     }
     
@@ -231,7 +231,7 @@ extension BinaryTree {
     ///
     /// - Returns: True if the tree is balanced.
     /// - Complexity: time: O(N), where N is the count of elements, space: O(H), where H is the height of the tree.
-    func isBalanced() -> Bool {
+    public func isBalanced() -> Bool {
         return (self.checkHeight() != nil)
     }
     
@@ -276,7 +276,7 @@ extension BinaryTree {
     ///
     /// - Returns: True if it is a binary search tree
     /// - Discussion: Empty trees are considered not to be BST.
-    func isBinarySearchTree() -> Bool {
+    public func isBinarySearchTree() -> Bool {
         return self.checkIsBinarySearchTree(min: nil, max: nil)
     }
     
@@ -323,7 +323,7 @@ extension BinarySearchTree {
     /// - Parameter key: The key to look for in the tree.
     /// - Returns: A tree where the root is a node with the sought key or nil if the key was not found.
     /// - Complexity: O(ln n)
-    func search(key: Item.K) -> Self? {
+    public func search(key: Item.K) -> Self? {
         
         // If the tree is empty fail the search
         guard self.item != nil else {
@@ -346,7 +346,7 @@ extension BinarySearchTree {
     ///
     /// - Returns: The left-most leave of the tree, which has the minimum value as its node's key
     /// - Complexity: O(log N), with N being the number of nodes in the tree.
-    func minimum() -> Self? {
+    public func minimum() -> Self? {
         var min : Self? = self
         while (min?.leftChild != nil) {
             min = min?.leftChild
@@ -359,7 +359,7 @@ extension BinarySearchTree {
     ///
     /// - Returns: The right most leave of the tree, which has the maximum value as its node's key
     /// - Complexity: O(log N), with N being the number of nodes in the tree.
-    func maximum() -> Self? {
+    public func maximum() -> Self? {
         
         var max : Self? = self
         while (max?.rightChild != nil) {
@@ -375,11 +375,11 @@ extension BinarySearchTree {
 ///  - All levels have all possible nodes
 ///  - Only the last level can have missing nodes, but the are filled from left to right.
 /// Conforming classes must guarantee the invariant is kept at all times.
-protocol CompleteBinaryTree : BinaryTree {
+public protocol CompleteBinaryTree : BinaryTree {
     
 }
 
-extension CompleteBinaryTree {
+public extension CompleteBinaryTree {
 
     /// The legth of the longest root to leaf path
     ///
@@ -399,7 +399,7 @@ extension CompleteBinaryTree {
     }
 }
 
-extension CompleteBinaryTree where Self : TraversableBinaryTree {
+public extension CompleteBinaryTree where Self : TraversableBinaryTree {
     
     /// - Returns: The node the first node that still has space to allocate a child according to the invariant that a
     ///   Balanced Binary Tree defines all levels full, except the last one, which is filled from left to right.
@@ -427,13 +427,13 @@ extension CompleteBinaryTree where Self : TraversableBinaryTree {
 /// Conformers of this class must guarantee that left and right children are not being reused when nil to encode information.
 /// For example, some implementations of binary trees replace nil right children to point to the successor. Those kinds of
 /// implementations are not considered Traversable becuause basic traversal algorithms would fail on that structure.
-protocol TraversableBinaryTree : BinaryTree, Sequence {
+public protocol TraversableBinaryTree : BinaryTree, Sequence {
     
     var iterator : AnyIterator<Item>? {get set}
 }
 
 
-extension TraversableBinaryTree {
+public extension TraversableBinaryTree {
     
     public func makeIterator() -> AnyIterator<Item> {
         if let existingIterator = self.iterator {
@@ -444,7 +444,7 @@ extension TraversableBinaryTree {
         
     }
     
-    fileprivate func defaultIterator() -> AnyIterator<Item> {
+    private func defaultIterator() -> AnyIterator<Item> {
         return inOrderTraversalIterator(tree: self)
     }
 

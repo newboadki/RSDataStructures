@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol Stack /*, Sequence */{
+public protocol Stack /*, Sequence */{
     
     associatedtype Item
     
@@ -24,11 +24,11 @@ protocol Stack /*, Sequence */{
     func count() -> Int
 }
 
-enum StackPeekType {
+public enum StackPeekType {
     case min, max
 }
 
-extension Stack {
+public extension Stack {
     
     var isEmpty: Bool {
         get {
@@ -37,7 +37,7 @@ extension Stack {
     }
 }
 
-protocol MinMaxPeekStack : Stack {
+public protocol MinMaxPeekStack : Stack {
  
     var type: StackPeekType {get}
     

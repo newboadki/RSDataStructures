@@ -8,21 +8,21 @@
 
 import Foundation
 
-enum RedBlackTreeColor {
+public enum RedBlackTreeColor {
     case black
     case red
 }
 
-final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree, TraversableBinaryTree {
+public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree, TraversableBinaryTree {
     
     // MARK: From BinaryTree protocol
-    typealias Item = T
+    public typealias Item = T
     
-    var leftChild : RedBlackBinarySearchTree<T>?
+    public var leftChild : RedBlackBinarySearchTree<T>?
     
-    var rightChild : RedBlackBinarySearchTree<T>?
+    public var rightChild : RedBlackBinarySearchTree<T>?
     
-    var item : T?
+    public var item : T?
     
     /// TODO: Implement
     public var parent :RedBlackBinarySearchTree<T>?
@@ -30,7 +30,7 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree, Traver
     // MARK: From TrversableTree protocol
     /// Traversable binary trees accept an interator to enumerate its elements.
     /// By default this class provides an in-order iterator.
-    var iterator: AnyIterator<T>?
+    public var iterator: AnyIterator<T>?
     
     
     // MARK: Specific to Red Black trees.
@@ -130,7 +130,7 @@ final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree, Traver
     }
     
     
-    func delete(elementWithKey key: T.K) -> Bool {
+    public func delete(elementWithKey key: T.K) -> Bool {
         return false
     }
 

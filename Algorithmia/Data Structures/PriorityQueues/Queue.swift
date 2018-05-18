@@ -10,7 +10,7 @@ import Foundation
 
 
 /// Data structure that provides FIFO access
-protocol Queue
+public protocol Queue
 {
     associatedtype Item
     

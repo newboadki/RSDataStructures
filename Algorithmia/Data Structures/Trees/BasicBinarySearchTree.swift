@@ -14,7 +14,7 @@ import Foundation
 /// Just a test, if wanted to force K and V to be equal. where Element.K == Element.V
 public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchTree, TraversableBinaryTree {
     
-    typealias Item = Element
+    public typealias Item = Element
     
     
     public weak var parent :BasicBinarySearchTree<Element>?
@@ -28,7 +28,7 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     /// Traversable binary tries accept an interator to enumerate its elements.
     public var iterator: AnyIterator<Element>?
     
-    fileprivate(set) var count: Int
+    public private(set) var count: Int
     
 
     
@@ -42,7 +42,7 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     ///   - leftChild: reference to the  left subtree
     ///   - rightChild: reference to the right subtree
     ///   - value: item contained in the tree node.
-    init(parent:BasicBinarySearchTree?, leftChild:BasicBinarySearchTree?, rightChild:BasicBinarySearchTree?, value:Element) {
+    public init(parent:BasicBinarySearchTree?, leftChild:BasicBinarySearchTree?, rightChild:BasicBinarySearchTree?, value:Element) {
         self.parent = parent
         self.leftChild = leftChild
         self.rightChild = rightChild
@@ -63,7 +63,7 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     ///
     /// - Parameter element: Element to be inserted into the tree.
     /// - Complexity: O(log N), N being the number of nodes in the tree
-    func insert(newElement :BasicBinarySearchTree) {
+    public func insert(newElement :BasicBinarySearchTree) {
 
         // Trying to insert an empty node
         guard !newElement.isEmpty() else {
@@ -96,7 +96,7 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     /// Adds a new subtree to the tree, maintaining the order property of a binary search tree
     ///
     /// - Parameter element: Element to be inserted into the tree.
-    func insertIterative(element :BasicBinarySearchTree) {
+    public func insertIterative(element :BasicBinarySearchTree) {
         
         // Trying to insert an empty node
         guard !element.isEmpty() else {
@@ -148,7 +148,7 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
     ///
     /// - Parameter key: Identifier of the node to be deleted.
     /// - Returns: Whether the element was deleted or not.
-    func delete(elementWithKey key: Element.K) -> Bool {
+    public func delete(elementWithKey key: Element.K) -> Bool {
         
         guard !self.isEmpty() else {
             return false

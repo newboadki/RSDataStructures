@@ -95,7 +95,7 @@ public struct SinglyLinkedList<T>
     /// NOTE: This method can break value semantics by accepting a node.
     ///
     /// - Parameter head: First node
-    internal init(head: SinglyLinkedListNode<T>)
+    public init(head: SinglyLinkedListNode<T>)
     {
         self.storage = IndirectStorage()
         self.append(node: head)
@@ -240,7 +240,7 @@ public struct SinglyLinkedList<T>
 
 // MARK:- Private Methods
 
-private extension SinglyLinkedList {
+extension SinglyLinkedList {
     
     /// Adds a new node to the current head. This method can easily break value semantics. It is left
     /// for internal use.
@@ -473,12 +473,12 @@ extension SinglyLinkedList : Collection {
 
 extension SinglyLinkedList : Queue
 {
-    typealias Item = T
+    public typealias Item = T
     
     /// Returns the oldest element in the queue.
     ///
     /// - Returns: The oldest element in the queue. It does not dequeue it.
-    func getFirst() -> T? {
+    public func getFirst() -> T? {
         return self.storage.head?.value
     }
 
@@ -486,14 +486,14 @@ extension SinglyLinkedList : Queue
     ///
     /// - Parameter item: Item to be added
     /// - Throws: There are cases where the operation might fail. For example if there is not enough space.
-    mutating func enqueue(item: T) throws {        
+    public mutating func enqueue(item: T) throws {
         self.append(node: SinglyLinkedListNode<T>(value: item))
     }
     
     /// Dequeues the oldest element in the queue.
     ///
     /// - Returns: The oldest element in the queue, which gets removed from it.
-    mutating func dequeue() -> T?
+    public mutating func dequeue() -> T?
     {
         guard self.count > 0 else {
             return nil
@@ -568,7 +568,7 @@ extension SinglyLinkedList where T : KeyValuePair {
 
 // MARK: - HELPERS -
 
-func findTail<T>(in node: SinglyLinkedListNode<T>) -> (tail: SinglyLinkedListNode<T>, count: Int)
+public func findTail<T>(in node: SinglyLinkedListNode<T>) -> (tail: SinglyLinkedListNode<T>, count: Int)
 {
     // Assign the tail
     // Note that the passed node can already be linking to other nodes,

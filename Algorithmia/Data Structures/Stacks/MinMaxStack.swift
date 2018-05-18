@@ -8,19 +8,19 @@
 
 import Foundation
 
-class MinMaxStack<T: Comparable> : StackBasedOnLinkedList<T> {
+public class MinMaxStack<T: Comparable> : StackBasedOnLinkedList<T> {
     
     fileprivate var peekType: StackPeekType
     fileprivate var minMaxStack: StackBasedOnLinkedList<T>
     
-    required init(type: StackPeekType)
+    required public init(type: StackPeekType)
     {
         peekType = type
         minMaxStack = StackBasedOnLinkedList<T>()
         super.init()
     }
     
-    override func push(item: T) {
+    override public func push(item: T) {
         
         if let _ = self.minMaxStack.peek() {
             let shouldBeAdded = self.comparisonBlock()(item, self.minMaxStack.peek()!)
@@ -34,7 +34,7 @@ class MinMaxStack<T: Comparable> : StackBasedOnLinkedList<T> {
         super.push(item: item)        
     }
 
-    override func pop() -> T? {
+    override public func pop() -> T? {
 
         if self.peek() == self.minMaxStack.peek() {
             let _ = self.minMaxStack.pop()
@@ -61,13 +61,13 @@ class MinMaxStack<T: Comparable> : StackBasedOnLinkedList<T> {
 
 extension MinMaxStack : MinMaxPeekStack {
     
-    var type: StackPeekType {
+    public var type: StackPeekType {
         get {
             return peekType
         }
     }    
     
-    func minMaxPeek() -> T? {
+    public func minMaxPeek() -> T? {
         return self.minMaxStack.peek()
     }
 

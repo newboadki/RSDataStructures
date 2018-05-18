@@ -9,12 +9,12 @@
 import Foundation
 
 /// Conformers of this type support the summation mathematic operation
-protocol Summable : Comparable {
+public protocol Summable : Comparable {
     static func +(lhs: Self, rhs: Self) -> Self
 }
 
 /// Represents the state of exploration of a graph vertex.
-enum VertexExplorationStatus {
+public enum VertexExplorationStatus {
     case undiscovered
     case discovered
     case explored
@@ -22,7 +22,7 @@ enum VertexExplorationStatus {
 }
 
 /// A graph G = (V, E)  is a set of vertices V and set of connections between vertices, called edges.
-protocol Graph {
+public protocol Graph {
     
     associatedtype Vertex: KeyValuePair
     associatedtype Weight: Summable /* Operator '+' should be defined for type Weight */
@@ -98,7 +98,7 @@ protocol Graph {
 
 // MARK: Basic default implementations
 
-extension Graph {
+public extension Graph {
     
     var vertexCount: Int {
         get {
@@ -278,7 +278,7 @@ extension Graph {
     }
 }
 
-extension Graph where Vertex.K == Vertex.V, Vertex.K == Weight {
+public extension Graph where Vertex.K == Vertex.V, Vertex.K == Weight {
     
     /// Default implementation follows Dijkstra algorithm.
     ///
@@ -332,7 +332,7 @@ extension Graph where Vertex.K == Vertex.V, Vertex.K == Weight {
 
 
 
-extension Dictionary {
+public extension Dictionary {
     
     mutating func populate(keys: [Key], repeating value: Value) {
         for key in keys {

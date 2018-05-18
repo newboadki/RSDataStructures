@@ -42,10 +42,10 @@ public protocol KeyValuePair : Comparable {
 
 
 /// Conformance to Equatable and Comparable protocols
-extension KeyValuePair {
+public extension KeyValuePair {
     
     // MARK: - Equatable protocol
-    public static func ==(lhs: Self, rhs: Self) -> Bool {
+    static func ==(lhs: Self, rhs: Self) -> Bool {
         return lhs.key == rhs.key
     }
     

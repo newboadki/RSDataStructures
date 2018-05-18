@@ -11,25 +11,35 @@ import Foundation
 
 /// Concrete impletation of a KeyValuePair where  both the key and the value
 /// are Integers.
-struct IntegerPair : KeyValuePair {
+public struct IntegerPair : KeyValuePair {
     
     // MARK - KeyValuePair protocol
-    var key : Int
-    var value : Int
+    public var key : Int
+    public var value : Int
     
-    func copy() -> IntegerPair {
+    public init(key: Int, value: Int) {
+        self.key = key
+        self.value = value
+    }
+    
+    public func copy() -> IntegerPair {
         return IntegerPair(key: self.key, value: self.value)
     }
 }
 
 
-struct StringKeyedPair : KeyValuePair {
+public struct StringKeyedPair : KeyValuePair {
     
     // MARK - KeyValuePair protocol
-    var key : String
-    var value : Int
+    public var key : String
+    public var value : Int
     
-    func copy() -> StringKeyedPair {
+    public init(key: String, value: Int) {
+        self.key = key
+        self.value = value
+    }
+
+    public func copy() -> StringKeyedPair {
         return StringKeyedPair(key: self.key, value: self.value)
     }
 }

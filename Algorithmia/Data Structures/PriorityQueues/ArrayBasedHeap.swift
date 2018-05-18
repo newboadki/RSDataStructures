@@ -6,12 +6,12 @@
 //  Copyright © 2016 Borja Arias Drake. All rights reserved.
 //
 
+import Foundation
 
-
-struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
+public struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
     
     /// Item is defined in the PriorityQueue protocol.
-    typealias Item = HeapElement
+    public typealias Item = HeapElement
     
     
     // MARK - Properties ------------------
@@ -23,7 +23,7 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
     public let defaultaximumCapacity : UInt = 10000
     
     /// Maximum number of elements the heap can contain
-    private(set) var capacity : UInt
+    public private(set) var capacity : UInt
     
     /// The actual number of elements in the heap at any given time
     public var count : UInt {
@@ -36,7 +36,7 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
     
     // MARK: PriorityQueue protocol ------------------
     
-    private (set) var type : PriorityQueueType
+    public var type : PriorityQueueType
     
     public init(type: PriorityQueueType) {
         self.init(type: type, capacity: 10000)
@@ -61,7 +61,7 @@ struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
         return self.array.first
     }
     
-    mutating public func dequeue() -> HeapElement? {
+    public mutating func dequeue() -> HeapElement? {
         
         guard self.count > 0 else {
             return nil

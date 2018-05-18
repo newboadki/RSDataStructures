@@ -6,33 +6,33 @@
 //  Copyright © 2016 Borja Arias Drake. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
+public struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
 
     /// Item is defined in the PriorityQueue protocol.
-    typealias Item = Element
+    public typealias Item = Element
     
     /// Valid Indexes go from
     private (set) var maximumKey : Int = 10000
     
     private var topIndex : Int?
     
-    var array : Array<Array<Element>?>
+    private var array : Array<Array<Element>?>
     
-    var topPriorityQueue : BasicBinarySearchTree<IntegerPair>?
+    private var topPriorityQueue : BasicBinarySearchTree<IntegerPair>?
     
     
     // MARK : PriorityQueue Protocol
     
-    var type : PriorityQueueType
+    public var type : PriorityQueueType
     
     
-    init(type: PriorityQueueType) {
+    public init(type: PriorityQueueType) {
         self.init(type : type, maximumKey: 1000)
     }
     
-    mutating func enqueue(item: Item) throws {
+    public mutating func enqueue(item: Item) throws {
         
         let key = item.key as! Int
         
@@ -60,7 +60,7 @@ struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
         }
     }
     
-    func getFirst() -> Item? {
+    public func getFirst() -> Item? {
         if let top = self.topIndex {
             return self.array[Int(top)]?.first
         } else {
@@ -68,7 +68,7 @@ struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
         }
     }
     
-    mutating func dequeue() -> Item? {
+    public mutating func dequeue() -> Item? {
         var result : Item
         
         guard self.topIndex != nil else {
@@ -107,7 +107,7 @@ struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
     
     // MARK : Public API
     
-    init(type: PriorityQueueType, maximumKey: Int) {
+    public init(type: PriorityQueueType, maximumKey: Int) {
         self.type = type
         self.maximumKey = maximumKey
         self.array = Array<Array<Element>?>(repeating: nil, count: Int(maximumKey + 1))

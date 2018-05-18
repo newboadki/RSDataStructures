@@ -26,7 +26,7 @@ public enum PriorityQueueError : Error {
 /// - max is expected to be O(1)
 /// - extract min is expected to be O(log(N))
 /// - extract max is expected to be O(log(N))
-protocol PriorityQueue : Queue {
+public protocol PriorityQueue : Queue {
     
     /// Priority queues can return results in ascendent or descendent order
     var type : PriorityQueueType { get }

@@ -16,21 +16,21 @@ import Foundation
 /// Therefore it is this class that defines the different supported traversal algorithms.
 public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySearchTree {
     
-    typealias Item = T
+    public typealias Item = T
     
-    weak var parent : SinglyThreadedBinarySearchTree<T>?
+    public weak var parent : SinglyThreadedBinarySearchTree<T>?
     
-    var leftChild : SinglyThreadedBinarySearchTree<T>?
+    public var leftChild : SinglyThreadedBinarySearchTree<T>?
     
-    var rightChild : SinglyThreadedBinarySearchTree<T>?
+    public var rightChild : SinglyThreadedBinarySearchTree<T>?
     
-    var item : T?
+    public var item : T?
     
     /// Traversable binary trees accept an interator to enumerate its elements.
     /// By default this class provides an in-order iterator.
-    var iterator: AnyIterator<T>?
+    public var iterator: AnyIterator<T>?
     
-    public fileprivate(set) var count: Int
+    public private(set) var count: Int
     
     /// Keeps a reference to the node, in this node's subtree, containing the minimum value. 
     /// Becuase we only need to potentialy update the minimum during insertion, deletion and edition, we can
@@ -261,7 +261,7 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
     ///
     /// - Returns: The right most leave of the tree, which has the maximum value as its node's key
     /// - Complexity: O(log N), with N being the number of nodes in the tree.
-    func maximum() -> SinglyThreadedBinarySearchTree<T>? {
+    public func maximum() -> SinglyThreadedBinarySearchTree<T>? {
         
         var max = self
         while (max.rightChild != nil && max.successor == nil) {

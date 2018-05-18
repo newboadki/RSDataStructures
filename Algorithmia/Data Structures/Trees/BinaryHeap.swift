@@ -8,7 +8,7 @@
 
 import Foundation
 
-private class NodeDirectAccecssIndirectStorage<T: KeyValuePair> {
+fileprivate class NodeDirectAccecssIndirectStorage<T: KeyValuePair> {
     var directAccessToNodes: Dictionary<T.V, BasicBinaryHeap<T>> = [:]
     
     public subscript(position: T.V) -> BasicBinaryHeap<T>? {
@@ -32,28 +32,28 @@ private class NodeDirectAccecssIndirectStorage<T: KeyValuePair> {
 /// as the token to fetch. It reads, update the priority of the element with value V to the new priority K.
 final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, TraversableBinaryTree, PriorityQueue {
     
-    typealias Item = T
+    public typealias Item = T
     
     /// Reference to the left subtree
-    weak var parent: BasicBinaryHeap?
+    public weak var parent: BasicBinaryHeap?
     
     /// Reference to the left subtree
-    var leftChild: BasicBinaryHeap?
+    public var leftChild: BasicBinaryHeap?
     
     /// Reference to the right subtree
-    var rightChild: BasicBinaryHeap?
+    public var rightChild: BasicBinaryHeap?
     
     /// A container of information.
-    var item: Item?
+    public var item: Item?
     
     /// The number of nodes in the tree
-    var count: Int = 0
+    public var count: Int = 0
     
     /// Defines the relative order of the nodes in the heap
-    var type: PriorityQueueType = .min
+    public var type: PriorityQueueType = .min
     
     /// A traversal strategy
-    var iterator: AnyIterator<T>?
+    public var iterator: AnyIterator<T>?
     
     /// Data structure to guarantee direct access to the elements in the tree
     /// to help with certain tasks such as updating the priority of an element.
@@ -371,12 +371,12 @@ extension BasicBinaryHeap {
     }
     
     
-    func minimum() -> BasicBinaryHeap<T>? {
+    public func minimum() -> BasicBinaryHeap<T>? {
         return self.top()
     }
     
     
-    func maximum() -> BasicBinaryHeap<T>? {
+    public func maximum() -> BasicBinaryHeap<T>? {
         return self.top()
     }
 }
@@ -391,7 +391,7 @@ extension BasicBinaryHeap {
     ///
     /// - Parameters:
     ///   - type: relative order of elements in the heap.
-    convenience init(type: PriorityQueueType) {
+    public convenience init(type: PriorityQueueType) {
         self.init(value: nil,
                   parent: nil,
                   leftChild: nil,
@@ -404,7 +404,7 @@ extension BasicBinaryHeap {
     /// Dequeues the oldest element in the queue.
     ///
     /// - Returns: The oldest element in the queue, which gets removed from it.
-    func dequeue() -> Item? {
+    public func dequeue() -> Item? {
         return self.extractTop()?.item
     }
     
@@ -412,7 +412,7 @@ extension BasicBinaryHeap {
     /// Returns the oldest element in the queue.
     ///
     /// - Returns: The oldest element in the queue. It does not dequeue it.
-    func getFirst() -> Item? {
+    public func getFirst() -> Item? {
         return self.top()?.item
     }
     
@@ -421,7 +421,7 @@ extension BasicBinaryHeap {
     ///
     /// - Parameter item: Item to be added
     /// - Throws: There are cases where the operation might fail. For example if there is not enough space.
-    func enqueue(item: Item) throws {
+    public func enqueue(item: Item) throws {
         self.insert(item: item)
     }
 }

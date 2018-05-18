@@ -12,7 +12,7 @@ import Foundation
 /// where:
 ///   - the origin vertex's KEY comes determined by the index in 'adjacencyList'
 ///   - and the destination vertex's KEY is defined by EdgeNode.destination.KEY
-struct EdgeNode<VertexKeyInfo: KeyValuePair, Weight: Comparable> {
+public struct EdgeNode<VertexKeyInfo: KeyValuePair, Weight: Comparable> {
     
     /// Identifier of the
     var destination: VertexKeyInfo
@@ -41,10 +41,10 @@ struct EdgeNode<VertexKeyInfo: KeyValuePair, Weight: Comparable> {
 ///
 /// This implementaiton assumes that vertices are identified with Integers, this is to be able
 /// to efficiently and conviniently index them.
-struct AdjacencyListGraph<VertexInfo: KeyValuePair, WeightType: Summable> : Graph {
+public struct AdjacencyListGraph<VertexInfo: KeyValuePair, WeightType: Summable> : Graph {
         
-    typealias Vertex = VertexInfo
-    typealias Weight = WeightType
+    public typealias Vertex = VertexInfo
+    public typealias Weight = WeightType
     
     
     /// Vertices with which the graph was initialized
@@ -71,7 +71,7 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair, WeightType: Summable> : Grap
     ///   - vertices: Array of vertices.
     ///   - edges: Connections between vertices.
     ///   - directed: wether the edges have a direction of traversal.
-    init(vertices: [VertexInfo], edges: [(VertexInfo, VertexInfo, Weight)], directed: Bool) {
+    public init(vertices: [VertexInfo], edges: [(VertexInfo, VertexInfo, Weight)], directed: Bool) {
         self.vertices = vertices.sorted(by: { (p1, p2) -> Bool in
             p1.key < p2.key
         })
@@ -83,7 +83,7 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair, WeightType: Summable> : Grap
     
     /// Convenience initializer
     /// Creates an empty graph
-    init() {
+    public init() {
         self.edges = [(from: VertexInfo, to: VertexInfo, weight: Weight)]()
         self.vertices = [VertexInfo]()
         self.adjacencyList = Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Weight>>>()
@@ -98,7 +98,7 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair, WeightType: Summable> : Grap
     /// - Parameter vertex: Origin vertex.
     /// - Returns: An array of edges.
     /// - Complexity: O(N), where N is v's degree.
-    func adjacentVertices(of vertexIndex: Vertex.K) -> [Vertex]? {
+    public func adjacentVertices(of vertexIndex: Vertex.K) -> [Vertex]? {
         var vertices = [Vertex]()
         
         guard let list = self.adjacencyList[vertexIndex] else {
@@ -147,7 +147,7 @@ struct AdjacencyListGraph<VertexInfo: KeyValuePair, WeightType: Summable> : Grap
 
 // MARK: Private methods
 
-extension AdjacencyListGraph {
+fileprivate extension AdjacencyListGraph {
     
     /// Helper method to populate the internal data structures of an adjacency list graph.
     ///
@@ -155,7 +155,7 @@ extension AdjacencyListGraph {
     ///   - vertices: array of vertices in the graph
     ///   - edges: array of edges in the graph
     /// - Returns: array of linked lists (adjacency list).
-    private static func adjacencyList(fromVertices vertices:[VertexInfo], andEdges edges:[(from: VertexInfo, to: VertexInfo, weight: Weight)]) -> Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Weight>>> {
+    static func adjacencyList(fromVertices vertices:[VertexInfo], andEdges edges:[(from: VertexInfo, to: VertexInfo, weight: Weight)]) -> Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Weight>>> {
         
         var hash = Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Weight>>>()
         
@@ -173,7 +173,7 @@ extension AdjacencyListGraph {
     ///   - to: Destination vertex
     ///   - weight: Edge's weight
     ///   - hash: inout dictionary of adjancecy to modify    
-    private static func addEdge(from origin: Vertex, to destination: Vertex, with weight: Weight, inDictionary hash: inout Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Weight>>>) {
+    static func addEdge(from origin: Vertex, to destination: Vertex, with weight: Weight, inDictionary hash: inout Dictionary<Vertex.K, SinglyLinkedList<EdgeNode<VertexInfo, Weight>>>) {
         var linkedList = hash[origin.key]
         let destinationNode = EdgeNode(destinationVertexKey: destination, weight: weight)
         if linkedList != nil {
@@ -189,7 +189,7 @@ extension AdjacencyListGraph {
 
 //// MARK: IntegerIndexableGraph
 
-extension AdjacencyListGraph {
+public extension AdjacencyListGraph {
     
     /// Finds a vertex with the given index as its key
     ///
