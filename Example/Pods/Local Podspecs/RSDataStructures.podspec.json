@@ -1,0 +1,22 @@
+{
+  "name": "RSDataStructures",
+  "version": "0.1.0",
+  "summary": "A short description of RSDataStructures.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Borja Arias Drake/RSDataStructures",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Borja Arias Drake": "borja@mobilejazz.com"
+  },
+  "source": {
+    "git": "https://github.com/Borja Arias Drake/RSDataStructures.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "RSDataStructures/Classes/**/*"
+}

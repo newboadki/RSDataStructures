@@ -1,0 +1,16 @@
+PODS:
+  - RSDataStructures (0.1.0)
+
+DEPENDENCIES:
+  - RSDataStructures (from `../`)
+
+EXTERNAL SOURCES:
+  RSDataStructures:
+    :path: ../
+
+SPEC CHECKSUMS:
+  RSDataStructures: 63ef387cf8677b0ede8cd07cef6d45bf8d7baa50
+
+PODFILE CHECKSUM: 4f8fd75c523b10122a031babfef5cb200a04db64
+
+COCOAPODS: 1.4.0
