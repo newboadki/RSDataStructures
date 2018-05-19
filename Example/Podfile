@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'RSDataStructures_Example' do
+  pod 'RSDataStructures', :path => '../'
+
+  target 'RSDataStructures_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
