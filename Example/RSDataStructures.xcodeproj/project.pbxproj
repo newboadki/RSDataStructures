@@ -49,7 +49,7 @@
 		00D22B2520B05853001DF638 /* BasicBinarySearchTreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicBinarySearchTreeTests.swift; sourceTree = "<group>"; };
 		00D22B2620B05853001DF638 /* SinglyThreadedBinarySearchTreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglyThreadedBinarySearchTreeTests.swift; sourceTree = "<group>"; };
 		00D22B2720B05853001DF638 /* RedBlackBinarySearchTreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedBlackBinarySearchTreeTests.swift; sourceTree = "<group>"; };
-		4CD2E9A36F7BC7470DBD8150 /* RSDataStructures.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RSDataStructures.podspec; path = ../RSDataStructures.podspec; sourceTree = "<group>"; };
+		4CD2E9A36F7BC7470DBD8150 /* RSDataStructures.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RSDataStructures.podspec; path = ../RSDataStructures.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* RSDataStructures_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSDataStructures_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
