@@ -23,8 +23,8 @@ Basic data structures and some related algorithms. The implementation follows Sw
 
   s.homepage         = 'https://github.com/newboadki/RSDataStructures'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Borja Arias Drake' => 'borja@mobilejazz.com' }
-  s.source           = { :git => 'https://github.com/Borja Arias Drake/RSDataStructures.git', :tag => s.version.to_s }
+  s.author           = { 'Borja Arias Drake' => 'borja.arias@gmail.com' }
+  s.source           = { :git => 'git@github.com:newboadki/RSDataStructures.git', :tag => s.version.to_s }
   
 
   s.ios.deployment_target = '8.0'
