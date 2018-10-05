@@ -366,6 +366,8 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
 
 
 
+// MARK: - COMPARABLE
+
 public struct SinglyThreadedBinaryTreeIndex<T:KeyValuePair> : Comparable
 {
     fileprivate let node: SinglyThreadedBinarySearchTree<T>?
@@ -380,6 +382,9 @@ public struct SinglyThreadedBinaryTreeIndex<T:KeyValuePair> : Comparable
     }
 }
 
+
+
+// MARK: - COLLECTION
 
 extension SinglyThreadedBinarySearchTree : Collection {
     

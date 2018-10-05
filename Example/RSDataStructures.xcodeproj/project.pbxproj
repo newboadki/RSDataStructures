@@ -285,6 +285,7 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = HDWMV7DY5P;
 						LastSwiftMigration = 0900;
 					};
 					607FACE41AFB9204008FA782 = {
@@ -597,6 +598,7 @@
 			baseConfigurationReference = C0373FDB6D7FD7ACB020F365 /* Pods-RSDataStructures_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = HDWMV7DY5P;
 				INFOPLIST_FILE = RSDataStructures/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -612,6 +614,7 @@
 			baseConfigurationReference = 6AB70A1AF0A9524246F08519 /* Pods-RSDataStructures_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = HDWMV7DY5P;
 				INFOPLIST_FILE = RSDataStructures/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;

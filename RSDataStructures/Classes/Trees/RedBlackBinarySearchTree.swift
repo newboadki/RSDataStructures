@@ -8,13 +8,14 @@
 
 import Foundation
 
-public enum RedBlackTreeColor {
-    case black
-    case red
-}
 
 public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree, TraversableBinaryTree {
-    
+
+    public enum RedBlackTreeColor {
+        case black
+        case red
+    }
+
     // MARK: From BinaryTree protocol
     public typealias Item = T
     
