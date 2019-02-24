@@ -61,7 +61,6 @@ class ArrayBasedHeapTests: XCTestCase {
             XCTAssert( heap.dequeue()?.key == 2001); XCTAssert(heap.count == 0)
             XCTAssert( heap.dequeue() == nil); XCTAssert(heap.count == 0)
             
-                        
             try heap.enqueue(item: IntegerPair(key:1492, value: 1987)); XCTAssert(heap.count == 1)
             try heap.enqueue(item: IntegerPair(key:2001, value: 1987)); XCTAssert(heap.count == 2)
             XCTAssert( heap.getFirst()?.key == 1492); XCTAssert(heap.count == 2)
@@ -73,15 +72,5 @@ class ArrayBasedHeapTests: XCTestCase {
         } catch {
             XCTFail()
         }
-        
-        
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }

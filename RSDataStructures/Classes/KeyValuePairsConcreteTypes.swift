@@ -43,3 +43,19 @@ public struct StringKeyedPair : KeyValuePair {
         return StringKeyedPair(key: self.key, value: self.value)
     }
 }
+
+public struct StringValue : KeyValuePair {
+    
+    // MARK - KeyValuePair protocol
+    public var key : Int
+    public var value : String
+    
+    public init(key: Int, value: String) {
+        self.key = key
+        self.value = value
+    }
+    
+    public func copy() -> StringValue {
+        return StringValue(key: self.key, value: self.value)
+    }
+}

@@ -20,7 +20,7 @@ public struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
     private var array : [HeapElement]
     
     /// Maximum allowed capacity of the heap
-    public let defaultaximumCapacity : UInt = 10000
+    public let defaultMaximumCapacity : UInt = 10000
     
     /// Maximum number of elements the heap can contain
     public private(set) var capacity : UInt
@@ -90,7 +90,7 @@ public struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
     public init(type: PriorityQueueType, elements: [HeapElement]) {
         self.type = type
         self.array = [HeapElement]()
-        self.capacity = self.defaultaximumCapacity
+        self.capacity = self.defaultMaximumCapacity
         self.makeHeap(from: elements)
     }
 

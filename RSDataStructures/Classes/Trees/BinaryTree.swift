@@ -450,7 +450,7 @@ public extension TraversableBinaryTree {
 
     
     /// This is the deepest node at the far most right in the tree.
-    /// The position of this node makes it useful in many algorithmic
+    /// The position of this node makes it useful in many algorithms
     /// like for example to keep the balance property of certain trees.
     ///
     /// - Returns: The bottommost rightmost node in the tree.

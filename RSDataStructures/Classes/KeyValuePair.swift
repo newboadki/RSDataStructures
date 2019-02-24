@@ -46,7 +46,7 @@ public extension KeyValuePair {
     
     // MARK: - Equatable protocol
     static func ==(lhs: Self, rhs: Self) -> Bool {
-        return lhs.key == rhs.key
+        return (lhs.key == rhs.key) && (lhs.value == rhs.value)
     }
     
     

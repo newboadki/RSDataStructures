@@ -195,7 +195,7 @@ class BasicBinaryMaxHeapTests: XCTestCase {
         heap.insert(item: p(8))
         heap.insert(item: p(1))
         
-        XCTAssertTrue(heap.extractTop()?.item?.key == 8)
+        XCTAssertTrue(heap.dequeue()!.key == 8)
         XCTAssertTrue(heap.maximum()?.item?.key == 6)
         
         XCTAssertTrue(heap.extractTop()?.item?.key == 6)
@@ -218,6 +218,43 @@ class BasicBinaryMaxHeapTests: XCTestCase {
         
         heap.insert(item: p(1))
         XCTAssertTrue(heap.maximum()?.item?.key == 1)
+    }
+    
+    func testInsertionAndExtractionWithElementsWithTheSamePriority() {
+        let heap = BasicBinaryHeap<StringValue>(value: StringValue(key: 1001, value: "A"), parent: nil, leftChild: nil, rightChild: nil, type:.max)
+        try? heap.enqueue(item: StringValue(key: 1001, value: "B"))
+        try? heap.enqueue(item: StringValue(key: 1001, value: "C"))
+        try? heap.enqueue(item: StringValue(key: 1001, value: "D"))
+        
+        var list = [StringValue]()
+        while var top = heap.dequeue() {            
+            if top.value == "C" {
+                top.key = 0
+            }
+            list.append(top)
+        }
+        
+        for item in list {
+            try? heap.enqueue(item: item)
+        }
+        
+        var top: StringValue?
+        top = heap.dequeue()
+        XCTAssertTrue(top?.key == 1001)
+        XCTAssertTrue(top?.value == "A")
+
+        top = heap.dequeue()
+        XCTAssertTrue(top?.key == 1001)
+        XCTAssertTrue(top?.value == "B")
+
+        top = heap.dequeue()
+        XCTAssertTrue(top?.key == 1001)
+        XCTAssertTrue(top?.value == "D")
+
+        top = heap.dequeue()
+        XCTAssertTrue(top?.key == 0)
+        XCTAssertTrue(top?.value == "C")
+
     }
 }
 

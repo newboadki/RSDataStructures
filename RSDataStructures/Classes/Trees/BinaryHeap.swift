@@ -185,7 +185,7 @@ final public class BasicBinaryHeap<T: KeyValuePair> : CompleteBinaryTree, Traver
             var newRef = node.bubbleUp()
             
             if (node === newRef) {
-                // It means we didn't buble up. Bubble down then
+                // It means we didn't bubble up. Bubble down then.
                 newRef = node.bubbleDown()
             }
             self.directAccessToNodes[value] = newRef
@@ -201,6 +201,7 @@ extension BasicBinaryHeap {
     /// Restores the heap invariant. Starts at the current node and goes up.
     ///
     /// - Returns: the node where the bubbling stopped.
+    /// - Complexity: O(Log(N)).
     private func bubbleUp() -> BasicBinaryHeap<T> {
         
         var current: BasicBinaryHeap<T>? = self
@@ -221,6 +222,7 @@ extension BasicBinaryHeap {
     /// Restores the heap invariant. Starts at the current node and goes down.
     ///
     /// - Returns: the node where the bubbling stopped.
+    /// - Complexity: O(Log(N)).
     private func bubbleDown() -> BasicBinaryHeap<T> {
         
         var current: BasicBinaryHeap<T>? = self
@@ -228,7 +230,7 @@ extension BasicBinaryHeap {
         while let c = current,
             let childToSwap = c.relevantChildrenToSwap(),
             /* Not a leaf */(c.numberOfChildren() > 0) &&
-                /* Doesn't conserves heap property */(!self.heapPropertiesAreKept(parent: c, child: childToSwap, type: self.type)) {
+                /* Doesn't conserve heap property */(!self.heapPropertiesAreKept(parent: c, child: childToSwap, type: self.type)) {
                     
                     // If we got in, we know there's a parent.
                     swapItems(parent: c, child: childToSwap)
@@ -244,9 +246,9 @@ extension BasicBinaryHeap {
         if let p = parent {
             switch type {
             case .min:
-                return p.item! < child.item!
+                return p.item! <= child.item!
             case .max:
-                return p.item! > child.item!
+                return p.item! >= child.item!
             }
         } else {
             return true
@@ -259,7 +261,7 @@ extension BasicBinaryHeap {
         child.item = temp
     }
     
-    /// TODO: Tidy up. Reduce duplication. Use Swifts max, min functions.
+    /// TODO: Tidy up. Reduce duplication. Use Swift's max, min functions.
     private func relevantChildrenToSwap() -> BasicBinaryHeap<T>? {
         
         guard self.numberOfChildren() > 0 else {
