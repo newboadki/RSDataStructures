@@ -1,3 +1,3 @@
 # RSDataStructures
 
-A description of this package.
+A collection of data structures and algorithms.
