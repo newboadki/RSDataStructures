@@ -12,7 +12,7 @@ import Foundation
 /// where:
 ///   - the origin vertex's KEY comes determined by the index in 'adjacencyList'
 ///   - and the destination vertex's KEY is defined by EdgeNode.destination.KEY
-public struct EdgeNode<VertexKeyInfo: KeyValuePair, Weight: Comparable> {
+fileprivate struct EdgeNode<VertexKeyInfo: KeyValuePair, Weight: Comparable> {
     
     /// Identifier of the
     var destination: VertexKeyInfo

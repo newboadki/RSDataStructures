@@ -54,7 +54,7 @@ public class SinglyLinkedListNode<T> {
 // MARK: - LINKED LIST -
 
 /// Data structure to hold a collection of items.
-/// Each nodes contains a reference to the next node.
+/// Each node contains a reference to the next node.
 /// The last node does not reference any other node.
 /// This class implements value semantics based on copy-on-write.
 ///

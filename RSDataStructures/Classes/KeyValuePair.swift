@@ -53,19 +53,19 @@ public extension KeyValuePair {
     
     // MARK: - Comparable protocol
     
-    public static func <(lhs: Self, rhs: Self) -> Bool {
+    static func <(lhs: Self, rhs: Self) -> Bool {
         return lhs.key < rhs.key
     }
     
-    public static func <=(lhs: Self, rhs: Self) -> Bool {
+    static func <=(lhs: Self, rhs: Self) -> Bool {
         return lhs.key <= rhs.key
     }
     
-    public static func >=(lhs: Self, rhs: Self) -> Bool {
+    static func >=(lhs: Self, rhs: Self) -> Bool {
         return lhs.key >= rhs.key
     }
     
-    public static func >(lhs: Self, rhs: Self) -> Bool {
+    static func >(lhs: Self, rhs: Self) -> Bool {
         return lhs.key > rhs.key
     }
 }
