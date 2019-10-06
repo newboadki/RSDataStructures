@@ -1,6 +1,0 @@
-framework module RSDataStructures {
-  umbrella header "RSDataStructures-umbrella.h"
-
-  export *
-  module * { export * }
-}
