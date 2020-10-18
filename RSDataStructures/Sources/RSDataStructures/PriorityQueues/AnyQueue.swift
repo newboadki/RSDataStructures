@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  AnyQueue.swift
 //  
 //
 //  Created by Borja Arias Drake on 18/10/2020.
@@ -14,7 +14,7 @@ public struct AnyQueue<Item>: Queue {
     
     private let box: _AnyQueueBase<Item>
     
-    // Initializer takes our concrete implementer of Row i.e. FileCell
+    // Initializer takes our concrete conforming class of the Queue protocol
     public init<Concrete: Queue>(_ concrete: Concrete) where Concrete.Item == Item {
         box = _AnyQueueBox(concrete)
     }
