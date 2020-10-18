@@ -14,7 +14,8 @@ class BasicBinarySearchTreeTests: XCTestCase {
     
     var root : BasicBinarySearchTree<IntegerPair>?
     
-    override func setUp() {
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         /*
          R
          |- lA
@@ -434,7 +435,9 @@ class BasicBinarySearchTreeTraversalTests: XCTestCase {
     
     var root:BasicBinarySearchTree<IntegerPair>?
     
-    override func setUp() {
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        
         let A1_value = IntegerPair(key:2, value:300)
         let A1 = BasicBinarySearchTree(parent: nil, leftChild: nil, rightChild: nil, value: A1_value)
         

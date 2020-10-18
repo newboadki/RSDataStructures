@@ -13,26 +13,21 @@ class BoundedHeightPriorityQueueTests: XCTestCase {
     
     var pq : BoundedHeightPriorityQueue<IntegerPair>!
     
-    
-    
-    override func setUp() {
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         pq = BoundedHeightPriorityQueue<IntegerPair>(type: PriorityQueueType.min, maximumKey: 1000)
-        do {
-            try pq.enqueue(item: IntegerPair(key: 45, value: 0))
-            try pq.enqueue(item: IntegerPair(key: 25, value: 0))
-            try pq.enqueue(item: IntegerPair(key: 45, value: 0))
-            try pq.enqueue(item: IntegerPair(key: 780, value: 0))
-            try pq.enqueue(item: IntegerPair(key: 98, value: 0))
-            try pq.enqueue(item: IntegerPair(key: 5, value: 0))
-            try pq.enqueue(item: IntegerPair(key: 45, value: 0))
-            try pq.enqueue(item: IntegerPair(key: 3, value: 0))
-            try pq.enqueue(item: IntegerPair(key: 3, value: 0))
-            try pq.enqueue(item: IntegerPair(key: 800, value: 0))
-            try pq.enqueue(item: IntegerPair(key: 2, value: 0))
-            try pq.enqueue(item: IntegerPair(key: 278, value: 0))
-        } catch {
-            XCTFail()
-        }
+        try pq.enqueue(item: IntegerPair(key: 45, value: 0))
+        try pq.enqueue(item: IntegerPair(key: 25, value: 0))
+        try pq.enqueue(item: IntegerPair(key: 45, value: 0))
+        try pq.enqueue(item: IntegerPair(key: 780, value: 0))
+        try pq.enqueue(item: IntegerPair(key: 98, value: 0))
+        try pq.enqueue(item: IntegerPair(key: 5, value: 0))
+        try pq.enqueue(item: IntegerPair(key: 45, value: 0))
+        try pq.enqueue(item: IntegerPair(key: 3, value: 0))
+        try pq.enqueue(item: IntegerPair(key: 3, value: 0))
+        try pq.enqueue(item: IntegerPair(key: 800, value: 0))
+        try pq.enqueue(item: IntegerPair(key: 2, value: 0))
+        try pq.enqueue(item: IntegerPair(key: 278, value: 0))
     }
     
     func test_minimum() {
