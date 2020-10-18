@@ -29,8 +29,7 @@ class AnyQueueTests: XCTestCase {
             try q.enqueue(item: item1)
             try q.enqueue(item: item2)
         }
-        
-        
+                
         for q in queues {
             q.dequeue()
             q.dequeue()
