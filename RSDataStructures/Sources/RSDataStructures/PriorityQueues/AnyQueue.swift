@@ -7,6 +7,32 @@
 
 import Foundation
 
+// Public type erasing wrapper
+// Implements the Queue protocol
+// Generic around the associated type
+public struct AnyQueue<Item>: Queue {
+    
+    private let box: _AnyQueueBase<Item>
+    
+    // Initializer takes our concrete implementer of Row i.e. FileCell
+    public init<Concrete: Queue>(_ concrete: Concrete) where Concrete.Item == Item {
+        box = _AnyQueueBox(concrete)
+    }
+    
+    public func enqueue(item: Item) throws {
+        try box.enqueue(item: item)
+    }
+
+    public func getFirst() -> Item? {
+        return box.getFirst()
+    }
+
+    @discardableResult
+    public func dequeue() -> Item? {
+        return box.dequeue()
+    }
+}
+
 private class _AnyQueueBase<Item>: Queue {
     
     init() {
@@ -51,32 +77,5 @@ private final class _AnyQueueBox<Concrete: Queue>: _AnyQueueBase<Concrete.Item> 
 
     override func dequeue() -> Item? {
         return concrete.dequeue()
-    }
-}
-
-
-// Public type erasing wrapper
-// Implements the Queue protocol
-// Generic around the associated type
-public struct AnyQueue<Item>: Queue {
-    
-    private let box: _AnyQueueBase<Item>
-    
-    // Initializer takes our concrete implementer of Row i.e. FileCell
-    public init<Concrete: Queue>(_ concrete: Concrete) where Concrete.Item == Item {
-        box = _AnyQueueBox(concrete)
-    }
-    
-    public func enqueue(item: Item) throws {
-        try box.enqueue(item: item)
-    }
-
-    public func getFirst() -> Item? {
-        return box.getFirst()
-    }
-
-    @discardableResult
-    public func dequeue() -> Item? {
-        return box.dequeue()
     }
 }
