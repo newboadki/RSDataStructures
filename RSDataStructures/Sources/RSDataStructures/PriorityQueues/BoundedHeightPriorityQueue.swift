@@ -87,7 +87,7 @@ public struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue 
                 self.array[key] = nil
                 
                 // we need to find a new top
-                _ = self.removeElementToTopQueue(element: key)
+                self.removeElementToTopQueue(element: key)
                 if let min = self.minimumElementFromTopQueue() {
                     self.topIndex = min
                 } else {
