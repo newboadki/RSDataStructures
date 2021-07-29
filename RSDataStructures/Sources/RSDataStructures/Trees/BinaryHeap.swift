@@ -26,7 +26,7 @@ fileprivate class NodeDirectAccecssIndirectStorage<T: KeyValuePair> {
     }
 }
 
-/// This class can function as a priority head that stores key-value pairs maintaining their relative order.
+/// This class can function as a priority heap that stores key-value pairs maintaining their relative order.
 /// The order of the elements is based on the key, which is considered the priority.
 /// It is possible to update the priority of an element already in the queue. This will be done by using the value
 /// as the token to fetch. It reads, update the priority of the element with value V to the new priority K.
@@ -230,7 +230,7 @@ extension BasicBinaryHeap {
         while let c = current,
             let childToSwap = c.relevantChildrenToSwap(),
             /* Not a leaf */(c.numberOfChildren() > 0) &&
-                /* Doesn't conserve heap property */(!self.heapPropertiesAreKept(parent: c, child: childToSwap, type: self.type)) {
+            /* Doesn't conserve heap property */(!self.heapPropertiesAreKept(parent: c, child: childToSwap, type: self.type)) {
                     
                     // If we got in, we know there's a parent.
                     swapItems(parent: c, child: childToSwap)

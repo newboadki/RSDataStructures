@@ -137,12 +137,12 @@ public extension Graph {
         status.populate(keys: graph.vertices.map({ (vertex) -> Vertex.K in
             vertex.key
         }), repeating: .undiscovered)
-        let stack = StackBasedOnLinkedList<Self.Vertex>()
+        var stack = StackBasedOnLinkedList<Self.Vertex>()
         
         // We repeat the algorightm for each undiscovered node, because the graph could be disconnected.
         for vertex in graph.vertices {
             if status[vertex.key] == .undiscovered {
-                let success = iterativeTopologicalSortSingleNode(graph: graph, initialVertex: graph.vertex(withIndex: vertex.key)!, stack: stack, status: &status)
+                let success = iterativeTopologicalSortSingleNode(graph: graph, initialVertex: graph.vertex(withIndex: vertex.key)!, stack: &stack, status: &status)
                 if !success {
                     return nil
                 }
@@ -161,7 +161,7 @@ public extension Graph {
     ///   - stack: this will contain the results of a topological sort starting at the initialVertex
     ///   - status: each node can be .undiscovered, .discovered, .explored and .processed
     /// - Returns: A boolean indicating the success of the operation. False can mean that it's not a DAG or that loops where found.
-    func iterativeTopologicalSortSingleNode<S: Stack>(graph: Self, initialVertex: Self.Vertex, stack: S, status: inout Dictionary<Self.Vertex.K, VertexExplorationStatus>) -> Bool where S.Item == Self.Vertex {
+    func iterativeTopologicalSortSingleNode<S: Stack>(graph: Self, initialVertex: Self.Vertex, stack: inout S, status: inout Dictionary<Self.Vertex.K, VertexExplorationStatus>) -> Bool where S.Item == Self.Vertex {
         
         guard graph.directed == true else {
             return false
@@ -228,12 +228,12 @@ public extension Graph {
         status.populate(keys: graph.vertices.map({ (vertex) -> Vertex.K in
             vertex.key
         }), repeating: .undiscovered)
-        let stack = StackBasedOnLinkedList<Self.Vertex>()
+        var stack = StackBasedOnLinkedList<Self.Vertex>()
         
         // We repeat the algorightm for each undiscovered node, because the graph could be disconnected.
         for vertex in graph.vertices {
             if status[vertex.key] == .undiscovered {
-                let success = recursiveTopologicalSortSingleNode(graph: graph, initialVertex: graph.vertex(withIndex: vertex.key)!, stack: stack, status: &status)
+                let success = recursiveTopologicalSortSingleNode(graph: graph, initialVertex: graph.vertex(withIndex: vertex.key)!, stack: &stack, status: &status)
                 if !success {
                     return nil
                 }
@@ -252,7 +252,7 @@ public extension Graph {
     ///   - stack: this will contain the results of a topological sort starting at the initialVertex
     ///   - status: each node can be .undiscovered, .discovered, .explored and .processed
     /// - Returns: A topological sorting of the graph. Nil if the graph is not directed or contains cycles.
-    func recursiveTopologicalSortSingleNode<S: Stack>(graph: Self, initialVertex: Self.Vertex, stack: S, status: inout Dictionary<Self.Vertex.K, VertexExplorationStatus>) -> Bool where S.Item == Self.Vertex {
+    func recursiveTopologicalSortSingleNode<S: Stack>(graph: Self, initialVertex: Self.Vertex, stack: inout S, status: inout Dictionary<Self.Vertex.K, VertexExplorationStatus>) -> Bool where S.Item == Self.Vertex {
         
         status[initialVertex.key] = .discovered
         
@@ -265,7 +265,7 @@ public extension Graph {
                 }
                 
                 if (status[adjacent.key] != .discovered) && status[adjacent.key] != .processed {
-                    let success = recursiveTopologicalSortSingleNode(graph: graph, initialVertex: adjacent, stack: stack, status: &status)
+                    let success = recursiveTopologicalSortSingleNode(graph: graph, initialVertex: adjacent, stack: &stack, status: &status)
                     if success == false {
                         return false
                     }

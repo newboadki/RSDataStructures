@@ -15,9 +15,9 @@ public protocol Stack /*, Sequence */{
     
     var isEmpty: Bool {get}
     
-    func push(item: Item)
+    mutating func push(item: Item)
     
-    func pop() -> Item?
+    mutating func pop() -> Item?
     
     func peek() -> Item?
     

@@ -31,7 +31,7 @@ fileprivate class IndirectStorage<T> {
 // MARK: - NODE -
 
 /// A node is the building block of a linked list.
-/// It can be used on its own to create linked lists. However users of this class,
+/// It can be used on its own to create linked lists. However, users of this class,
 /// will need to manipulate references directly.
 public class SinglyLinkedListNode<T> {
     
