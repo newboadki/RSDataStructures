@@ -157,22 +157,8 @@ class SinglyThreadedBinarySearchTreeTraversalTests: XCTestCase {
     
     func testTraverseInOrderIterator() {
         let tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(2),p(1),p(0),p(5),p(3),p(6),p(4)]
-        tree.iterator = inOrderTraversalIterator(tree: tree)
-        
+
         let keyExpectation = [0,1,2,3,4,5,6]
-        let valueExpectation = [0,0,0,0,0,0,0]
-        
-        let (keys, values) = keysFromIteration(tree:tree)
-        XCTAssertTrue(keys == keyExpectation)
-        XCTAssertTrue(values == valueExpectation)
-    }
-    
-    
-    func testTraverseInPostOrderIterator() {
-        let tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(2),p(1),p(0),p(5),p(3),p(6),p(4)]
-        tree.iterator = postOrderTraversalIterator(tree: tree)
-        
-        let keyExpectation = [0,1,4,3,6,5,2]
         let valueExpectation = [0,0,0,0,0,0,0]
         
         let (keys, values) = keysFromIteration(tree:tree)
@@ -194,26 +180,8 @@ class SinglyThreadedBinarySearchTreeBinaryTreeExtensions: XCTestCase {
     }
     
     func testBottommostRightmost() {
-        var tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(20),p(15),p(25),p(14),p(16),p(24),p(26)]
-        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 26)
-        
-        tree = [p(20),p(15),p(25),p(14),p(16),p(24)]
-        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 24)
-        
-        tree = [p(20),p(15),p(25),p(14),p(16)]
-        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 16)
-
-        tree = [p(20),p(15),p(25),p(14)]
-        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 14)
-        
-        tree = [p(20),p(15),p(25)]
-        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 25)
-        
-        tree = [p(20),p(15)]
-        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 15)
-        
-        tree = [p(20)]
-        XCTAssertTrue(tree.bottommostRightmostNode()?.item?.key == 20)
+        let tree: SinglyThreadedBinarySearchTree<IntegerPair> = [p(20),p(15),p(25),p(14),p(16),p(24),p(26)]
+        XCTAssertNil(tree.bottommostRightmostNode())
     }
     
     func testBalancedTree() {

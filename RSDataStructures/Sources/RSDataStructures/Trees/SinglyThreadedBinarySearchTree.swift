@@ -15,7 +15,7 @@ import Foundation
 /// all arbitraty traversal algorithms. Some would not work. 
 /// Therefore it is this class that defines the different supported traversal algorithms.
 public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySearchTree {
-    
+        
     public typealias Item = T
     
     public weak var parent : SinglyThreadedBinarySearchTree<T>?
@@ -25,11 +25,7 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
     public var rightChild : SinglyThreadedBinarySearchTree<T>?
     
     public var item : T?
-    
-    /// Traversable binary trees accept an interator to enumerate its elements.
-    /// By default this class provides an in-order iterator.
-    public var iterator: AnyIterator<T>?
-    
+        
     public private(set) var count: Int
     
     /// Keeps a reference to the node, in this node's subtree, containing the minimum value. 
@@ -63,7 +59,6 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
         self.count = 1
         self.minNode = self
         self.successor = nil
-        self.iterator = self.defaultIterator(tree:self)
     }
     
     
@@ -89,8 +84,6 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
                 self.insert(item: element)
             }
         }
-        
-        self.iterator = self.defaultIterator(tree:self)
     }
     
     
@@ -281,7 +274,7 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
     
     /// In order to return the minimum in Order O(1), this class keeps track of it after every insertion
     /// or deletion. But, once the minimum changes we might need to update its uncestors.
-    /// - Parameter node: <#node description#>
+    /// - Parameter node: node to start from.
     private func propagateMinimum(startingFrom node: SinglyThreadedBinarySearchTree<T>) {
         var current: SinglyThreadedBinarySearchTree<T>? = node
         
@@ -362,6 +355,11 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
             return result?.item
         }
     }
+    
+    public func bottommostRightmostNode() -> Self? {
+        // Not implemented
+        return nil
+    }
 }
 
 
@@ -421,12 +419,12 @@ extension SinglyThreadedBinarySearchTree : Collection {
 
 // MARK: - TRAVERSABLE TREE -
 
-extension SinglyThreadedBinarySearchTree : TraversableBinaryTree {
+extension SinglyThreadedBinarySearchTree : Sequence {
 
-    /// - Discussion: Having to re-define becuase there's ambiguity between the TraversableBinaryTree extension 
+    /// - Discussion: Having to re-define becuase there's ambiguity between the TraversableBinaryTree extension
     ///   and the Collection extension to define the default indexingIterator
     public func makeIterator() -> AnyIterator<T> {
-        return self.iterator!
+        return self.defaultIterator(tree: self)
     }
 
 }

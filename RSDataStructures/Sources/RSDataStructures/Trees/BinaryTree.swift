@@ -10,7 +10,7 @@ import Foundation
 
 
 /// Binary trees are connected acyclic graphs with each node having between 0 to 2 nodes.
-public protocol BinaryTree : Equatable {
+public protocol BinaryTree : Equatable, Sequence {
     
     associatedtype Item : KeyValuePair
     
@@ -112,7 +112,6 @@ public protocol BinaryTree : Equatable {
     /// - Returns: True if it is a binary search tree
     func isBinarySearchTree() -> Bool
 }
-
 
 extension BinaryTree {
     
@@ -301,8 +300,6 @@ extension BinaryTree {
 
 
 
-
-
 /// Search Binary Trees are Binary trees that enforce the following invariant:
 /// Given a node with key K:
 ///  - The left subtree contains keys that are lower than K.
@@ -427,28 +424,26 @@ public extension CompleteBinaryTree where Self : TraversableBinaryTree {
 /// Conformers of this class must guarantee that left and right children are not being reused when nil to encode information.
 /// For example, some implementations of binary trees replace nil right children to point to the successor. Those kinds of
 /// implementations are not considered Traversable becuause basic traversal algorithms would fail on that structure.
-public protocol TraversableBinaryTree : BinaryTree, Sequence {
+public protocol TraversableBinaryTree : BinaryTree {
     
     var iterator : AnyIterator<Item>? {get set}
 }
 
-
 public extension TraversableBinaryTree {
-    
+        
+    /// Provides a default implementation of the Sequence protocol requirement.
     func makeIterator() -> AnyIterator<Item> {
         if let existingIterator = self.iterator {
             return existingIterator
         } else {
             return self.defaultIterator()
         }
-        
     }
     
     private func defaultIterator() -> AnyIterator<Item> {
         return inOrderTraversalIterator(tree: self)
     }
 
-    
     /// This is the deepest node at the far most right in the tree.
     /// The position of this node makes it useful in many algorithms
     /// like for example to keep the balance property of certain trees.
@@ -461,11 +456,11 @@ public extension TraversableBinaryTree {
         let maximumHeight = self.maximumHeight()
         
         while let tuple = iterator.next() {
-            if tuple.height == maximumHeight {                
+            if tuple.height == maximumHeight {
                 return tuple.node
             }
         }
         
-        return nil        
+        return nil
     }
 }
