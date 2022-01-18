@@ -19,44 +19,35 @@ class ArrayBasedHeapTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testArrayBasedHeap() throws {
-        let item1 = IntegerPair(key:1963, value: 1987)
-        let item2 = IntegerPair(key:1804, value: 1987)
-        let item3 = IntegerPair(key:1776, value: 1987)
-        let item4 = IntegerPair(key:1783, value: 1987)
-        let item5 = IntegerPair(key:2001, value: 1987)
-        let item6 = IntegerPair(key:1945, value: 1987)
-        let item7 = IntegerPair(key:1918, value: 1987)
-        let item8 = IntegerPair(key:1492, value: 1987)
-        let item9 = IntegerPair(key:1865, value: 1987)
-        let item10 = IntegerPair(key:1941, value: 1987)
-        var heap = ArrayBasedHeap<IntegerPair>(type: PriorityQueueType.min)
+    func test_heap_returns_elements_sorted_when_input_was_unsorted() throws {
+        let items = unsortedItems()
+        let expectedResult = items.sorted { a, b in a < b }
+        var heap = ArrayBasedHeap<IntegerPair>(type: .min, elements: items)
         
         XCTAssert(heap.capacity == 10000)
-                
-        try heap.enqueue(item: item1)
-        try heap.enqueue(item: item2)
-        try heap.enqueue(item: item3)
-        try heap.enqueue(item: item4)
-        try heap.enqueue(item: item5)
-        try heap.enqueue(item: item6)
-        try heap.enqueue(item: item7)
-        try heap.enqueue(item: item8)
-        try heap.enqueue(item: item9)
-        try heap.enqueue(item: item10)
+        XCTAssert(heap.count == items.count)
+        let dequeuedItems = dequeuedItems(&heap)
+        XCTAssert(heap.count == 0)
+        XCTAssertTrue(dequeuedItems.elementsEqual(expectedResult))
+    }
+
+    func test_heap_returns_elements_sorted_when_input_was_already_sorted() throws {
+        let items = sortedItems()
+        let expectedResult = items
+        var heap = ArrayBasedHeap<IntegerPair>(type: .min, elements: items)
         
-        XCTAssert(heap.count == 10)
-        XCTAssert( heap.dequeue()?.key == 1492); XCTAssert(heap.count == 9)
-        XCTAssert( heap.dequeue()?.key == 1776); XCTAssert(heap.count == 8)
-        XCTAssert( heap.dequeue()?.key == 1783); XCTAssert(heap.count == 7)
-        XCTAssert( heap.dequeue()?.key == 1804); XCTAssert(heap.count == 6)
-        XCTAssert( heap.dequeue()?.key == 1865); XCTAssert(heap.count == 5)
-        XCTAssert( heap.dequeue()?.key == 1918); XCTAssert(heap.count == 4)
-        XCTAssert( heap.dequeue()?.key == 1941); XCTAssert(heap.count == 3)
-        XCTAssert( heap.dequeue()?.key == 1945); XCTAssert(heap.count == 2)
-        XCTAssert( heap.dequeue()?.key == 1963); XCTAssert(heap.count == 1)
-        XCTAssert( heap.dequeue()?.key == 2001); XCTAssert(heap.count == 0)
-        XCTAssert( heap.dequeue() == nil); XCTAssert(heap.count == 0)
+        XCTAssert(heap.capacity == 10000)
+        XCTAssert(heap.count == items.count)
+        let dequeuedItems = dequeuedItems(&heap)
+        XCTAssert(heap.count == 0)
+        XCTAssertTrue(dequeuedItems.elementsEqual(expectedResult))
+    }
+    
+    func test_inserting_new_element_after_emptying_heap() throws {
+        let items = unsortedItems()
+        var heap = ArrayBasedHeap<IntegerPair>(type: .min, elements: items)
+        
+        _ = dequeuedItems(&heap)
         
         try heap.enqueue(item: IntegerPair(key:1492, value: 1987)); XCTAssert(heap.count == 1)
         try heap.enqueue(item: IntegerPair(key:2001, value: 1987)); XCTAssert(heap.count == 2)
@@ -66,5 +57,48 @@ class ArrayBasedHeapTests: XCTestCase {
         XCTAssert( heap.dequeue()?.key == 1000); XCTAssert(heap.count == 1)
         XCTAssert( heap.dequeue()?.key == 2001); XCTAssert(heap.count == 0)
         XCTAssert( heap.dequeue() == nil); XCTAssert(heap.count == 0)
+    }
+}
+
+// MARK: - Helpers
+private extension ArrayBasedHeapTests {
+    
+    func unsortedItems() -> [IntegerPair] {
+        return [IntegerPair(key:1963, value: 1987),
+                IntegerPair(key:1804, value: 1987),
+                IntegerPair(key:1776, value: 1987),
+                IntegerPair(key:1783, value: 1987),
+                IntegerPair(key:2001, value: 1987),
+                IntegerPair(key:1945, value: 1987),
+                IntegerPair(key:1918, value: 1987),
+                IntegerPair(key:1492, value: 1987),
+                IntegerPair(key:1865, value: 1987),
+                IntegerPair(key:1941, value: 1987)]
+    }
+
+    func sortedItems() -> [IntegerPair] {
+        return [IntegerPair(key:1492, value: 1987),
+                IntegerPair(key:1776, value: 1987),
+                IntegerPair(key:1783, value: 1987),
+                IntegerPair(key:1804, value: 1987),
+                IntegerPair(key:1865, value: 1987),
+                IntegerPair(key:1918, value: 1987),
+                IntegerPair(key:1941, value: 1987),
+                IntegerPair(key:1945, value: 1987),
+                IntegerPair(key:1963, value: 1987),
+                IntegerPair(key:2001, value: 1987)]
+    }
+
+    
+    func dequeuedItems(_ heap: inout ArrayBasedHeap<IntegerPair>) -> [IntegerPair] {
+        var dequeuedItems = [IntegerPair]()
+        
+        while heap.count > 0 {
+            if let el = heap.dequeue() {
+                dequeuedItems.append(el)
+            }
+        }
+        
+        return dequeuedItems
     }
 }

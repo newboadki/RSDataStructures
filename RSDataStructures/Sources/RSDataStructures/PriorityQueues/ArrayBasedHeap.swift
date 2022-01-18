@@ -123,62 +123,31 @@ public struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
             return
         }
         
-        let parentElement = self.array[Int(parentIndex)]
-        let childElement = self.array[Int(index)]
-        
-        switch self.type {
-            case .min:
-                if childElement.key < parentElement.key { // Swap
-                    self.array[Int(parentIndex)] = childElement
-                    self.array[Int(index)] = parentElement
-                }
-                break
-            case .max:
-                if childElement.key > parentElement.key { // Swap
-                    self.array[Int(parentIndex)] = childElement
-                    self.array[Int(index)] = parentElement
-                }
-                break
+        if !keepsHeapCondition(parentIndex: Int(parentIndex), childIndex: Int(index)) {
+            swap(index1: Int(parentIndex), index2: Int(index))
+            self.bubbleUp(startingAtIndex: parentIndex)
         }
-        
-        self.bubbleUp(startingAtIndex: parentIndex)
     }
 
     mutating private func bubbleDown(startingAtIndex index: UInt) {
         
+        let parentIndex = index
         let leftChildIndex = self.indexOfLeftChild(forParentAtIndex: index)
-        var min_index = Int(index)
+        let rightChildIndex = (leftChildIndex + 1)
+        var childrenIndexes = [Int]()
         
-        for indexIncrement in 0...1 {
-            let childIndex = (Int(leftChildIndex) + indexIncrement)
-            
-            // Check that the child index is not out of bounds
-            if (childIndex < Int(self.count)) {
-                
-                switch self.type {
-                case .min:
-                    if (self.array[childIndex].key < self.array[min_index].key) {
-                        min_index = childIndex
-                    }
-                    break
-                case .max:
-                    if (self.array[childIndex].key > self.array[min_index].key) {
-                        min_index = childIndex
-                    }
-                    break
-                }
-            }
+        if isIndexValid(Int(leftChildIndex)) { childrenIndexes.append(Int(leftChildIndex)) }
+        if isIndexValid(Int(rightChildIndex)) { childrenIndexes.append(Int(rightChildIndex)) }
+        
+        let minMaxIndex = indexOfItemKeepingHeapCondition(type: type, parentIndex: Int(parentIndex), childrenIndexes: childrenIndexes)
+        let isHeapConditionKept = (minMaxIndex == parentIndex)
+        
+        guard !isHeapConditionKept else {
+            return
         }
         
-        if (min_index != Int(index)) {
-            // Swap
-            let parentElement = self.array[Int(index)]
-            let minChildElement = self.array[min_index]
-            self.array[Int(index)] = minChildElement
-            self.array[Int(min_index)] = parentElement
-            
-            bubbleDown(startingAtIndex: UInt(min_index))
-        }
+        swap(index1: Int(parentIndex), index2: minMaxIndex)
+        bubbleDown(startingAtIndex: UInt(minMaxIndex))
     }
     
     private mutating func makeHeap(from elements: [HeapElement] ) {
@@ -189,5 +158,43 @@ public struct ArrayBasedHeap <HeapElement : KeyValuePair> : PriorityQueue {
                 print("Couldn't add item to the heap.")                
             }
         }
+    }
+        
+    private func comparator<T: Comparable>(forType theType: PriorityQueueType) -> (T, T) -> Bool {
+        switch theType {
+            case .min:
+                return { (a, b) in a < b }
+            case .max:
+                return { (a, b) in a > b }
+        }
+    }
+    
+    private func keepsHeapCondition(parentIndex: Int, childIndex: Int) -> Bool {
+        let comparator: (HeapElement, HeapElement) -> Bool = comparator(forType: type)
+        return comparator(array[parentIndex], array[childIndex])
+    }
+    
+    private func indexOfItemKeepingHeapCondition(type: PriorityQueueType, parentIndex: Int, childrenIndexes: [Int]) -> Int {
+        var minMaxIndex: Int = parentIndex
+        for childIndex in childrenIndexes {
+            if !keepsHeapCondition(parentIndex: minMaxIndex, childIndex: childIndex) {
+                minMaxIndex = childIndex
+            }
+        }
+        
+        return minMaxIndex
+    }
+
+    private func isIndexValid(_ index: Int) -> Bool {
+        return (index >= 0) && (index < array.count)
+    }
+
+    private mutating func swap(index1: Int, index2: Int) {
+        guard isIndexValid(index1) && isIndexValid(index2) else {
+            return
+        }
+        let temp = array[index1]
+        array[index1] = array[index2]
+        array[index2] = temp
     }
 }
