@@ -99,13 +99,19 @@ public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree,
     }
     
     private func insertNode(_ item: T) {
-        if item < self.item! {
+        guard let currentItem = self.item else {
+            // If self.item is nil, assign the new item to it
+            self.item = item
+            return
+        }
+        
+        if item < currentItem {
             if self.leftChild == nil {
                 self.leftChild = RedBlackBinarySearchTree<T>(leftChild: nil, rightChild: nil, value: item, color: .red)
             } else {
                 self.leftChild!.insertNode(item)
             }
-        } else if item > self.item! {
+        } else if item > currentItem {
             if self.rightChild == nil {
                 self.rightChild = RedBlackBinarySearchTree<T>(leftChild: nil, rightChild: nil, value: item, color: .red)
             } else {
