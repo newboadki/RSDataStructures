@@ -226,6 +226,94 @@ public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree,
     public func isRed() -> Bool {
         return (self.color == .red)
     }
+    
+    /// Validates all Red-Black tree properties
+    ///
+    /// - Returns: True if the tree satisfies all Red-Black properties
+    public func isValidRedBlackTree() -> Bool {
+        return isValidRedBlackTreeHelper().isValid
+    }
+    
+    /// Helper method that validates Red-Black properties and returns black height
+    private func isValidRedBlackTreeHelper() -> (isValid: Bool, blackHeight: Int) {
+        // Property 1: Every node is either red or black (implicitly satisfied by enum)
+        
+        // Empty tree or leaf (nil nodes are considered black)
+        if self.item == nil {
+            return (isValid: true, blackHeight: 1) // nil nodes count as black with height 1
+        }
+        
+        // Property 2: The root is black (check only at the root level)
+        // We'll validate this at the public method level
+        
+        // Property 3: All leaves (nil nodes) are black (implicitly satisfied)
+		let leftResult = self.leftChild?.isValidRedBlackTreeHelper() ?? (isValid: true, blackHeight: 1)
+		let rightResult = self.rightChild?.isValidRedBlackTreeHelper() ?? (isValid: true, blackHeight: 1)
+
+        // If either subtree is invalid, the whole tree is invalid
+        if !leftResult.isValid || !rightResult.isValid {
+            return (isValid: false, blackHeight: 0)
+        }
+        
+        // Property 4: If a node is red, then both its children are black
+        if self.color == .red {
+            if (self.leftChild?.color == .red) || (self.rightChild?.color == .red) {
+                return (isValid: false, blackHeight: 0)
+            }
+        }
+        
+        // Property 5: All paths from any node to its descendant leaves contain the same number of black nodes
+        if leftResult.blackHeight != rightResult.blackHeight {
+            return (isValid: false, blackHeight: 0)
+        }
+        
+        // Calculate black height for this node
+        let blackHeight = leftResult.blackHeight + (self.color == .black ? 1 : 0)
+        
+        return (isValid: true, blackHeight: blackHeight)
+    }
+    
+    /// Gets the black height of the tree
+    ///
+    /// - Returns: The number of black nodes from root to any leaf
+    public func blackHeight() -> Int {
+        if self.item == nil {
+            return 1 // Empty tree has black height 1
+        }
+        return isValidRedBlackTreeHelper().blackHeight
+    }
+    
+    /// Counts the total number of nodes in the tree
+    ///
+    /// - Returns: Total number of nodes
+    public func nodeCount() -> Int {
+        if self.item == nil {
+            return 0
+        }
+        
+        let leftCount = self.leftChild?.nodeCount() ?? 0
+        let rightCount = self.rightChild?.nodeCount() ?? 0
+        
+        return 1 + leftCount + rightCount
+    }
+    
+    /// Validates Red-Black tree including root-specific property
+    ///
+    /// - Returns: True if tree satisfies all Red-Black properties including root being black
+    public func isCompletelyValidRedBlackTree() -> Bool {
+        // Check if empty tree
+        if self.item == nil {
+            return true
+        }
+        
+        // Property 2: Root must be black
+        if self.color != .black {
+            return false
+        }
+        
+        // Check all other properties
+        return isValidRedBlackTree()
+    }
 
     
     
