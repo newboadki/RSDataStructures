@@ -79,6 +79,7 @@ class BasicBinaryMinHeapTests: XCTestCase {
     }
     
     func testNextFreeNode() {
+        // Perfect (complete + full) binary tree
         var heap = BasicBinaryHeap<IntegerPair>(value: p(20), parent: nil, leftChild: nil, rightChild: nil, type: .min)
         heap.insert(item: p(15))
         heap.insert(item: p(25))
@@ -86,7 +87,6 @@ class BasicBinaryMinHeapTests: XCTestCase {
         heap.insert(item: p(16))
         heap.insert(item: p(23))
         heap.insert(item: p(26))
-        
         var next = heap.nextIncompleteNode()
         XCTAssertTrue(next.item?.key == 20)
         

@@ -356,7 +356,7 @@ extension BasicBinaryHeap {
         let newNode = BasicBinaryHeap<T>(value: item, parent:nil, leftChild: nil, rightChild: nil, type: self.type, nodeIndirectStorage: self.directAccessToNodes)
         
         // Insert the new node into the first free place that respects the completeness of the tree.
-        // All levels complete, except the last one that can have free places, but it's complete from left to right
+        // All levels complete, except the last one that can have free places, but it's filled from left to right
         let nodeWithSpace = self.nextIncompleteNode()
         
         if nodeWithSpace.leftChild == nil {

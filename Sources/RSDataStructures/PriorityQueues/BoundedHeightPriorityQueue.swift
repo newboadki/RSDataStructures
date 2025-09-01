@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue {
+public struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue where Element.K == Int {
 
     /// Item is defined in the PriorityQueue protocol.
     public typealias Item = Element
@@ -34,7 +34,7 @@ public struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue 
     
     public mutating func enqueue(item: Item) throws {
         
-        let key = item.key as! Int
+        let key = item.key
         
         guard (key >= 0 && key<=self.maximumKey) else {
             throw PriorityQueueError.invalidOperationForType
@@ -52,6 +52,7 @@ public struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue 
         
         // Update the top index if necessary
         if let top = self.topIndex {
+            // use min
             if key < top {
                 self.topIndex = key
             }
@@ -72,14 +73,14 @@ public struct BoundedHeightPriorityQueue<Element: KeyValuePair> : PriorityQueue 
         var result : Item
         
         guard self.topIndex != nil else {
-            // There are no element in the queue
+            // There are no elements in the queue
             return nil
         }
         
         if var arrayForTop = self.array[self.topIndex!] {
             // append it to the existing array
             result = arrayForTop.removeFirst()
-            let key = result.key as! Int
+            let key = result.key
             self.array[key] = arrayForTop
             if arrayForTop.isEmpty {
                 

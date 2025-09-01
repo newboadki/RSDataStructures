@@ -48,6 +48,4 @@ class BoundedHeightPriorityQueueTests: XCTestCase {
         XCTAssert(pq.dequeue()!.key == 780)
         XCTAssert(pq.dequeue()!.key == 800)
     }
-
-
 }

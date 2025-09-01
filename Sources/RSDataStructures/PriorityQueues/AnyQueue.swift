@@ -9,7 +9,7 @@ import Foundation
 
 // Public type erasing wrapper
 // Implements the Queue protocol
-// Generic around the associated type
+// Generic on the associated type
 public struct AnyQueue<Item>: Queue {
     
     private let box: _AnyQueueBase<Item>

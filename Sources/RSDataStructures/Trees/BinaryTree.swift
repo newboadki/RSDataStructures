@@ -399,9 +399,10 @@ public extension CompleteBinaryTree {
 public extension CompleteBinaryTree where Self : TraversableBinaryTree {
     
     /// - Returns: The node the first node that still has space to allocate a child according to the invariant that a
-    ///   Balanced Binary Tree defines all levels full, except the last one, which is filled from left to right.
+    ///   compplete Binary Tree defines all levels full, except the last one, which is filled from left to right.
+    /// - Complexity: O(N), where N is the number of elements in the tree,
     func nextIncompleteNode() -> Self {
-        
+        // BFS works here but just because we are interested in going level by level (top to bottom) and left to right in a given level. BFS goes level by level top to bottom by default and if the implementation iterates through childrens left to right (usually the case) then BFS is a good choice here.
         let iterator: AnyIterator<(node: Self, height: Int)> = breadthFirstSearchTraversalIterator(tree: self)
         let maximumHeight = self.maximumHeight()
         
@@ -463,4 +464,22 @@ public extension TraversableBinaryTree {
         
         return nil
     }
+    
+    /// This is the deepest node at the far most right in the tree.
+    /// The position of this node makes it useful in many algorithms
+    /// like for example to keep the balance property of certain trees.
+    ///
+    /// - Returns: The bottommost rightmost node in the tree.
+    /// - Complexity: O(log N)
+    /*
+     func bottommostRightmostNodeRecursive(root: Node) -> Self? {
+        - Base case 1: The tree has no children
+        - Base case 2: The tree has only the left child (complete tree def.)
+        
+        - Recursion step: The tree has 2 children
+        -- Compare the heights of the left and right subtrees
+        --- IF equal, the recurse with the left subtree
+        --- ELSE, the recurse with the right subtree
+        
+    }*/
 }
