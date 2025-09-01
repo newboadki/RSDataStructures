@@ -138,7 +138,85 @@ public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree,
     
     
     public func delete(elementWithKey key: T.K) -> Bool {
-        return false
+        guard let nodeToDelete = self.search(key: key) else {
+            return false
+        }
+        
+        // Case 1: Node has no children (leaf node)
+        if nodeToDelete.leftChild == nil && nodeToDelete.rightChild == nil {
+            if nodeToDelete === self {
+                // Deleting the root node and it's the only node
+                self.item = nil
+                return true
+            }
+            // For now, just replace with nil - this is simplified deletion
+            self.replaceNode(nodeToDelete, with: nil)
+            return true
+        }
+        
+        // Case 2: Node has only one child
+        if nodeToDelete.leftChild == nil {
+            self.replaceNode(nodeToDelete, with: nodeToDelete.rightChild)
+            return true
+        } else if nodeToDelete.rightChild == nil {
+            self.replaceNode(nodeToDelete, with: nodeToDelete.leftChild)
+            return true
+        }
+        
+        // Case 3: Node has two children
+        // Find the inorder successor (minimum in the right subtree)
+        let successor = nodeToDelete.rightChild!.minimum()!
+        
+        // Copy the successor's data to the node to be deleted
+        nodeToDelete.item = successor.item
+        
+        // Now delete the successor (which has at most one child)
+        if successor.rightChild == nil {
+            self.replaceNode(successor, with: nil)
+        } else {
+            self.replaceNode(successor, with: successor.rightChild)
+        }
+        
+        return true
+    }
+    
+    private func replaceNode(_ nodeToReplace: RedBlackBinarySearchTree<T>, with replacement: RedBlackBinarySearchTree<T>?) {
+        // Find the parent and update the appropriate child reference
+        if nodeToReplace === self {
+            // We're trying to replace the root
+            if let replacement = replacement {
+                self.item = replacement.item
+                self.leftChild = replacement.leftChild
+                self.rightChild = replacement.rightChild
+                self.color = replacement.color
+            }
+            return
+        }
+        
+        // Find the parent by searching through the tree
+        if let parent = self.findParent(of: nodeToReplace) {
+            if parent.leftChild === nodeToReplace {
+                parent.leftChild = replacement
+            } else {
+                parent.rightChild = replacement
+            }
+        }
+    }
+    
+    private func findParent(of node: RedBlackBinarySearchTree<T>) -> RedBlackBinarySearchTree<T>? {
+        if self.leftChild === node || self.rightChild === node {
+            return self
+        }
+        
+        if let leftParent = self.leftChild?.findParent(of: node) {
+            return leftParent
+        }
+        
+        if let rightParent = self.rightChild?.findParent(of: node) {
+            return rightParent
+        }
+        
+        return nil
     }
 
     
