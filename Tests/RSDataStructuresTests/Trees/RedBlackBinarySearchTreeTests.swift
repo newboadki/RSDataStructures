@@ -289,7 +289,7 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
         XCTAssertFalse(tree.isBalanced(), "Empty tree is considered not balanced by protocol default")
         XCTAssertEqual(tree.maximumHeight(), 0, "Empty tree should have height 0")
         XCTAssertEqual(tree.blackHeight(), 1, "Empty tree should have black height 1")
-        XCTAssertEqual(tree.nodeCount(), 0, "Empty tree should have 0 nodes")
+        XCTAssertEqual(tree.count, 0, "Empty tree should have 0 nodes")
     }
     
     func testSingleNodeStructure() {
@@ -302,7 +302,7 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
         XCTAssertEqual(tree.color, .black, "Root must be black")
         XCTAssertEqual(tree.maximumHeight(), 1, "Single node tree should have height 1")
         XCTAssertEqual(tree.blackHeight(), 2, "Single black node tree should have black height 2 (root + nil children)")
-        XCTAssertEqual(tree.nodeCount(), 1, "Single node tree should have 1 node")
+        XCTAssertEqual(tree.count, 1, "Single node tree should have 1 node")
     }
     
     func testTwoNodeStructure() {
@@ -314,7 +314,7 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
         XCTAssertEqual(tree.color, .black, "Root must be black")
         XCTAssertEqual(tree.leftChild?.color, .red, "Child of root should be red")
         XCTAssertEqual(tree.maximumHeight(), 2, "Two node tree should have height 2")
-        XCTAssertEqual(tree.nodeCount(), 2, "Two node tree should have 2 nodes")
+        XCTAssertEqual(tree.count, 2, "Two node tree should have 2 nodes")
     }
     
     func testThreeNodeBalancedStructure() {
@@ -328,7 +328,7 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
         // Don't test specific colors as Red-Black implementation may vary
         // but verify that Red-Black properties hold
         XCTAssertEqual(tree.maximumHeight(), 2, "Three node tree should have height 2")
-        XCTAssertEqual(tree.nodeCount(), 3, "Three node tree should have 3 nodes")
+        XCTAssertEqual(tree.count, 3, "Three node tree should have 3 nodes")
         
         // Verify the tree structure makes sense
         XCTAssertNotNil(tree.leftChild, "Should have left child")
@@ -353,12 +353,12 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
                          "Tree became unbalanced after inserting \(value) at index \(index)")
             XCTAssertEqual(tree.color, .black, 
                           "Root is not black after inserting \(value) at index \(index)")
-            XCTAssertEqual(tree.nodeCount(), index + 1, 
+            XCTAssertEqual(tree.count, index + 1, 
                           "Node count incorrect after inserting \(value) at index \(index)")
         }
         
         // Final validation
-        XCTAssertEqual(tree.nodeCount(), values.count)
+        XCTAssertEqual(tree.count, values.count)
         
         // Red-Black tree should maintain logarithmic height
         let expectedMaxHeight = Int(2 * ceil(log2(Double(values.count + 1))))
@@ -380,7 +380,7 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
         XCTAssertTrue(tree.isCompletelyValidRedBlackTree(), "Sequential insertions should maintain Red-Black properties")
         XCTAssertTrue(tree.isBinarySearchTree(), "Sequential insertions should maintain BST property")
         XCTAssertTrue(tree.isBalanced(), "Sequential insertions should maintain balance")
-        XCTAssertEqual(tree.nodeCount(), testValues.count, "Should have all \(testValues.count) nodes")
+        XCTAssertEqual(tree.count, testValues.count, "Should have all \(testValues.count) nodes")
         
         // Red-Black tree should prevent degeneration to linked list
         let maxAllowedHeight = Int(2 * ceil(log2(Double(testValues.count + 1))))
@@ -401,7 +401,7 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
         XCTAssertTrue(tree.isCompletelyValidRedBlackTree(), "Reverse sequential insertions should maintain Red-Black properties")
         XCTAssertTrue(tree.isBinarySearchTree(), "Reverse sequential insertions should maintain BST property")
         XCTAssertTrue(tree.isBalanced(), "Reverse sequential insertions should maintain balance")
-        XCTAssertEqual(tree.nodeCount(), testValues.count, "Should have all \(testValues.count) nodes")
+        XCTAssertEqual(tree.count, testValues.count, "Should have all \(testValues.count) nodes")
         
         // Should not degenerate to linked list
         let maxAllowedHeight = Int(2 * ceil(log2(Double(testValues.count + 1))))
@@ -414,21 +414,21 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
     func testStructureAfterDeletions() {
         let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50), p(25), p(75), p(12), p(37), p(62), p(87), p(6), p(18), p(31), p(43)]
         
-        let initialNodeCount = tree.nodeCount()
+        let initialNodeCount = tree.count
         XCTAssertTrue(tree.isCompletelyValidRedBlackTree(), "Initial tree should be valid Red-Black tree")
         
         // Delete various nodes and verify structure integrity
         let nodesToDelete = [6, 43, 25, 87, 12]
         
         for nodeKey in nodesToDelete {
-            let beforeCount = tree.nodeCount()
+            let beforeCount = tree.count
             let deleteResult = tree.delete(elementWithKey: nodeKey)
             
             XCTAssertTrue(deleteResult, "Failed to delete node \(nodeKey)")
             XCTAssertTrue(tree.isBinarySearchTree(), "BST property violated after deleting \(nodeKey)")
-            XCTAssertEqual(tree.nodeCount(), beforeCount - 1, "Node count incorrect after deleting \(nodeKey)")
+            XCTAssertEqual(tree.count, beforeCount - 1, "Node count incorrect after deleting \(nodeKey)")
             
-            if tree.nodeCount() > 0 {
+            if tree.count > 0 {
                 XCTAssertEqual(tree.color, .black, "Root is not black after deleting \(nodeKey)")
                 XCTAssertTrue(tree.isBalanced(), "Tree became unbalanced after deleting \(nodeKey)")
             }
@@ -438,7 +438,7 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
         }
         
         // Final count should be reduced by number of deletions
-        XCTAssertEqual(tree.nodeCount(), initialNodeCount - nodesToDelete.count)
+        XCTAssertEqual(tree.count, initialNodeCount - nodesToDelete.count)
     }
     
     func testMixedInsertionDeletionOperations() {
@@ -466,9 +466,9 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
             
             // After each operation, verify structural integrity
             XCTAssertTrue(tree.isBinarySearchTree(), "BST property violated after \(operation) \(value)")
-            XCTAssertEqual(tree.nodeCount(), expectedCount, "Node count incorrect after \(operation) \(value)")
+            XCTAssertEqual(tree.count, expectedCount, "Node count incorrect after \(operation) \(value)")
             
-            if tree.nodeCount() > 0 {
+            if tree.count > 0 {
                 XCTAssertEqual(tree.color, .black, "Root is not black after \(operation) \(value)")
                 XCTAssertTrue(tree.isBalanced(), "Tree not balanced after \(operation) \(value)")
             }
@@ -505,7 +505,7 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
         
         let testValues = [50, 23, 76, 100, 40, 22, 21, 20] // Known working pattern
         
-        XCTAssertEqual(tree.nodeCount(), testValues.count, "Should have all \(testValues.count) nodes")
+        XCTAssertEqual(tree.count, testValues.count, "Should have all \(testValues.count) nodes")
         XCTAssertTrue(tree.isBinarySearchTree(), "Large tree should maintain BST property")
         XCTAssertTrue(tree.isCompletelyValidRedBlackTree(), "Large tree should maintain Red-Black properties")
         XCTAssertTrue(tree.isBalanced(), "Large tree should be balanced")
@@ -590,7 +590,7 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
             // Test after deletion as well
             if count > 1 {
                 let _ = tree.delete(elementWithKey: values[0])
-                if tree.nodeCount() > 0 {
+                if tree.count > 0 {
                     XCTAssertEqual(tree.color, .black, "Root should be black after deletion with \(count-1) nodes")
                 }
             }
@@ -604,7 +604,7 @@ class RedBlackBinarySearchTreeStructureTests: XCTestCase {
         XCTAssertTrue(tree.isCompletelyValidRedBlackTree(), "Empty tree should be valid Red-Black tree")
         XCTAssertTrue(tree.isEmpty(), "Tree should be empty")
         XCTAssertFalse(tree.isBalanced(), "Empty tree is considered not balanced by protocol default")
-        XCTAssertEqual(tree.nodeCount(), 0, "Empty tree should have 0 nodes")
+        XCTAssertEqual(tree.count, 0, "Empty tree should have 0 nodes")
         XCTAssertEqual(tree.maximumHeight(), 0, "Empty tree should have height 0")
     }
 }

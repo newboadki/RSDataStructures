@@ -82,7 +82,6 @@ public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree,
                 self.item = element
                 isFirstElement = false
             } else {
-                self.count += 1
                 self.insert(item: element)
             }
         }        
@@ -102,20 +101,27 @@ public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree,
         guard let currentItem = self.item else {
             // If self.item is nil, assign the new item to it
             self.item = item
+            self.count = 1
             return
         }
         
         if item < currentItem {
             if self.leftChild == nil {
                 self.leftChild = RedBlackBinarySearchTree<T>(leftChild: nil, rightChild: nil, value: item, color: .red)
+                self.count += 1
             } else {
+                let oldChildCount = self.leftChild!.count
                 self.leftChild!.insertNode(item)
+                self.count += (self.leftChild!.count - oldChildCount)
             }
         } else if item > currentItem {
             if self.rightChild == nil {
                 self.rightChild = RedBlackBinarySearchTree<T>(leftChild: nil, rightChild: nil, value: item, color: .red)
+                self.count += 1
             } else {
+                let oldChildCount = self.rightChild!.count
                 self.rightChild!.insertNode(item)
+                self.count += (self.rightChild!.count - oldChildCount)
             }
         } else {
             self.item = item
@@ -132,8 +138,6 @@ public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree,
         if (self.leftChild?.isRed() ?? false) && (self.rightChild?.isRed() ?? false) {
             self.flipColors()
         }
-
-        // TODO: UPDATE SIZES
     }
     
     
@@ -142,11 +146,15 @@ public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree,
             return false
         }
         
+        // Decrement count since we're deleting a node
+        self.count -= 1
+        
         // Case 1: Node has no children (leaf node)
         if nodeToDelete.leftChild == nil && nodeToDelete.rightChild == nil {
             if nodeToDelete === self {
                 // Deleting the root node and it's the only node
                 self.item = nil
+                self.count = 0
                 return true
             }
             // For now, just replace with nil - this is simplified deletion
@@ -283,19 +291,6 @@ public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree,
         return isValidRedBlackTreeHelper().blackHeight
     }
     
-    /// Counts the total number of nodes in the tree
-    ///
-    /// - Returns: Total number of nodes
-    public func nodeCount() -> Int {
-        if self.item == nil {
-            return 0
-        }
-        
-        let leftCount = self.leftChild?.nodeCount() ?? 0
-        let rightCount = self.rightChild?.nodeCount() ?? 0
-        
-        return 1 + leftCount + rightCount
-    }
     
     /// Validates Red-Black tree including root-specific property
     ///
