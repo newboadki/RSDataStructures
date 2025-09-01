@@ -94,40 +94,40 @@ public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree,
     /// - Parameter item: key-value pair that will be inserted into the tree
     /// - Complexity: O(log(N))
     public func insert(item: T) {
-        let _ = RedBlackBinarySearchTree.insert(item: item, in: self)
+        self.insertNode(item)
         self.color = .black
     }
     
-    private static func insert(item: T, in tree: RedBlackBinarySearchTree<T>?) -> RedBlackBinarySearchTree<T>? {
-        
-        if tree == nil {
-            return RedBlackBinarySearchTree<T>(leftChild: nil, rightChild: nil, value:item, color:.red)
-        }
-        
-        if item < (tree?.item)! {
-            tree?.leftChild =  RedBlackBinarySearchTree.insert(item: item, in: tree?.leftChild)
-        } else if item > (tree?.item)! {
-            tree?.rightChild = RedBlackBinarySearchTree.insert(item: item, in: tree?.rightChild)
+    private func insertNode(_ item: T) {
+        if item < self.item! {
+            if self.leftChild == nil {
+                self.leftChild = RedBlackBinarySearchTree<T>(leftChild: nil, rightChild: nil, value: item, color: .red)
+            } else {
+                self.leftChild!.insertNode(item)
+            }
+        } else if item > self.item! {
+            if self.rightChild == nil {
+                self.rightChild = RedBlackBinarySearchTree<T>(leftChild: nil, rightChild: nil, value: item, color: .red)
+            } else {
+                self.rightChild!.insertNode(item)
+            }
         } else {
-            tree?.item = item
+            self.item = item
         }
         
-        if (tree?.rightChild?.isRed() ?? false)==true && (tree?.leftChild?.isRed() ?? false)==false {
-            RedBlackBinarySearchTree.rotateLeft(tree: tree!)
+        if (self.rightChild?.isRed() ?? false) && !(self.leftChild?.isRed() ?? false) {
+            self.rotateLeft()
         }
         
-        if (tree?.leftChild?.isRed() ?? false)==true && (tree?.leftChild?.leftChild?.isRed() ?? false)==true {
-            RedBlackBinarySearchTree.rotateRight(tree: tree!)
+        if (self.leftChild?.isRed() ?? false) && (self.leftChild?.leftChild?.isRed() ?? false) {
+            self.rotateRight()
         }
 
-        if (tree?.leftChild?.isRed() ?? false)==true && (tree?.rightChild?.isRed() ?? false)==true {
-            RedBlackBinarySearchTree.flipColors(tree: tree!)
+        if (self.leftChild?.isRed() ?? false) && (self.rightChild?.isRed() ?? false) {
+            self.flipColors()
         }
 
         // TODO: UPDATE SIZES
-        
-        return tree
-        
     }
     
     
@@ -147,39 +147,39 @@ public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree,
     
     // MARK: - TRANSFORMATIONS TO KEEP RED-BLACK PROPERTIES -
     
-    private static func rotateLeft(tree: RedBlackBinarySearchTree<T>) {
-        let right = tree.rightChild
+    private func rotateLeft() {
+        let right = self.rightChild
         
         // Swap items
-        let tempItem = tree.item
-        tree.item = right?.item
+        let tempItem = self.item
+        self.item = right?.item
         right?.item = tempItem
         
-        tree.rightChild = right?.rightChild
-        right?.rightChild = tree.leftChild
-        tree.leftChild = right
+        self.rightChild = right?.rightChild
+        right?.rightChild = self.leftChild
+        self.leftChild = right
     }
     
-    private static func rotateRight(tree: RedBlackBinarySearchTree<T>){
-        let left = tree.leftChild
+    private func rotateRight() {
+        let left = self.leftChild
         let leftLeft = left?.leftChild
         
         // Swap the items
-        let tempItem = tree.item
-        tree.item = left?.item
+        let tempItem = self.item
+        self.item = left?.item
         left?.item = tempItem
         
-        tree.leftChild = leftLeft
+        self.leftChild = leftLeft
         left?.leftChild = left?.rightChild
-        left?.rightChild = tree.rightChild
+        left?.rightChild = self.rightChild
         
-        tree.rightChild = left
+        self.rightChild = left
     }
 
-    private static func flipColors(tree: RedBlackBinarySearchTree<T>) {
-        tree.leftChild?.color = .black
-        tree.rightChild?.color = .black
-        tree.color = .red
+    private func flipColors() {
+        self.leftChild?.color = .black
+        self.rightChild?.color = .black
+        self.color = .red
     }
 
 }
