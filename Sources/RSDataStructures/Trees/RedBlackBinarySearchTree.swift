@@ -25,8 +25,8 @@ public final class RedBlackBinarySearchTree<T: KeyValuePair> : BinarySearchTree,
     
     public var item : T?
     
-    /// TODO: Implement
-    public var parent :RedBlackBinarySearchTree<T>?
+    /// Reference to the parent node in the red-black tree.
+    public var parent: RedBlackBinarySearchTree<T>?
     
     // MARK: From TrversableTree protocol
     /// Traversable binary trees accept an interator to enumerate its elements.

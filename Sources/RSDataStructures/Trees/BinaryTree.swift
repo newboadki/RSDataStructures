@@ -150,24 +150,24 @@ extension BinaryTree {
         ///   - count: the size of a given path in the recursion stack.
         func traversePaths(tree: T?, paths: inout [[C]], stack: inout [C], count: Int) {
             
-            guard tree != nil else {
+            guard let tree = tree else {
                 return
             }
             
-            guard tree?.item != nil else {
+            guard let item = tree.item else {
                 return
             }
             
-            let key: C = tree?.item!.key as! C
+            let key: C = item.key as! C
             stack.insert(key, at: count)
             let nextCount = count + 1
 
-            if tree?.leftChild==nil && tree?.rightChild==nil {
+            if tree.leftChild == nil && tree.rightChild == nil {
                 let path = pathFrom(stack: &stack, count: nextCount)
                 paths.append(path)
             } else {
-                traversePaths(tree: tree?.leftChild, paths: &paths, stack: &stack, count: nextCount)
-                traversePaths(tree: tree?.rightChild, paths: &paths, stack: &stack, count: nextCount)
+                traversePaths(tree: tree.leftChild, paths: &paths, stack: &stack, count: nextCount)
+                traversePaths(tree: tree.rightChild, paths: &paths, stack: &stack, count: nextCount)
             }
         }
     
@@ -245,7 +245,7 @@ extension BinaryTree {
             return nil
         }
         
-        var leftSubtreeHeight: Int? = 0
+        var leftSubtreeHeight: Int = 0
         if let leftChild = self.leftChild {
             if let leftHeight = leftChild.checkHeight() {
                 leftSubtreeHeight = leftHeight
@@ -254,7 +254,7 @@ extension BinaryTree {
             }
         }
         
-        var rightSubtreeHeight: Int? = 0
+        var rightSubtreeHeight: Int = 0
         if let rightChild = self.rightChild {
             if let rightHeight = rightChild.checkHeight() {
                 rightSubtreeHeight = rightHeight
@@ -263,11 +263,11 @@ extension BinaryTree {
             }
         }
         
-        let diffInHeight = abs(leftSubtreeHeight! - rightSubtreeHeight!)
+        let diffInHeight = abs(leftSubtreeHeight - rightSubtreeHeight)
         if (diffInHeight > 1) {
             return nil
         } else {
-            return (1 + Swift.max(leftSubtreeHeight!, rightSubtreeHeight!))
+            return (1 + Swift.max(leftSubtreeHeight, rightSubtreeHeight))
         }
     }
     
@@ -285,12 +285,19 @@ extension BinaryTree {
             return false
         }
         
-        if (min != nil && self.item!.key <= min!) || (max != nil && self.item!.key > max!) {
+        guard let item = self.item else {
             return false
         }
         
-        if !(self.leftChild?.checkIsBinarySearchTree(min: min, max: self.item!.key) ?? true) ||
-            !(self.rightChild?.checkIsBinarySearchTree(min: self.item!.key, max: max) ?? true) {
+        if let min = min, item.key <= min {
+            return false
+        }
+        if let max = max, item.key > max {
+            return false
+        }
+        
+        if !(self.leftChild?.checkIsBinarySearchTree(min: min, max: item.key) ?? true) ||
+            !(self.rightChild?.checkIsBinarySearchTree(min: item.key, max: max) ?? true) {
             return false
         }
         
@@ -327,12 +334,16 @@ extension BinarySearchTree {
             return nil
         }
         
-        if self.item!.key == key {
+        guard let item = self.item else {
+            return nil
+        }
+        
+        if item.key == key {
             // The shought element is the root of the current tree
             return self
         }
         
-        if key < self.item!.key {
+        if key < item.key {
             return self.leftChild?.search(key: key)
         } else {
             return self.rightChild?.search(key: key)
