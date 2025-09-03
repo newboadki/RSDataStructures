@@ -327,6 +327,152 @@ class BasicBinaryHeapUpdateTests: XCTestCase {
     }
 }
 
+class BasicBinaryHeapRelevantChildrenTests: XCTestCase {
+    
+    func testRelevantChildrenToSwapSingleChildScenarios() {
+        // Test extraction from a heap that will create single child scenarios during bubbleDown
+        let heap = BasicBinaryHeap<IntegerPair>(value: p(1), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(2))  // This becomes left child of root
+        heap.insert(item: p(3))  // This becomes right child of root
+        heap.insert(item: p(10)) // This will trigger bubbleDown scenarios
+        
+        // Extract the minimum (1), causing 10 to replace it and need to bubble down
+        let top = heap.extractTop()
+        XCTAssertEqual(top?.item?.key, 1)
+        
+        // The heap should maintain its min heap property
+        XCTAssertLessThanOrEqual(heap.item?.key ?? Int.max, heap.leftChild?.item?.key ?? Int.max)
+        XCTAssertLessThanOrEqual(heap.item?.key ?? Int.max, heap.rightChild?.item?.key ?? Int.max)
+    }
+    
+    func testRelevantChildrenToSwapTwoChildrenMinHeapSelection() {
+        // Create a scenario that will exercise two-children selection in min heap
+        let heap = BasicBinaryHeap<IntegerPair>(value: p(1), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(3))   // Left child
+        heap.insert(item: p(2))   // Right child (smaller)
+        heap.insert(item: p(4))   // Left-left
+        heap.insert(item: p(5))   // Left-right  
+        heap.insert(item: p(6))   // Right-left
+        heap.insert(item: p(7))   // Right-right
+        heap.insert(item: p(20))  // This will go to bottom and cause bubbleDown on extraction
+        
+        // Extract root, forcing bubbleDown to choose between children
+        let extracted = heap.extractTop()
+        XCTAssertEqual(extracted?.item?.key, 1)
+        
+        // Verify heap property is maintained by checking root is minimal  
+        XCTAssertEqual(heap.item?.key, 2)  // Should be new minimum after extraction
+        
+        // Extract remaining elements and verify they come in sorted order
+        var remainingKeys = [Int]()
+        while let top = heap.extractTop() {
+            remainingKeys.append(top.item!.key)
+        }
+        XCTAssertEqual(remainingKeys, [2, 3, 4, 5, 6, 7, 20])
+    }
+    
+    func testRelevantChildrenToSwapTwoChildrenMaxHeapSelection() {
+        // Create a scenario that will exercise two-children selection in max heap
+        let heap = BasicBinaryHeap<IntegerPair>(value: p(20), parent: nil, leftChild: nil, rightChild: nil, type: .max)
+        heap.insert(item: p(15))  // Left child
+        heap.insert(item: p(18))  // Right child (larger)
+        heap.insert(item: p(10))  // Left-left
+        heap.insert(item: p(12))  // Left-right
+        heap.insert(item: p(16))  // Right-left  
+        heap.insert(item: p(17))  // Right-right
+        heap.insert(item: p(1))   // This will go to bottom and cause bubbleDown on extraction
+        
+        // Extract root, forcing bubbleDown to choose between children
+        let extracted = heap.extractTop()
+        XCTAssertEqual(extracted?.item?.key, 20)
+        
+        // Verify heap property is maintained - root should be the maximum remaining
+        XCTAssertEqual(heap.item?.key, 18)
+        
+        // Extract remaining elements and verify max heap property
+        var allKeys = [Int]()
+        while let top = heap.extractTop() {
+            allKeys.append(top.item!.key)
+        }
+        XCTAssertEqual(allKeys, [18, 17, 16, 15, 12, 10, 1])
+    }
+    
+    func testRelevantChildrenToSwapHeapPropertySatisfied() {
+        // Test scenarios where relevantChildrenToSwap should return nil (no swap needed)
+        let heap = BasicBinaryHeap<IntegerPair>(value: p(1), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(5))
+        heap.insert(item: p(8))
+        heap.insert(item: p(10))
+        heap.insert(item: p(12))
+        
+        // Extract all and verify they come out in order (heap property maintained)
+        var extracted = [Int]()
+        while let top = heap.extractTop() {
+            extracted.append(top.item!.key)
+        }
+        
+        // Should be in ascending order for min heap
+        XCTAssertEqual(extracted, [1, 5, 8, 10, 12])
+    }
+    
+    func testRelevantChildrenToSwapUpdatePriorityTriggersCorrectBubbleDown() {
+        // Test that updatePriority properly exercises relevantChildrenToSwap when bubbling down
+        let heap = BasicBinaryHeap<IntegerPair>(value: p(1, 1), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(3, 2))  // Left child
+        heap.insert(item: p(5, 3))  // Right child  
+        heap.insert(item: p(7, 4))  // Left-left
+        heap.insert(item: p(9, 5))  // Left-right
+        heap.insert(item: p(11, 6)) // Right-left
+        heap.insert(item: p(13, 7)) // Right-right
+        
+        // Update root priority to a large value, forcing bubble down
+        heap.updatePriority(ofValue: 1, to: 20)
+        
+        // Root should now be the minimum of the remaining elements
+        XCTAssertEqual(heap.item?.key, 3)
+        
+        // Verify heap property is still maintained
+        var keys = [Int]()
+        while let top = heap.extractTop() {
+            keys.append(top.item!.key)
+        }
+        
+        // Should extract in ascending order
+        for i in 1..<keys.count {
+            XCTAssertLessThanOrEqual(keys[i-1], keys[i])
+        }
+    }
+    
+    func testRelevantChildrenToSwapComplexBubbleDownScenario() {
+        // Test a more complex scenario that exercises multiple levels of bubbleDown
+        let heap = BasicBinaryHeap<IntegerPair>(value: p(1), parent: nil, leftChild: nil, rightChild: nil, type: .min)
+        heap.insert(item: p(3))
+        heap.insert(item: p(5))
+        heap.insert(item: p(7))
+        heap.insert(item: p(9))
+        heap.insert(item: p(11))
+        heap.insert(item: p(13))
+        
+        // Now insert a large value that will go to the bottom, then extract the root
+        // This should cause multiple bubble down operations
+        heap.insert(item: p(20))
+        
+        let extracted = heap.extractTop()
+        XCTAssertEqual(extracted?.item?.key, 1)
+        
+        // The heap should still maintain min heap property
+        var keys = [Int]()
+        while let top = heap.extractTop() {
+            keys.append(top.item!.key)
+        }
+        
+        // Verify extracted keys are in ascending order (min heap property)
+        for i in 1..<keys.count {
+            XCTAssertLessThanOrEqual(keys[i-1], keys[i])
+        }
+    }
+}
+
 final class DataContainer : KeyValuePair {
     
     typealias K = Float
