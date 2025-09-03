@@ -261,40 +261,39 @@ extension BasicBinaryHeap {
         child.item = temp
     }
     
-    /// TODO: Tidy up. Reduce duplication. Use Swift's max, min functions.
+    /// Returns the child node to swap with, if any, to restore the heap property.
+    /// Uses Swift's min and max functions to reduce duplication.
     private func relevantChildrenToSwap() -> BasicBinaryHeap<T>? {
-        
-        guard self.numberOfChildren() > 0 else {
+        guard numberOfChildren() > 0 else {
             return nil
         }
-        
-        if self.numberOfChildren() == 1 {
-            if let leftChild = self.leftChild {
-                switch type {
-                case .min:
-                    return (self.item! > leftChild.item!) ? leftChild : nil
-                case .max:
-                    return self.item! < leftChild.item! ? leftChild : nil
-                }
-                
-            } else {
-                switch type {
-                case .min:
-                    return (self.item! > self.rightChild!.item!) ? rightChild : nil
-                case .max:
-                    return self.item! < self.rightChild!.item! ? rightChild : nil
-                }
-                
-            }
-        } else {
+
+        // Helper to get the only child (left or right)
+        func onlyChild() -> BasicBinaryHeap<T> {
+            return leftChild ?? rightChild!
+        }
+
+        switch numberOfChildren() {
+        case 1:
+            let child = onlyChild()
             switch type {
             case .min:
-                let minChild = BasicBinaryHeap.minBetween(n1: self.leftChild!, n2: self.rightChild!)
-                return (self.item! > minChild.item!) ? minChild : nil
+                return (item! > child.item!) ? child : nil
             case .max:
-                let maxChild = BasicBinaryHeap.maxBetween(n1: self.leftChild!, n2: self.rightChild!)
-                return self.item! < maxChild.item! ? maxChild : nil
+                return (item! < child.item!) ? child : nil
             }
+        case 2:
+            guard let left = leftChild, let right = rightChild else { return nil }
+            switch type {
+            case .min:
+                let minChild = [left, right].min { $0.item! < $1.item! }!
+                return (item! > minChild.item!) ? minChild : nil
+            case .max:
+                let maxChild = [left, right].max { $0.item! < $1.item! }!
+                return (item! < maxChild.item!) ? maxChild : nil
+            }
+        default:
+            return nil
         }
     }
     
