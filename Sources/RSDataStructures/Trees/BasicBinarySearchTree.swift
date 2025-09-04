@@ -72,11 +72,14 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
 
         // Trying to insert into an empty tree just assigns the value
         guard !self.isEmpty() else {
-            self.item = newElement.item!.copy()
+            guard let newItem = newElement.item else { return }
+            self.item = newItem.copy()
             return
         }
 
-        if newElement.item! < self.item! {
+        guard let newItem = newElement.item, let currentItem = self.item else { return }
+
+        if newItem < currentItem {
             if let leftC = self.leftChild {
                 leftC.insert(newElement: newElement)
             } else {
@@ -105,12 +108,15 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
         
         // Trying to insert into an empty tree just assigns the value
         guard !self.isEmpty() else {
-            self.item = element.item!.copy()
+            guard let elementItem = element.item else { return }
+            self.item = elementItem.copy()
             return
         }
 
+        guard let elementItem = element.item else { return }
+
         // If the element to insert is equal to the current tree's root we don't insert
-        guard self.item != element.item else {
+        guard self.item != elementItem else {
             return
         }
         
@@ -118,13 +124,13 @@ public final class BasicBinarySearchTree<Element : KeyValuePair> : BinarySearchT
         var parentNode = self
         var currentNode :BasicBinarySearchTree? = self
         
-        while (currentNode != nil) {
-            parentNode = currentNode!
-            if (element.item! < (currentNode?.item)! ) {
-                currentNode = currentNode!.leftChild
+        while let current = currentNode, let currentItem = current.item {
+            parentNode = current
+            if elementItem < currentItem {
+                currentNode = current.leftChild
                 cameFromLeft = true
             } else {
-                currentNode = currentNode!.rightChild
+                currentNode = current.rightChild
                 cameFromLeft = false
             }
         }

@@ -104,7 +104,9 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
             return
         }
         
-        if item < self.item! {
+        guard let currentItem = self.item else { return }
+        
+        if item < currentItem {
             if let lc = self.leftChild {
                 lc.insert(item: item)
             } else {
@@ -149,15 +151,19 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
                 (nodeToBeDeleted.leftChild != nil) &&
                 (nodeToBeDeleted.rightChild != nil)) {
                 // TWO CHILDREN
-                let minimumFromRightBranch: SinglyThreadedBinarySearchTree<T>! = nodeToBeDeleted.rightChild?.minimum()
+                guard let minimumFromRightBranch = nodeToBeDeleted.rightChild?.minimum(),
+                      let minItem = minimumFromRightBranch.item,
+                      nodeToBeDeleted.item != nil else {
+                    return false
+                }
                 
                 // In this case we are not deleting the physical node but replacingthe values in
                 // the node to be deleted by the values in the minimum from the right branch.be
-                nodeToBeDeleted.item!.key = minimumFromRightBranch.item!.key
-                nodeToBeDeleted.item!.value = minimumFromRightBranch.item!.value
+                nodeToBeDeleted.item!.key = minItem.key
+                nodeToBeDeleted.item!.value = minItem.value
                 
                 // Delete the minimum from the right branch
-                _ = minimumFromRightBranch.delete(elementWithKey:minimumFromRightBranch.item!.key)
+                _ = minimumFromRightBranch.delete(elementWithKey: minItem.key)
                 
             } else if (nodeToBeDeleted.leftChild != nil) {
                 // ONE LEFT CHILD
@@ -230,8 +236,9 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
         } else {
             // REPLACING THE ROOT
             if let ne = newElement {
-                existingElement.item!.key = ne.item!.key
-                existingElement.item!.value = ne.item!.value
+                guard let newItem = ne.item, existingElement.item != nil else { return }
+                existingElement.item!.key = newItem.key
+                existingElement.item!.value = newItem.value
                 existingElement.leftChild = ne.leftChild
                 existingElement.rightChild = ne.rightChild
                 
@@ -257,17 +264,24 @@ public final class SinglyThreadedBinarySearchTree<T : KeyValuePair> : BinarySear
     public func maximum() -> SinglyThreadedBinarySearchTree<T>? {
         
         var max = self
-        while (max.rightChild != nil && max.successor == nil) {
-            max = max.rightChild!
+        while let rightChild = max.rightChild, max.successor == nil {
+            max = rightChild
         }
         
         return max
     }
     
     private func updateMinimum(newCandidate: SinglyThreadedBinarySearchTree<T>) {
-        if newCandidate.item! < (self.minNode?.item)! {
+        guard let candidateItem = newCandidate.item,
+              let currentMinItem = self.minNode?.item else {
+            return
+        }
+        
+        if candidateItem < currentMinItem {
             self.minNode = newCandidate
-            propagateMinimum(startingFrom: self.minNode!)
+            if let minNode = self.minNode {
+                propagateMinimum(startingFrom: minNode)
+            }
         }
     }
     

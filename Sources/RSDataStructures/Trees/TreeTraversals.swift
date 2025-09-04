@@ -25,9 +25,9 @@ public func inOrderTraversalIterator<Element, T: TraversableBinaryTree>(tree: T)
     return AnyIterator {
         repeat {
             // Find the minimum
-            while(current != nil) {
-                stack.push(item: current!)
-                current = current?.leftChild
+            while let currentNode = current {
+                stack.push(item: currentNode)
+                current = currentNode.leftChild
             }
             
             if(!stack.isEmpty) {
@@ -58,9 +58,9 @@ public func postOrderTraversalIterator<Element, T: TraversableBinaryTree>(tree: 
         
         repeat {
             
-            while(current != nil) {
-                stack.push(item: current!)
-                current = current?.leftChild
+            while let currentNode = current {
+                stack.push(item: currentNode)
+                current = currentNode.leftChild
             }
             
             while(current == nil) && (!stack.isEmpty) {
@@ -103,9 +103,9 @@ public func postOrderRightToLeftTraversalIterator<Element, T: TraversableBinaryT
         
         repeat {
             
-            while(current != nil) {
-                stack.push(item: current!)
-                current = current?.rightChild
+            while let currentNode = current {
+                stack.push(item: currentNode)
+                current = currentNode.rightChild
             }
             
             while(current == nil) && (!stack.isEmpty) {
