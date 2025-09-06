@@ -150,13 +150,8 @@ extension BinaryTree {
         ///   - count: the size of a given path in the recursion stack.
         func traversePaths(tree: T?, paths: inout [[C]], stack: inout [C], count: Int) {
             
-            guard let tree = tree else {
-                return
-            }
-            
-            guard let item = tree.item else {
-                return
-            }
+            guard let tree = tree else { return }            
+            guard let item = tree.item else { return }
             
             let key: C = item.key as! C
             stack.insert(key, at: count)

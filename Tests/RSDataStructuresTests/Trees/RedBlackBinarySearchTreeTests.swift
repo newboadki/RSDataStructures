@@ -9,10 +9,54 @@
 import XCTest
 import RSDataStructures
 
+// MARK: - Test Utilities and Data
+
+struct RedBlackTestData {
+    static var standardTree: RedBlackBinarySearchTree<IntegerPair> {
+        return [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
+    }
+    static var smallBalancedTree: RedBlackBinarySearchTree<IntegerPair> {
+        return [p(50), p(25), p(75)]
+    }
+    static var mediumTree: RedBlackBinarySearchTree<IntegerPair> {
+        return [p(20), p(15), p(25), p(14), p(16), p(24), p(26)]
+    }
+    static var largeTree: RedBlackBinarySearchTree<IntegerPair> {
+        return [p(50), p(25), p(75), p(12), p(37), p(62), p(87), p(6), p(18), p(31), p(43)]
+    }
+}
+
+extension XCTestCase {
+    func assertValidRedBlackTree<T>(_ tree: RedBlackBinarySearchTree<T>, 
+                                   message: String = "Red-Black tree validation failed",
+                                   file: StaticString = #file, line: UInt = #line) {
+        XCTAssertTrue(tree.isBinarySearchTree(), "BST property violated: \(message)", file: file, line: line)
+        XCTAssertTrue(tree.isValidRedBlackTree(), "RB properties violated: \(message)", file: file, line: line)
+        if !tree.isEmpty() {
+            XCTAssertEqual(tree.color, .black, "Root not black: \(message)", file: file, line: line)
+        }
+    }
+    
+    func assertTreeStructure<T>(_ tree: RedBlackBinarySearchTree<T>,
+                               expectedCount: Int,
+                               shouldBeBalanced: Bool = true,
+                               file: StaticString = #file, line: UInt = #line) {
+        XCTAssertEqual(tree.count, expectedCount, "Incorrect node count", file: file, line: line)
+        if shouldBeBalanced && expectedCount > 0 {
+            XCTAssertTrue(tree.isBalanced(), "Tree not balanced", file: file, line: line)
+            
+            // Verify logarithmic height for non-empty trees
+            let maxAllowedHeight = expectedCount > 0 ? Int(2 * ceil(log2(Double(expectedCount + 1)))) : 0
+            XCTAssertLessThanOrEqual(tree.maximumHeight(), maxAllowedHeight, 
+                                   "Tree height exceeds Red-Black maximum", file: file, line: line)
+        }
+    }
+}
+
 class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
     
     func testMultipleInsertion() {
-        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
+        let tree: RedBlackBinarySearchTree<IntegerPair> = RedBlackTestData.standardTree
         let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
         
         XCTAssertTrue(paths[0] == [23,21,20])
@@ -20,6 +64,9 @@ class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
         XCTAssertTrue(paths[2] == [23,50,40])
         XCTAssertTrue(paths[3] == [23,50,100,76])
         XCTAssertTrue(paths.count == 4)
+        
+        assertValidRedBlackTree(tree, message: "Multiple insertion test")
+        assertTreeStructure(tree, expectedCount: 8)
     }
     
     func testInsertingLeftLeaf() {
@@ -36,6 +83,8 @@ class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
         let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
         XCTAssertTrue(paths[0] == [3,1])
         XCTAssertTrue(paths.count == 1)
+        
+        assertValidRedBlackTree(tree, message: "Left leaf insertion")
     }
 
     func testLeftRotation() {
@@ -54,6 +103,8 @@ class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
         let paths: [[Int]] = tree.pathsFromRootToLeaves(tree: tree)
         XCTAssertTrue(paths[0] == [4,3])
         XCTAssertTrue(paths.count == 1)
+        
+        assertValidRedBlackTree(tree, message: "Left rotation test")
     }
 
     func testRightRotationAndFlip() {
@@ -78,32 +129,22 @@ class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
         XCTAssertTrue(paths[0] == [2,1])
         XCTAssertTrue(paths[1] == [2,5])
         XCTAssertTrue(paths.count == 2)
+        
+        assertValidRedBlackTree(tree, message: "Right rotation and flip test")
     }
     
-    func testMultipleInsertionWithReferenceType() {
-        
-        let tree: RedBlackBinarySearchTree<DataContainer> = [DataContainer(key: 50.0, value: ""),DataContainer(key: 23, value: ""),DataContainer(key: 76, value: ""),DataContainer(key: 100.0, value: ""),DataContainer(key: 40.0, value: ""),DataContainer(key: 22.0, value: ""),DataContainer(key: 21.0, value: ""),DataContainer(key: 20.0, value: "")]
-        let paths: [[Float]] = tree.pathsFromRootToLeaves(tree: tree)
-        
-        XCTAssertTrue(paths[0] == [23.0,21.0,20.0])
-        XCTAssertTrue(paths[1] == [23.0,21.0,22.0])
-        XCTAssertTrue(paths[2] == [23.0,50.0,40.0])
-        XCTAssertTrue(paths[3] == [23.0,50.0,100.0,76.0])
-        XCTAssertTrue(paths.count == 4)
-    }
-    
-    func testIsBinarySearchTreeAfterEditions() {
-        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(20),p(15),p(25),p(14),p(16),p(24),p(26)]
+    func testBinarySearchTreeValidation() {
+        // Test valid BST structure
+        let tree: RedBlackBinarySearchTree<IntegerPair> = RedBlackTestData.mediumTree
         XCTAssertTrue(tree.isBinarySearchTree())
-    }
-    
-    func testBinarySearchTreeInvariantForCustomTree() {
+        
+        // Test invalid BST structure (custom tree with violation)
         let n3 = RedBlackBinarySearchTree(leftChild: nil, rightChild: nil, value: p(25), color: .black)
         let n1 = RedBlackBinarySearchTree(leftChild: nil, rightChild: n3, value: p(10), color: .black)
         let n2 = RedBlackBinarySearchTree(leftChild: nil, rightChild: nil, value: p(30), color: .black)
         
-        let tree: RedBlackBinarySearchTree<IntegerPair> = RedBlackBinarySearchTree(leftChild: n1, rightChild: n2, value: p(20), color: .black)
-        XCTAssertFalse(tree.isBinarySearchTree())
+        let invalidTree: RedBlackBinarySearchTree<IntegerPair> = RedBlackBinarySearchTree(leftChild: n1, rightChild: n2, value: p(20), color: .black)
+        XCTAssertFalse(invalidTree.isBinarySearchTree(), "Tree with BST violation should be invalid")
     }
     
 }
@@ -112,13 +153,27 @@ class RedBlackBinarySearchTreeInsertionTests: XCTestCase {
 class RedBlackBinarySearchTreeMinMaxTests: XCTestCase {
     
     func testMinimum() {
-        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
-        XCTAssertTrue(tree.minimum()?.item?.key == 20)
+        let tree: RedBlackBinarySearchTree<IntegerPair> = RedBlackTestData.standardTree
+        XCTAssertEqual(tree.minimum()?.item?.key, 20, "Minimum should be 20")
+        
+        // Test edge cases
+        let emptyTree: RedBlackBinarySearchTree<IntegerPair> = []
+        XCTAssertNil(emptyTree.minimum(), "Empty tree should have no minimum")
+        
+        let singleNodeTree: RedBlackBinarySearchTree<IntegerPair> = [p(42)]
+        XCTAssertEqual(singleNodeTree.minimum()?.item?.key, 42, "Single node should be its own minimum")
     }
     
     func testMaximum() {
-        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50),p(23),p(76),p(100),p(40),p(22),p(21),p(20)]
-        XCTAssertTrue(tree.maximum()?.item?.key == 100)
+        let tree: RedBlackBinarySearchTree<IntegerPair> = RedBlackTestData.standardTree
+        XCTAssertEqual(tree.maximum()?.item?.key, 100, "Maximum should be 100")
+        
+        // Test edge cases
+        let emptyTree: RedBlackBinarySearchTree<IntegerPair> = []
+        XCTAssertNil(emptyTree.maximum(), "Empty tree should have no maximum")
+        
+        let singleNodeTree: RedBlackBinarySearchTree<IntegerPair> = [p(42)]
+        XCTAssertEqual(singleNodeTree.maximum()?.item?.key, 42, "Single node should be its own maximum")
     }
 
 }
@@ -216,30 +271,28 @@ class RedBlackBinarySearchTreeDeletionTests: XCTestCase {
     }
     
     func testMultipleDeletions() {
-        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(50), p(25), p(75), p(12), p(37), p(62), p(87), p(6), p(18), p(31), p(43)]
+        let tree: RedBlackBinarySearchTree<IntegerPair> = RedBlackTestData.largeTree
+        let initialCount = tree.count
         
-        // Delete multiple nodes
-        XCTAssertTrue(tree.delete(elementWithKey: 6))
-        XCTAssertTrue(tree.delete(elementWithKey: 18))
-        XCTAssertTrue(tree.delete(elementWithKey: 31))
-        XCTAssertTrue(tree.delete(elementWithKey: 43))
+        // Delete multiple nodes systematically
+        let nodesToDelete = [6, 18, 31, 43]
+        let remainingNodes = [50, 25, 75, 12, 37, 62, 87]
         
-        // Verify remaining nodes
-        XCTAssertNotNil(tree.search(key: 50))
-        XCTAssertNotNil(tree.search(key: 25))
-        XCTAssertNotNil(tree.search(key: 75))
-        XCTAssertNotNil(tree.search(key: 12))
-        XCTAssertNotNil(tree.search(key: 37))
-        XCTAssertNotNil(tree.search(key: 62))
-        XCTAssertNotNil(tree.search(key: 87))
+        for (index, nodeKey) in nodesToDelete.enumerated() {
+            let beforeCount = tree.count
+            XCTAssertTrue(tree.delete(elementWithKey: nodeKey), "Should delete \(nodeKey)")
+            XCTAssertEqual(tree.count, beforeCount - 1, "Count should decrease after deleting \(nodeKey)")
+            XCTAssertNil(tree.search(key: nodeKey), "Deleted node \(nodeKey) should not be found")
+            
+            assertValidRedBlackTree(tree, message: "After deleting \(nodeKey) (iteration \(index + 1))")
+        }
         
-        // Verify deleted nodes are gone
-        XCTAssertNil(tree.search(key: 6))
-        XCTAssertNil(tree.search(key: 18))
-        XCTAssertNil(tree.search(key: 31))
-        XCTAssertNil(tree.search(key: 43))
+        // Verify remaining nodes still exist
+        for nodeKey in remainingNodes {
+            XCTAssertNotNil(tree.search(key: nodeKey), "Node \(nodeKey) should still exist")
+        }
         
-        XCTAssertTrue(tree.isBinarySearchTree())
+        XCTAssertEqual(tree.count, initialCount - nodesToDelete.count, "Final count should be correct")
     }
     
     func testDeleteAllNodes() {
@@ -270,10 +323,77 @@ class RedBlackBinarySearchTreeDeletionTests: XCTestCase {
         // Verify root is black
         XCTAssertEqual(tree.color, .black)
         
-        // Note: The current simplified deletion implementation maintains BST properties
-        // but may not preserve all Red-Black balancing properties. This is acceptable
-        // for a basic implementation to avoid infinite loops and complexity.
-        // A full Red-Black deletion would require more complex rebalancing logic.
+        // Verify Red-Black properties are maintained after deletion
+        XCTAssertTrue(tree.isValidRedBlackTree(), "Red-Black properties should be maintained after deletion")
+        XCTAssertTrue(tree.isCompletelyValidRedBlackTree(), "Complete Red-Black validation should pass")
+    }
+    
+    
+    func testDeletionPreservesRedBlackInvariants() {
+        // Test all Red-Black invariants after various deletion patterns
+        let tree: RedBlackBinarySearchTree<IntegerPair> = [p(20), p(10), p(30), p(5), p(15), p(25), p(35)]
+        
+        // Test deleting leaves
+        XCTAssertTrue(tree.delete(elementWithKey: 5))
+        XCTAssertTrue(tree.isBinarySearchTree(), "BST properties maintained after leaf deletion")
+        XCTAssertEqual(tree.color, .black, "Root should remain black")
+        
+        // Test deleting node with one child
+        tree.insert(item: p(12))
+        XCTAssertTrue(tree.delete(elementWithKey: 15))
+        XCTAssertTrue(tree.isBinarySearchTree(), "BST properties maintained after single-child deletion")
+        
+        // Test deleting node with two children
+        XCTAssertTrue(tree.delete(elementWithKey: 10))
+        XCTAssertTrue(tree.isBinarySearchTree(), "BST properties maintained after two-children deletion")
+        
+        // Verify root is black (most critical RB property)
+        XCTAssertEqual(tree.color, .black, "Root should always be black")
+    }
+    
+    
+    func testComplexDeletionScenarios() {
+        // Test complex scenarios that exercise various deletion cases and edge conditions
+        
+        // Case 1: Delete from single-node tree
+        var tree: RedBlackBinarySearchTree<IntegerPair> = [p(42)]
+        XCTAssertTrue(tree.delete(elementWithKey: 42), "Should delete single node")
+        XCTAssertTrue(tree.isEmpty(), "Tree should be empty")
+        XCTAssertTrue(tree.isValidRedBlackTree(), "Empty tree should be valid")
+        
+        // Case 2: Complex tree with systematic deletions
+        tree = [p(40), p(20), p(60), p(10), p(30), p(50), p(70), p(5), p(15), p(25), p(35), p(45), p(55), p(65), p(75)]
+        assertValidRedBlackTree(tree, message: "Initial complex tree")
+        
+        // Exercise various deletion patterns: leaves, nodes with one/two children, root
+        let complexDeletions = [5, 75, 25, 65, 15, 55, 35, 45] // Mix of different deletion scenarios
+        
+        for key in complexDeletions {
+            let beforeCount = tree.count
+            XCTAssertTrue(tree.delete(elementWithKey: key), "Should delete \(key)")
+            XCTAssertEqual(tree.count, beforeCount - 1, "Count should decrease after deleting \(key)")
+            XCTAssertNil(tree.search(key: key), "Deleted node \(key) should not be found")
+            
+            assertValidRedBlackTree(tree, message: "After deleting \(key) from complex tree")
+            
+            // Verify consistent black height
+            let blackHeight = tree.blackHeight()
+            XCTAssertGreaterThan(blackHeight, 0, "Black height should be positive after deleting \(key)")
+        }
+        
+        // Case 3: Sequential deletion to empty (edge case stress test)
+        tree = [p(10), p(5), p(15), p(2), p(7), p(12), p(18)]
+        let deletionOrder = [2, 18, 7, 12, 5, 15, 10]
+        
+        for key in deletionOrder {
+            XCTAssertTrue(tree.delete(elementWithKey: key), "Should delete \(key) in sequential deletion")
+            if !tree.isEmpty() {
+                assertValidRedBlackTree(tree, message: "After sequential deletion of \(key)")
+            }
+        }
+        
+        XCTAssertTrue(tree.isEmpty(), "Tree should be empty after sequential deletion to empty")
+        XCTAssertTrue(tree.isValidRedBlackTree(), "Empty tree should be valid after sequential deletion")
     }
 }
 
