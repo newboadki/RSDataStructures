@@ -350,6 +350,8 @@ extension BinarySearchTree {
     /// - Returns: The left-most leave of the tree, which has the minimum value as its node's key
     /// - Complexity: O(log N), with N being the number of nodes in the tree.
     public func minimum() -> Self? {
+		guard item != nil else { return nil }
+
         var min : Self? = self
         while (min?.leftChild != nil) {
             min = min?.leftChild
@@ -363,7 +365,8 @@ extension BinarySearchTree {
     /// - Returns: The right most leave of the tree, which has the maximum value as its node's key
     /// - Complexity: O(log N), with N being the number of nodes in the tree.
     public func maximum() -> Self? {
-        
+		guard item != nil else { return nil }
+		
         var max : Self? = self
         while (max?.rightChild != nil) {
             max = max?.rightChild

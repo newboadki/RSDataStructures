@@ -33,23 +33,7 @@ fileprivate class NodeDirectAccecssIndirectStorage<T: KeyValuePair> {
     public func removeValue(forKey value: T.V) {
         self.directAccessToNodes.removeValue(forKey: value)
     }
-}
-    var directAccessToNodes: Dictionary<T.V, BasicBinaryHeap<T>> = [:]
-    
-    public subscript(position: T.V) -> BasicBinaryHeap<T>? {
-        get {
-            return self.directAccessToNodes[position]
-        }
-        
-        set {
-            self.directAccessToNodes[position] = newValue
-        }
-    }
-    
-    public func removeValue(forKey value: T.V) {
-        self.directAccessToNodes.removeValue(forKey: value)
-    }
-}
+}    
 
 /// This class can function as a priority heap that stores key-value pairs maintaining their relative order.
 /// The order of the elements is based on the key, which is considered the priority.
