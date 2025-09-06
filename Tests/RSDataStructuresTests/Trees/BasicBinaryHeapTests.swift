@@ -81,51 +81,48 @@ class BasicBinaryMinHeapTests: XCTestCase {
     func testNextFreeNode() {
         // Test cases for nextIncompleteNode() method in min heap
         // Each case: (insertions, expectedKey, treeVisualization, explanation)
-        let testCases: [(insertions: [Int], expectedKey: Int, tree: String, explanation: String)] = [
+        let testCases: [(insertions: [Int], expectedKey: Int)] = [
             // Case 1: Perfect complete tree (3 nodes)
-            ([15, 25], 20, """
-                Original tree (before bubble-up):
-                      20
-                     /  \
-                   15    25
-                
-                Final tree (after min heap bubble-up):
-                      15
-                     /  \
-                   20    25
-                """, "Perfect complete tree - root (15) needs left child. Insert 15 first (bubbles up to root), then insert 25 (stays as right child). Final result: 15 is root, 20 is left child, 25 is right child. Node 15 needs a left child."),
+			//	Original tree (before bubble-up):
+			//		  20
+			//		 /  \
+			//	   15    25
+			//
+			//	Final tree (after min heap bubble-up):
+			//		  15
+			//		 /  \
+			//	   20    25
+            ([15, 25], 20),
             
             // Case 2: Only left child inserted
-            ([15], 15, """
-                Original tree (before bubble-up):
-                      20
-                     /
-                   15
-                
-                Final tree (after min heap bubble-up):
-                      15
-                     /
-                   20
-                """, "Only left child - node 15 needs right child. Insert 15, which bubbles up to root since 15 < 20. Final result: 15 is root, 20 is left child. Node 15 needs a right child."),
+			//	Original tree (before bubble-up):
+			//		  20
+			//		 /
+			//	   15
+			//
+			//	Final tree (after min heap bubble-up):
+			//		  15
+			//		 /
+			//	   20
+            ([15], 15),
             
             // Case 3: Only right child inserted
-            ([25], 20, """
-                Original tree (before bubble-up):
-                      20
-                       \
-                       25
-                
-                Final tree (after min heap bubble-up):
-                      20
-                       \
-                       25
-                """, "Only right child - root (20) needs left child. Insert 25, which stays as right child since 20 < 25 (no bubble-up needed). Final result: 20 remains root, 25 is right child. Node 20 needs a left child."),
+			//	Original tree (before bubble-up):
+			//		  20
+			//		   \
+			//		   25
+			//
+			//	Final tree (after min heap bubble-up):
+			//		  20
+			//		   \
+			//		   25
+            ([25], 20),
             
             // Case 4: Only root node
-            ([], 20, """
-                Tree Structure:
-                      20
-                """, "Only root node - node 20 needs left child. With no insertions, the root 20 is the only node and needs a left child to maintain complete tree structure.")
+            ([], 20),
+
+			// Case 5: Only root node
+			([15, 25, 14, 16, 23, 26], 20)
         ]
         
         for (index, testCase) in testCases.enumerated() {
@@ -145,8 +142,7 @@ class BasicBinaryMinHeapTests: XCTestCase {
             
             // Then: nextIncompleteNode should return the expected node
             let nextNode = heap.nextIncompleteNode()
-            XCTAssertEqual(nextNode.item?.key, testCase.expectedKey, 
-                          "Test case \(index + 1) failed: \(testCase.explanation)\n\(testCase.tree)")
+            XCTAssertEqual(nextNode.item?.key, testCase.expectedKey, "Test case \(index + 1): expected \(testCase.expectedKey), got \(nextNode.item?.key ?? -1)")
         }
     }
     
