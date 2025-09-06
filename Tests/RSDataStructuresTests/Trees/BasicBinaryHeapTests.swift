@@ -121,7 +121,13 @@ class BasicBinaryMinHeapTests: XCTestCase {
             // Case 4: Only root node
             ([], 20),
 
-			// Case 5: Only root node
+			// Case 5: Full tree with two levels of children. More levels //
+			// Final tree (after min heap bubble-up):
+			//         14
+			//       /    \
+			//     15      16
+			//    /  \    /  \
+			//  20   25 23   26
 			([15, 25, 14, 16, 23, 26], 20)
         ]
         
