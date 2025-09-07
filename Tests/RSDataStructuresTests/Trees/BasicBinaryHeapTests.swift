@@ -217,66 +217,56 @@ class BasicBinaryMaxHeapTests: XCTestCase {
         heap.insert(item: p(8))
         heap.insert(item: p(1))
         
-        XCTAssertTrue(heap.dequeue()!.key == 8)
-        XCTAssertTrue(heap.maximum()?.item?.key == 6)
-        
-        XCTAssertTrue(heap.extractTop()?.item?.key == 6)
-        XCTAssertTrue(heap.maximum()?.item?.key == 5)
-        
-        XCTAssertTrue(heap.extractTop()?.item?.key == 5)
-        XCTAssertTrue(heap.maximum()?.item?.key == 4)
-        
-        XCTAssertTrue(heap.extractTop()?.item?.key == 4)
-        XCTAssertTrue(heap.maximum()?.item?.key == 3)
-        
-        XCTAssertTrue(heap.extractTop()?.item?.key == 3)
-        XCTAssertTrue(heap.maximum()?.item?.key == 1)
-        
-        XCTAssertTrue(heap.extractTop()?.item?.key == 1)
-        XCTAssertTrue(heap.maximum() == nil)
-        XCTAssertTrue(heap.item == nil)
-        XCTAssertTrue(heap.leftChild == nil)
-        XCTAssertTrue(heap.rightChild == nil)
+        XCTAssertEqual(heap.dequeue()!.key, 8)
+        XCTAssertEqual(heap.maximum()?.item?.key, 6)
+        XCTAssertEqual(heap.extractTop()?.item?.key, 6)
+        XCTAssertEqual(heap.maximum()?.item?.key, 5)
+        XCTAssertEqual(heap.extractTop()?.item?.key, 5)
+        XCTAssertEqual(heap.maximum()?.item?.key, 4)
+        XCTAssertEqual(heap.extractTop()?.item?.key, 4)
+        XCTAssertEqual(heap.maximum()?.item?.key, 3)
+        XCTAssertEqual(heap.extractTop()?.item?.key, 3)
+        XCTAssertEqual(heap.maximum()?.item?.key, 1)
+        XCTAssertEqual(heap.extractTop()?.item?.key, 1)
+        XCTAssertNil(heap.maximum())
+        XCTAssertNil(heap.item)
+        XCTAssertNil(heap.leftChild)
+        XCTAssertNil(heap.rightChild)
         
         heap.insert(item: p(1))
         XCTAssertTrue(heap.maximum()?.item?.key == 1)
     }
     
     func testInsertionAndExtractionWithElementsWithTheSamePriority() {
-        let heap = BasicBinaryHeap<StringValue>(value: StringValue(key: 1001, value: "A"), parent: nil, leftChild: nil, rightChild: nil, type:.max)
-        try? heap.enqueue(item: StringValue(key: 1001, value: "B"))
-        try? heap.enqueue(item: StringValue(key: 1001, value: "C"))
-        try? heap.enqueue(item: StringValue(key: 1001, value: "D"))
-        
-        var list = [StringValue]()
-        while var top = heap.dequeue() {            
-            if top.value == "C" {
-                top.key = 0
-            }
-            list.append(top)
-        }
-        
-        for item in list {
+        // All elements have the same priority (key = 1001)
+        let items = [
+            StringValue(key: 1001, value: "A"),
+            StringValue(key: 1001, value: "B"),
+            StringValue(key: 1001, value: "C"),
+            StringValue(key: 1001, value: "D")
+        ]
+        let heap = BasicBinaryHeap<StringValue>(value: items[0], parent: nil, leftChild: nil, rightChild: nil, type: .max)
+        for item in items.dropFirst() {
             try? heap.enqueue(item: item)
         }
-        
-        var top: StringValue?
-        top = heap.dequeue()
-        XCTAssertTrue(top?.key == 1001)
-        XCTAssertTrue(top?.value == "A")
 
-        top = heap.dequeue()
-        XCTAssertTrue(top?.key == 1001)
-        XCTAssertTrue(top?.value == "B")
+        // Remove all, mutate "C" to have lowest priority, re-insert all
+        var extracted = [StringValue]()
+        while var top = heap.dequeue() {
+            if top.value == "C" { top.key = 0 }
+            extracted.append(top)
+        }
+        for item in extracted {
+            try? heap.enqueue(item: item)
+        }
 
-        top = heap.dequeue()
-        XCTAssertTrue(top?.key == 1001)
-        XCTAssertTrue(top?.value == "D")
-
-        top = heap.dequeue()
-        XCTAssertTrue(top?.key == 0)
-        XCTAssertTrue(top?.value == "C")
-
+        // Expect "A", "B", "D" (all key 1001) first, then "C" (key 0) last
+        let expectedOrder = [("A", 1001), ("B", 1001), ("D", 1001), ("C", 0)]
+        for (expectedValue, expectedKey) in expectedOrder {
+            let top = heap.dequeue()
+            XCTAssertEqual(top?.value, expectedValue)
+            XCTAssertEqual(top?.key, expectedKey)
+        }
     }
 }
 
