@@ -485,20 +485,32 @@ class BasicBinaryHeapRelevantChildrenTests: XCTestCase {
     }
 }
 
+/// A test data container that implements KeyValuePair for binary heap testing
+/// Uses Float as the key type for heap ordering and String as the value type
 final class DataContainer : KeyValuePair {
     
+    /// Key type used for heap ordering comparisons
     typealias K = Float
+    /// Value type for storing associated data
     typealias V = String
     
     
+    /// The key used for heap ordering (priority)
     var key: K
+    /// The associated value stored with the key
     var value: V
     
+    /// Required initializer to create a new DataContainer with key-value pair
+    /// - Parameters:
+    ///   - key: Float value used for heap ordering
+    ///   - value: String value associated with the key
     required init(key: Float, value: String) {
         self.key = key
         self.value = value
     }
 
+    /// Creates a copy of this DataContainer instance
+    /// - Returns: A new DataContainer with the same key and value
     func copy() -> DataContainer {
         return DataContainer(key: self.key, value: self.value)
     }
