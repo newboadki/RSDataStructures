@@ -342,18 +342,20 @@ extension SinglyLinkedList where T: Comparable
             return
         }
         
+        // Copy on write: this updates self.storage if necessary. It has to happen
+        // before the traversal, so that the nodes found belong to this list only.
         var previous: SinglyLinkedListNode<T>? = nil
-        var current = self.storage.head
-        
+        var current = self.storageForWritting.head
+
         while (current != nil) && (current?.value != v) {
             previous = current
             current = current?.next
         }
-        
+
         if let foundNode = current {
-            
+
             if (self.storage.head === foundNode) {
-                self.storageForWritting.head = foundNode.next
+                self.storage.head = foundNode.next
             }
             
             if (self.storage.tail === foundNode) {

@@ -331,8 +331,199 @@ class SinglyLinkedListTests: XCTestCase {
     
 }
 
+/// Value semantics: mutating a copy of a list must never change the original.
+/// Every test mutates the copy and then checks both lists, including `last`,
+/// because the tail is tracked separately from the chain of nodes.
+class SinglyLinkedListCopyOnWriteTests: XCTestCase {
+
+    // MARK: deleteNode(withValue:)
+
+    func testDeleteHeadNodeWithValueInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        copy.deleteNode(withValue: 1)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [2,3])
+    }
+
+    func testDeleteMiddleNodeWithValueInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        copy.deleteNode(withValue: 2)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [1,3])
+    }
+
+    func testDeleteTailNodeWithValueInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        copy.deleteNode(withValue: 3)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [1,2])
+    }
+
+    func testDeleteOnlyNodeWithValueInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1]
+        var copy = original
+
+        copy.deleteNode(withValue: 1)
+
+        assert(original, contains: [1])
+        assert(copy, contains: [])
+    }
+
+    func testDeleteMissingNodeWithValueInCopyChangesNeitherList() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        copy.deleteNode(withValue: 7)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [1,2,3])
+    }
+
+    func testAppendAfterDeletingHeadNodeWithValueInCopy() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        copy.deleteNode(withValue: 1)
+        copy.append(value: 9)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [2,3,9])
+    }
+
+    func testDeleteNodeWithValueInOriginalDoesNotChangeCopy() {
+        var original: SinglyLinkedList<Int> = [1,2,3]
+        let copy = original
+
+        original.deleteNode(withValue: 2)
+
+        assert(original, contains: [1,3])
+        assert(copy, contains: [1,2,3])
+    }
+
+    // MARK: Other mutators
+
+    func testAppendInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        copy.append(value: 4)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [1,2,3,4])
+    }
+
+    func testAppendInCopyOfEmptyListDoesNotChangeOriginal() {
+        let original = SinglyLinkedList<Int>()
+        var copy = original
+
+        copy.append(value: 1)
+
+        assert(original, contains: [])
+        assert(copy, contains: [1])
+    }
+
+    func testPrependInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        copy.prepend(value: 0)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [0,1,2,3])
+    }
+
+    func testPrependInCopyOfEmptyListDoesNotChangeOriginal() {
+        let original = SinglyLinkedList<Int>()
+        var copy = original
+
+        copy.prepend(value: 1)
+
+        assert(original, contains: [])
+        assert(copy, contains: [1])
+    }
+
+    func testDeleteHeadItemInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        XCTAssertEqual(copy.deleteItem(at: 0), 1)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [2,3])
+    }
+
+    func testDeleteMiddleItemInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        XCTAssertEqual(copy.deleteItem(at: 1), 2)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [1,3])
+    }
+
+    func testDeleteTailItemInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        XCTAssertEqual(copy.deleteItem(at: 2), 3)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [1,2])
+    }
+
+    func testDeleteDuplicatesInPlaceInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1,2,1,3,2]
+        var copy = original
+
+        copy.deleteDuplicatesInPlace()
+
+        assert(original, contains: [1,2,1,3,2])
+        assert(copy, contains: [1,2,3])
+    }
+
+    func testEnqueueInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        try! copy.enqueue(item: 4)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [1,2,3,4])
+    }
+
+    func testDequeueInCopyDoesNotChangeOriginal() {
+        let original: SinglyLinkedList<Int> = [1,2,3]
+        var copy = original
+
+        XCTAssertEqual(copy.dequeue(), 1)
+
+        assert(original, contains: [1,2,3])
+        assert(copy, contains: [2,3])
+    }
+
+    // MARK: Helpers
+
+    /// Checks the elements, and that `first`, `last` and `count` agree with them.
+    private func assert(_ list: SinglyLinkedList<Int>, contains expected: [Int], file: StaticString = #filePath, line: UInt = #line) {
+        XCTAssertEqual(Array(list), expected, file: file, line: line)
+        XCTAssertEqual(list.first, expected.first, "first", file: file, line: line)
+        XCTAssertEqual(list.last, expected.last, "last", file: file, line: line)
+        XCTAssertEqual(list.count, expected.count, "count", file: file, line: line)
+    }
+}
+
 class SinglyLinkedListQueueTests: XCTestCase {
-    
+
     func testQueue() {
         var queue = SinglyLinkedList<Int>()
         
